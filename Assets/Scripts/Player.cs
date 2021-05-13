@@ -9,12 +9,16 @@ public class Player : MonoBehaviour
     // public GameObject playerBlue;
     //GameObject player;
     //public GameObject playerPrefab;
+    public Sprite playerRed;
+    public Sprite playerBlue;
+    public Sprite playerBlack;
+    public Sprite playerWhite;
 
-    Color[] playerColors = new Color[4];
-    const int RED = 0;
-    const int BLUE = 1;
-    const int WHITE = 2;
-    const int BLACK = 3;
+    byte currentColor;
+    const byte RED = 0;
+    const byte BLUE = 1;
+    const byte WHITE = 2;
+    const byte BLACK = 3;
     
 
 
@@ -25,10 +29,7 @@ public class Player : MonoBehaviour
         //player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
         //set up player colours
-        playerColors[RED] = new Color(0.9f, 0, 0);
-        playerColors[BLUE] = new Color(0, 0, 0.9f);
-        playerColors[WHITE] = new Color(1, 1, 1);
-        playerColors[BLACK] = new Color(0.18f, 0.15f, 0.27f);
+        currentColor = WHITE;
     }
 
     // Update is called once per frame
@@ -83,8 +84,8 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            
-            GetComponent<SpriteRenderer>().color = playerColors[RED];
+            GetComponent<SpriteRenderer>().sprite = playerRed;
+            currentColor = RED;
             Debug.Log("Changing to red");
         }
     }
@@ -94,7 +95,8 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             
-            GetComponent<SpriteRenderer>().color = playerColors[BLUE];
+            GetComponent<SpriteRenderer>().sprite = playerBlue;
+            currentColor = BLUE;
             Debug.Log("Changing to blue");
         }
     }
@@ -104,7 +106,8 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             
-            GetComponent<SpriteRenderer>().color = playerColors[BLACK];
+            GetComponent<SpriteRenderer>().sprite = playerBlack;
+            currentColor = BLACK;
             Debug.Log("Changing to black");
         }
     }
@@ -114,7 +117,8 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
            
-            GetComponent<SpriteRenderer>().color = playerColors[WHITE];
+            GetComponent<SpriteRenderer>().sprite = playerWhite;
+            currentColor = WHITE;
             Debug.Log("Changing to white");
         }
     }
