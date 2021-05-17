@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     const byte WHITE = 2;
     const byte BLACK = 3;
     
-
+    //game manager instance variables to make 
 
     // Start is called before the first frame update
     void Start()
@@ -75,23 +75,22 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
+            int i = GameManager.instance.currentBullet;     //added this to make code below more readable
+
             //fire weapon. Generate bullet
-            if (GameManager.instance.playerBulletClip[GameManager.instance.currentBullet] == true)
-            {
-                //if bullet list is full, then just fire an existing bullet in the list. Otherwise, add a new bullet to the list.
-                if (GameManager.instance.playerBullets.Count >= GameManager.instance.BulletLimit())
-                {
-                    //fire bullet at current position in list.
-                    GameManager.instance.playerBulletClip[GameManager.instance.currentBullet] = false;
-                }
-                else
+            if (GameManager.instance.playerBulletClip[i] == true)
+            {               
+                GameManager.instance.playerBulletClip[i] = false;
+
+                //up to 5 bullets are tracked.
+                if (GameManager.instance.playerBullets.Count < GameManager.instance.BulletLimit())
                 {
                     GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
-                    GameManager.instance.playerBullets.Add(bullet);
-                    GameManager.instance.playerBulletClip[GameManager.instance.currentBullet] = false;
+                    GameManager.instance.playerBullets.Add(bullet);                  
                 }
-                
-                //move to next bullet
+
+                //bullet fired. move to next bullet
+                GameManager.instance.playerBullets[i].GetComponent<Bullet>().BulletFired = true;
                 GameManager.instance.currentBullet++;
 
                 if (GameManager.instance.currentBullet >= GameManager.instance.BulletLimit())

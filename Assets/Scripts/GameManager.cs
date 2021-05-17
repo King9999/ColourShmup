@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
+    GameObject player;                                           //used to reference position on the screen
 
     //bullet variables
     public List<GameObject> playerBullets;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
         //bullets set up
         playerBullets = new List<GameObject>();
@@ -46,12 +47,51 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //manage bullets
+        //manage bullets. TODO: Use Coroutine?
+        StartCoroutine(ManageBullets());
+        /*foreach (GameObject bullet in playerBullets)
+        {
+            int i = playerBullets.IndexOf(bullet);
+            //if bullet is offscreen, bullet is returned to player position
+            if (bullet.GetComponent<Bullet>().BulletFired && !bullet.GetComponent<SpriteRenderer>().isVisible)
+            {
+                Debug.Log("Bullet " + i + " is offscreen");
 
+                playerBulletClip[i] = true;
+                bullet.GetComponent<Bullet>().BulletFired = false;
+                //bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 1);
+            }
+
+            //bullets always follow player when not fired
+            if (!bullet.GetComponent<Bullet>().BulletFired && playerBulletClip[i] == true)
+               bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 1);
+        }*/
     }
 
     public byte BulletLimit()
     {
         return BULLET_LIMIT;
+    }
+
+    IEnumerator ManageBullets()
+    {
+        foreach (GameObject bullet in playerBullets)
+        {
+            int i = playerBullets.IndexOf(bullet);
+            //if bullet is offscreen, bullet is returned to player position
+            if (bullet.GetComponent<Bullet>().BulletFired && !bullet.GetComponent<SpriteRenderer>().isVisible)
+            {
+                Debug.Log("Bullet " + i + " is offscreen");
+
+                playerBulletClip[i] = true;
+                bullet.GetComponent<Bullet>().BulletFired = false;
+                //bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 1);
+            }
+
+            //bullets always follow player when not fired
+            if (!bullet.GetComponent<Bullet>().BulletFired && playerBulletClip[i] == true)
+                bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 1);
+        }
+        yield return null;
     }
 }
