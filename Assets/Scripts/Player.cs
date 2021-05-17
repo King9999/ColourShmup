@@ -76,7 +76,27 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //fire weapon. Generate bullet
-            GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
+            if (GameManager.instance.playerBulletClip[GameManager.instance.currentBullet] == true)
+            {
+                //if bullet list is full, then just fire an existing bullet in the list. Otherwise, add a new bullet to the list.
+                if (GameManager.instance.playerBullets.Count >= GameManager.instance.BulletLimit())
+                {
+                    //fire bullet at current position in list.
+                    GameManager.instance.playerBulletClip[GameManager.instance.currentBullet] = false;
+                }
+                else
+                {
+                    GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
+                    GameManager.instance.playerBullets.Add(bullet);
+                    GameManager.instance.playerBulletClip[GameManager.instance.currentBullet] = false;
+                }
+                
+                //move to next bullet
+                GameManager.instance.currentBullet++;
+
+                if (GameManager.instance.currentBullet >= GameManager.instance.BulletLimit())
+                    GameManager.instance.currentBullet = 0;
+            }
         }
 
     }

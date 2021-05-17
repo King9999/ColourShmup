@@ -9,14 +9,14 @@ public class Bullet : MonoBehaviour
     public AudioClip bulletSound;
     AudioSource audioSource;
     float bulletSpeed = 12f;
+    public bool CanFireBullet { get; set; } = true;             //if there are 5 bullets on screen at once, then this is false and player cannot shoot
 
     private void Update()
     {
         //bullet travels in a fixed direction every time it's generated.
         gameObject.transform.position = new Vector3(0, gameObject.transform.position.y + bulletSpeed * Time.deltaTime, 0);
 
-        //if bullet flies off screen, it must be either destroyed or recycled. Would be better to use a set number
-        //of bullets and re-use those to prevent garbage collection calls.
     }
+   
 
 }

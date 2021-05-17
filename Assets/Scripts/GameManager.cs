@@ -7,9 +7,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
-    //AudioSource audioSource;            //used to play 
-    //public Audio
 
+    //bullet variables
+    public List<GameObject> playerBullets;
+    const byte BULLET_LIMIT = 5;                                //max number of bullets that can be generated in the game
+    public bool[] playerBulletClip;                             //controls how many bullets are fired. When true, bullet can be fired.
+    public int currentBullet;                                          //checks which bullet is fired currently in playerBulletClip
 
     public static GameManager instance;
 
@@ -29,12 +32,26 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-    
+
+        //bullets set up
+        playerBullets = new List<GameObject>();
+        playerBulletClip = new bool[BULLET_LIMIT];
+
+        for (int i = 0; i < BULLET_LIMIT; i++)
+            playerBulletClip[i] = true;
+
+        currentBullet = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //manage bullets
+
+    }
+
+    public byte BulletLimit()
+    {
+        return BULLET_LIMIT;
     }
 }
