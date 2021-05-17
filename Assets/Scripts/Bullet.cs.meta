@@ -3,7 +3,8 @@ guid: 35663da43638fbf4ca8b243c127b67cb
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - bulletSprite: {fileID: 21300000, guid: 2943dd7532324f04c80ae3679b955dd1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

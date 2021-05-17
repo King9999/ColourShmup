@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public Sprite playerBlue;
     public Sprite playerBlack;
     public Sprite playerWhite;
+    public GameObject bulletPrefab;
 
     byte currentColor;
     const byte RED = 0;
@@ -74,7 +75,8 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-           //fire weapon
+            //fire weapon. Generate bullet
+            GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
         }
 
     }

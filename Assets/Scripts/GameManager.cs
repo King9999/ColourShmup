@@ -7,6 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject playerPrefab;
+    //AudioSource audioSource;            //used to play 
+    //public Audio
 
 
     public static GameManager instance;
@@ -20,12 +22,14 @@ public class GameManager : MonoBehaviour
         }
 
         instance = this;
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
         GameObject player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+    
     }
 
     // Update is called once per frame
