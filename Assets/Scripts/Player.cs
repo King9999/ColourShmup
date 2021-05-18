@@ -58,7 +58,25 @@ public class Player : MonoBehaviour
     void Update()
     {
         StartCoroutine(ManageBullets());
-        Debug.Log("Time: " + Time.time);
+
+        //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
+        var kb = Keyboard.current;
+        if (kb.spaceKey.isPressed)
+        {
+            //fire weapon           
+            if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
+            {
+                currentTime = Time.time;                //need this to restart the cooldown
+                playerBulletClip[currentBullet] = false;
+                playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
+
+                //bullet fired. move to next bullet
+                currentBullet++;
+
+                if (currentBullet >= BULLET_LIMIT)
+                    currentBullet = 0;
+            }
+        }
     }
 
     IEnumerator ManageBullets()
@@ -146,27 +164,10 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            /*int i = GameManager.instance.currentBullet;     //added this to make code below more readable
-
-            //fire weapon
-            if (GameManager.instance.playerBulletClip[i] == true)
-            {               
-                GameManager.instance.playerBulletClip[i] = false;
-                GameManager.instance.playerBullets[i].GetComponent<Bullet>().BulletFired = true;
-
-                //bullet fired. move to next bullet
-                GameManager.instance.currentBullet++;
-
-                if (GameManager.instance.currentBullet >= GameManager.instance.BulletLimit())
-                    GameManager.instance.currentBullet = 0;
-            }*/
-
-
-            //fire weapon
-            
-            if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
+            //fire weapon           
+            /*if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
-                currentTime = Time.time;
+                currentTime = Time.time;                //need this to restart the cooldown
                 playerBulletClip[currentBullet] = false;
                 playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
 
@@ -175,7 +176,7 @@ public class Player : MonoBehaviour
 
                 if (currentBullet >= BULLET_LIMIT)
                     currentBullet = 0;
-            }
+            }*/
         }
 
     }
@@ -194,8 +195,7 @@ public class Player : MonoBehaviour
     public void TurnBlue(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
-        {
-            
+        {           
             GetComponent<SpriteRenderer>().sprite = playerBlue;
             currentColor = BLUE;
             Debug.Log("Changing to blue");
