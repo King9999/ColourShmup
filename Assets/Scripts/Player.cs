@@ -77,20 +77,20 @@ public class Player : MonoBehaviour
         {
             int i = GameManager.instance.currentBullet;     //added this to make code below more readable
 
-            //fire weapon. Generate bullet
+            //fire weapon
             if (GameManager.instance.playerBulletClip[i] == true)
             {               
                 GameManager.instance.playerBulletClip[i] = false;
+                GameManager.instance.playerBullets[i].GetComponent<Bullet>().BulletFired = true;
 
                 //up to 5 bullets are tracked.
-                if (GameManager.instance.playerBullets.Count < GameManager.instance.BulletLimit())
+                /*if (GameManager.instance.playerBullets.Count < GameManager.instance.BulletLimit())
                 {
                     GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
                     GameManager.instance.playerBullets.Add(bullet);                  
-                }
+                }*/
 
                 //bullet fired. move to next bullet
-                GameManager.instance.playerBullets[i].GetComponent<Bullet>().BulletFired = true;
                 GameManager.instance.currentBullet++;
 
                 if (GameManager.instance.currentBullet >= GameManager.instance.BulletLimit())

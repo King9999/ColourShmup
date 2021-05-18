@@ -6,14 +6,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Player")]
     public GameObject playerPrefab;
+    public GameObject playerBulletPrefab;
     GameObject player;                                           //used to reference position on the screen
 
     //bullet variables
-    public List<GameObject> playerBullets;
     const byte BULLET_LIMIT = 5;                                //max number of bullets that can be generated in the game
+    [HideInInspector]
+    public List<GameObject> playerBullets;
+    [HideInInspector]
     public bool[] playerBulletClip;                             //controls how many bullets are fired. When true, bullet can be fired.
-    public int currentBullet;                                          //checks which bullet is fired currently in playerBulletClip
+    [HideInInspector]
+    public int currentBullet;                                   //checks which bullet is fired currently in playerBulletClip
 
     public static GameManager instance;
 
@@ -39,7 +44,10 @@ public class GameManager : MonoBehaviour
         playerBulletClip = new bool[BULLET_LIMIT];
 
         for (int i = 0; i < BULLET_LIMIT; i++)
+        {
             playerBulletClip[i] = true;
+            playerBullets.Add(Instantiate(playerBulletPrefab, player.transform.position, Quaternion.identity));
+        }
 
         currentBullet = 0;
     }
@@ -90,7 +98,7 @@ public class GameManager : MonoBehaviour
 
             //bullets always follow player when not fired
             if (!bullet.GetComponent<Bullet>().BulletFired && playerBulletClip[i] == true)
-                bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 1);
+                bullet.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, 1);   //Z is 1 so that it's hidden behind player
         }
         yield return null;
     }
