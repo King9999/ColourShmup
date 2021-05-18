@@ -16,12 +16,18 @@ public class Player : MonoBehaviour
     [Header("Player Properties")]
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;
+    public float bulletSpeed;           
     public float invulDuration;          //period of invulnerability after getting hit.
     public float shotCooldown;           //delay in seconds in between bullets being fired.
     float currentTime;                   //gets the current time. Used to check if player can fire again.  
+
+    //constants
     const byte BULLET_LIMIT = 5;         //max number of bullets that can be generated in the game
-    
-    List<GameObject> playerBullets;   
+    const float MAX_SPEED = 12;          //highest bullet speed
+    const float INIT_COOLDOWN = 0.4f;    //need to have this since cooldown changes over time.
+
+    [HideInInspector]
+    public List<GameObject> playerBullets;   
     bool[] playerBulletClip;             //controls how many bullets are fired. When true, bullet can be fired.
     int currentBullet;
 
@@ -49,14 +55,17 @@ public class Player : MonoBehaviour
         {
             playerBulletClip[i] = true;
             playerBullets.Add(Instantiate(bulletPrefab, transform.position, Quaternion.identity));
+            playerBullets[i].GetComponent<Bullet>().BulletSpeed = bulletSpeed;
         }
 
         currentBullet = 0;
+        shotCooldown = INIT_COOLDOWN;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Shot cooldown " + shotCooldown);
         StartCoroutine(ManageBullets());
 
         //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
@@ -77,6 +86,33 @@ public class Player : MonoBehaviour
                     currentBullet = 0;
             }
         }
+
+        /********Collision with powerup************/
+    }
+
+    /*private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //did we collide with powerup?
+        if (collision.gameObject.CompareTag("Powerup"))
+        {
+            //which powerup is it?
+            bool isSpeedPowerup = collision.gameObject.TryGetComponent(out SpeedPowerup speedUp);
+
+            if (isSpeedPowerup)
+            {
+                collision.gameObject.GetComponent<SpeedPowerup>().ActivateEffect();
+            }
+            else  //it's the other powerup
+            {
+
+            }
+            
+        }
+    }*/
+
+    public float MaxBulletSpeed()
+    {
+        return MAX_SPEED;
     }
 
     IEnumerator ManageBullets()

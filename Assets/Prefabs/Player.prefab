@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 4347438763232638525}
   - component: {fileID: 7663986118061014244}
   - component: {fileID: 8121490151120392542}
+  - component: {fileID: 2390639428933172631}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -328,8 +329,10 @@ MonoBehaviour:
   playerWhite: {fileID: 21300000, guid: bf2dc2a3f2944ee4ea7d73fb1284dff8, type: 3}
   bulletPrefab: {fileID: 5024110468425044301, guid: fb0d090ec34138e469826c7f40c3b927, type: 3}
   moveSpeed: 4
+  bulletSpeed: 6
   invulDuration: 0
   shotCooldown: 0.4
+  playerBullets: []
 --- !u!114 &7663986118061014244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,6 +598,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &2390639428933172631
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792474110621814028}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &6644039338098552505
 GameObject:
   m_ObjectHideFlags: 0
