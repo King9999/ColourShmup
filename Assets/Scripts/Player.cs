@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     //public GameObject bulletPrefab;
 
     [Header("Player Properties")]
-    public Rigidbody2D playerRig;       //used for movement
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;
 
@@ -40,11 +39,18 @@ public class Player : MonoBehaviour
     void Update()
     {
         //update player movement
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x + (vx * Time.deltaTime), 
-            gameObject.transform.position.y + (vy * Time.deltaTime), 0);
+        //gameObject.transform.position = new Vector3(gameObject.transform.position.x + (vx * Time.deltaTime), 
+            //gameObject.transform.position.y + (vy * Time.deltaTime), 0);
     }
 
-   
+    private void FixedUpdate()
+    {
+        //update player movement
+        transform.position = new Vector3(transform.position.x + (vx * Time.deltaTime),
+            transform.position.y + (vy * Time.deltaTime), 0);
+    }
+
+
     public void MoveUp(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
