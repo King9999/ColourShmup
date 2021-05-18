@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;
     public float invulDuration;          //period of invulnerability after getting hit.
+    public float shotCooldown;           //delay in seconds in between bullets being fired.
+    float currentTime;                   //gets the current time. Used to check if player can fire again.  
     const byte BULLET_LIMIT = 5;         //max number of bullets that can be generated in the game
     
     List<GameObject> playerBullets;   
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         StartCoroutine(ManageBullets());
+        Debug.Log("Time: " + Time.time);
     }
 
     IEnumerator ManageBullets()
@@ -157,11 +160,13 @@ public class Player : MonoBehaviour
                 if (GameManager.instance.currentBullet >= GameManager.instance.BulletLimit())
                     GameManager.instance.currentBullet = 0;
             }*/
-            
+
 
             //fire weapon
-            if (playerBulletClip[currentBullet] == true)
+            
+            if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
+                currentTime = Time.time;
                 playerBulletClip[currentBullet] = false;
                 playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
 

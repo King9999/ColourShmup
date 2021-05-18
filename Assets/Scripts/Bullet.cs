@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     //public Sprite bulletSprite;
     public AudioClip bulletSound;
     AudioSource audioSource;
-    float bulletSpeed = 12f;
+    public float bulletSpeed;
     public bool BulletFired { get; set; } = false;     
 
     private void Update()

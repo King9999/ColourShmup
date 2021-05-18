@@ -37,8 +37,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         /********check player boundaries*********/
+        CheckPlayerBoundaries();
+        
+    }
+
+    void CheckPlayerBoundaries()
+    {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);   //converting screen pixels to units
 
         //left edge
@@ -68,7 +73,6 @@ public class GameManager : MonoBehaviour
             player.transform.position = new Vector3(player.transform.position.x, screenPos.y * -SCREEN_BOUNDARY_Y, 0);
             Debug.Log("Hit the bottom boundary");
         }
-        
     }
 
 }
