@@ -11,11 +11,18 @@ public class Player : MonoBehaviour
     public Sprite playerBlue;
     public Sprite playerBlack;
     public Sprite playerWhite;
-    //public GameObject bulletPrefab;
+    public GameObject bulletPrefab;
 
     [Header("Player Properties")]
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;
+    public float invulDuration;          //period of invulnerability after getting hit.
+    const byte BULLET_LIMIT = 5;         //max number of bullets that can be generated in the game
+    
+    List<GameObject> playerBullets;   
+    bool[] playerBulletClip;             //controls how many bullets are fired. When true, bullet can be fired.
+    int currentBullet;
+
 
     byte currentColor;
     const byte RED = 0;
@@ -28,19 +35,48 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //player = FindObjectOfType<Player>();
-        //player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
         //set up player colours
         currentColor = WHITE;
+
+        //bullets set up
+        playerBullets = new List<GameObject>();
+        playerBulletClip = new bool[BULLET_LIMIT];
+
+        for (int i = 0; i < BULLET_LIMIT; i++)
+        {
+            playerBulletClip[i] = true;
+            playerBullets.Add(Instantiate(bulletPrefab, transform.position, Quaternion.identity));
+        }
+
+        currentBullet = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //update player movement
-        //gameObject.transform.position = new Vector3(gameObject.transform.position.x + (vx * Time.deltaTime), 
-            //gameObject.transform.position.y + (vy * Time.deltaTime), 0);
+        StartCoroutine(ManageBullets());
+    }
+
+    IEnumerator ManageBullets()
+    {
+        foreach (GameObject bullet in playerBullets)
+        {
+            int i = playerBullets.IndexOf(bullet);
+            //if bullet is offscreen, bullet is returned to player position
+            if (bullet.GetComponent<Bullet>().BulletFired && !bullet.GetComponent<SpriteRenderer>().isVisible)
+            {
+                Debug.Log("Bullet " + i + " is offscreen");
+
+                playerBulletClip[i] = true;
+                bullet.GetComponent<Bullet>().BulletFired = false;
+            }
+
+            //bullets always follow player when not fired
+            if (!bullet.GetComponent<Bullet>().BulletFired && playerBulletClip[i] == true)
+                bullet.transform.position = new Vector3(transform.position.x, transform.position.y, 1);   //Z is 1 so that it's hidden behind player
+        }
+        yield return null;
     }
 
     private void FixedUpdate()
@@ -56,7 +92,6 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //move player up
-            //gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + moveSpeed, 0);
             vy = moveSpeed;
         }
         else
@@ -108,7 +143,7 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            int i = GameManager.instance.currentBullet;     //added this to make code below more readable
+            /*int i = GameManager.instance.currentBullet;     //added this to make code below more readable
 
             //fire weapon
             if (GameManager.instance.playerBulletClip[i] == true)
@@ -116,18 +151,25 @@ public class Player : MonoBehaviour
                 GameManager.instance.playerBulletClip[i] = false;
                 GameManager.instance.playerBullets[i].GetComponent<Bullet>().BulletFired = true;
 
-                //up to 5 bullets are tracked.
-                /*if (GameManager.instance.playerBullets.Count < GameManager.instance.BulletLimit())
-                {
-                    GameObject bullet = Instantiate(bulletPrefab, gameObject.transform.position, Quaternion.identity);
-                    GameManager.instance.playerBullets.Add(bullet);                  
-                }*/
-
                 //bullet fired. move to next bullet
                 GameManager.instance.currentBullet++;
 
                 if (GameManager.instance.currentBullet >= GameManager.instance.BulletLimit())
                     GameManager.instance.currentBullet = 0;
+            }*/
+            
+
+            //fire weapon
+            if (playerBulletClip[currentBullet] == true)
+            {
+                playerBulletClip[currentBullet] = false;
+                playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
+
+                //bullet fired. move to next bullet
+                currentBullet++;
+
+                if (currentBullet >= BULLET_LIMIT)
+                    currentBullet = 0;
             }
         }
 
