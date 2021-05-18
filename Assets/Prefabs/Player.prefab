@@ -257,9 +257,9 @@ GameObject:
   - component: {fileID: 2004914193058980727}
   - component: {fileID: 4774974085752738312}
   - component: {fileID: 4347438763232638525}
-  - component: {fileID: 7187402887964400989}
   - component: {fileID: 7663986118061014244}
   - component: {fileID: 8121490151120392542}
+  - component: {fileID: 5089483643616959508}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -327,20 +327,8 @@ MonoBehaviour:
   playerBlue: {fileID: 21300000, guid: 62d3bca28fdae51429b83a5d3a2ae5d2, type: 3}
   playerBlack: {fileID: 21300000, guid: a00a4e2513237e447bf6226f83157718, type: 3}
   playerWhite: {fileID: 21300000, guid: bf2dc2a3f2944ee4ea7d73fb1284dff8, type: 3}
-  bulletPrefab: {fileID: 5024110468425044301, guid: fb0d090ec34138e469826c7f40c3b927, type: 3}
---- !u!114 &7187402887964400989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5792474110621814028}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35663da43638fbf4ca8b243c127b67cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletSound: {fileID: 0}
+  playerRig: {fileID: 0}
+  moveSpeed: 4
 --- !u!114 &7663986118061014244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +594,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &5089483643616959508
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5792474110621814028}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &6644039338098552505
 GameObject:
   m_ObjectHideFlags: 0

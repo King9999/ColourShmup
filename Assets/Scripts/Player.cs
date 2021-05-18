@@ -5,15 +5,18 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    //Player player;
-    // public GameObject playerBlue;
-    //GameObject player;
-    //public GameObject playerPrefab;
+    
+    [Header("Player Colours")]
     public Sprite playerRed;
     public Sprite playerBlue;
     public Sprite playerBlack;
     public Sprite playerWhite;
-    public GameObject bulletPrefab;
+    //public GameObject bulletPrefab;
+
+    [Header("Player Properties")]
+    public Rigidbody2D playerRig;       //used for movement
+    private float vx, vy;                //velocity. Both values should be the same
+    public float moveSpeed;
 
     byte currentColor;
     const byte RED = 0;
@@ -36,14 +39,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //update player movement
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x + (vx * Time.deltaTime), 
+            gameObject.transform.position.y + (vy * Time.deltaTime), 0);
     }
 
+   
     public void MoveUp(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
             //move player up
+            //gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + moveSpeed, 0);
+            vy = moveSpeed;
+        }
+        else
+        {
+            vy = 0;
         }
     }
 
@@ -52,6 +64,11 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //move player down
+            vy = -moveSpeed;
+        }
+        else
+        {
+            vy = 0;
         }
     }
 
@@ -60,6 +77,11 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //move player left
+            vx = -moveSpeed;
+        }
+        else
+        {
+            vx = 0;
         }
     }
 
@@ -68,6 +90,11 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //move player right
+            vx = moveSpeed;
+        }
+        else
+        {
+            vx = 0;
         }
     }
 
