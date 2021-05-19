@@ -17,8 +17,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Labels")]
     public GameObject speedUpLabelPrefab;
+    public GameObject energyLabelPrefab;
     [HideInInspector]
     public List<GameObject> speedUpLabelList;                              //manages the labels
+    [HideInInspector]
+    public List<GameObject> energyLabelList;                              //manages the labels
 
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         speedUpLabelList = new List<GameObject>();
+        energyLabelList = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -60,23 +64,24 @@ public class GameManager : MonoBehaviour
         /********check player boundaries*********/
         CheckPlayerBoundaries();
 
-        StartCoroutine(ManagePickupLabels());
+        StartCoroutine(ManagePickupLabels(speedUpLabelList));
+        StartCoroutine(ManagePickupLabels(energyLabelList));
     }
 
-    IEnumerator ManagePickupLabels()
+    IEnumerator ManagePickupLabels(List<GameObject> labelList)
     {
-        for (int i = 0; i < speedUpLabelList.Count; i++)
+        for (int i = 0; i < labelList.Count; i++)
         {          
-            SpriteRenderer sr = speedUpLabelList[i].GetComponent<SpriteRenderer>();
+            SpriteRenderer sr = labelList[i].GetComponent<SpriteRenderer>();
             //destroy label when alpha reaches 0.
             while (sr != null && sr.color.a > 0)
             {
-                Debug.Log("Reducing alpha");
+                //Debug.Log("Reducing alpha");
                 //reduce alpha and move label upwards
                 sr.color = new Color(1, 1, 1, sr.color.a - (0.02f * Time.deltaTime));
-                speedUpLabelList[i].GetComponent<SpriteRenderer>().color = sr.color;
-                speedUpLabelList[i].transform.position = new Vector3(speedUpLabelList[i].transform.position.x, 
-                    speedUpLabelList[i].transform.position.y + (0.04f * Time.deltaTime), 0);
+                labelList[i].GetComponent<SpriteRenderer>().color = sr.color;
+                labelList[i].transform.position = new Vector3(labelList[i].transform.position.x,
+                    labelList[i].transform.position.y + (0.04f * Time.deltaTime), 0);
 
                 yield return null;
             }
@@ -84,15 +89,16 @@ public class GameManager : MonoBehaviour
         }
 
         //Once we get here it's safe to clear list
-        for (int i = 0; i < speedUpLabelList.Count; i++)
-            Destroy(speedUpLabelList[i]);
+        for (int i = 0; i < labelList.Count; i++)
+            Destroy(labelList[i]);
 
-        if (speedUpLabelList.Capacity > 0)
+        if (labelList.Capacity > 0)
         {
-            speedUpLabelList.Clear();
-            speedUpLabelList.Capacity = 0;
+            labelList.Clear();
+            labelList.Capacity = 0;
         }
     }
+
 
     void CheckPlayerBoundaries()
     {

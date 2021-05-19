@@ -2275,3 +2275,368 @@ System memory in use after: 100.2 MB.
 Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2935.
 Total: 2.904400 ms (FindLiveObjects: 0.393700 ms CreateObjectMapping: 0.154500 ms MarkObjects: 2.196100 ms  DeleteObjects: 0.159000 ms)
 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001076 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.62 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.995 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.61 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.1 MB.
+System memory in use after: 100.2 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2939.
+Total: 2.896000 ms (FindLiveObjects: 0.265800 ms CreateObjectMapping: 0.091300 ms MarkObjects: 2.385700 ms  DeleteObjects: 0.152300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 11366.311200 seconds.
+  path: Assets/Scripts/SpeedPowerup.cs
+  artifactKey: Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/SpeedPowerup.cs using Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1c5c45f881d5fceee1e3f22cd1c9ff52') in 0.089403 seconds
+  Import took 0.200350 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 119.131138 seconds.
+  path: Assets/Scripts/NewBehaviourScript.cs
+  artifactKey: Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/NewBehaviourScript.cs using Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6be22d65a5e5dc0aa6cc59b9ff09a6e1') in 0.016334 seconds
+  Import took 0.025701 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 18.765248 seconds.
+  path: Assets/Scripts/EnergyPowerup.cs
+  artifactKey: Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/EnergyPowerup.cs using Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '27e39a67025bdd6825d64a15249d686f') in 0.010818 seconds
+  Import took 0.017491 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001813 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.41 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.263 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2106 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2944.
+Total: 3.022200 ms (FindLiveObjects: 0.347900 ms CreateObjectMapping: 0.107700 ms MarkObjects: 2.405900 ms  DeleteObjects: 0.159500 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 49.267943 seconds.
+  path: Assets/Scripts/Powerup.cs
+  artifactKey: Guid(9eac25ade58080d4faef5bfd0ac403b5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Powerup.cs using Guid(9eac25ade58080d4faef5bfd0ac403b5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c03e981fcaed10f74ffb7ba4b98bfc9d') in 0.011376 seconds
+  Import took 0.015237 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000257 seconds.
+  path: Assets/Scripts/EnergyPowerup.cs
+  artifactKey: Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/EnergyPowerup.cs using Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '492864ee0b23d915f9455320d7564783') in 0.002700 seconds
+  Import took 0.006480 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001214 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.39 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.134 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.2 MB.
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 2947.
+Total: 3.257400 ms (FindLiveObjects: 0.335600 ms CreateObjectMapping: 0.157600 ms MarkObjects: 2.597600 ms  DeleteObjects: 0.165300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.087051 seconds.
+  path: Assets/Scripts/SpeedPowerup.cs
+  artifactKey: Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/SpeedPowerup.cs using Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ee75e52a9e517040d81d8f455275a96') in 0.009232 seconds
+  Import took 0.015581 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.042021 seconds.
+  path: Assets/Scripts/SpeedPowerup.cs
+  artifactKey: Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/SpeedPowerup.cs using Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ee75e52a9e517040d81d8f455275a96') in 0.003563 seconds
+  Import took 0.008490 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 140.502983 seconds.
+  path: Assets/Scripts/SpeedPowerup.cs
+  artifactKey: Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/SpeedPowerup.cs using Guid(040202ee892a96d49b5b4d153f71126f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b68a0c7d03ff2a92f69bcfcadeb8094') in 0.004064 seconds
+  Import took 0.011406 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001672 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.42 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.200 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.42 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2951.
+Total: 3.260100 ms (FindLiveObjects: 0.411000 ms CreateObjectMapping: 0.107200 ms MarkObjects: 2.609800 ms  DeleteObjects: 0.130900 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 122.057758 seconds.
+  path: Assets/Prefabs/Powerup_Speed.prefab
+  artifactKey: Guid(0afc305abf179aa499bcb8d4590f202e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Speed.prefab using Guid(0afc305abf179aa499bcb8d4590f202e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dd75e5c3938127ec377163aa5f0cf35e') in 0.282380 seconds
+  Import took 0.289569 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.895756 seconds.
+  path: Assets/Prefabs/Powerup_Energy.prefab
+  artifactKey: Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Energy.prefab using Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2417c4058e353dd70ce20c95332dfbc6') in 0.021699 seconds
+  Import took 0.030864 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.007109 seconds.
+  path: Assets/Prefabs/Powerup_Energy.prefab
+  artifactKey: Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Energy.prefab using Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2417c4058e353dd70ce20c95332dfbc6') in 0.016504 seconds
+  Import took 0.021673 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.003743 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.229 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2956.
+Total: 2.974100 ms (FindLiveObjects: 0.375500 ms CreateObjectMapping: 0.113900 ms MarkObjects: 2.365000 ms  DeleteObjects: 0.118600 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001540 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.57 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.263 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.80 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2960.
+Total: 2.703700 ms (FindLiveObjects: 0.334200 ms CreateObjectMapping: 0.129100 ms MarkObjects: 2.121900 ms  DeleteObjects: 0.117400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1957.412983 seconds.
+  path: Assets/Prefabs/Powerup_Energy.prefab
+  artifactKey: Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Energy.prefab using Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eb164684dbfe6bf857880d796c2ed243') in 0.093752 seconds
+  Import took 0.099172 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 18.907589 seconds.
+  path: Assets/Prefabs/Powerup_Energy.prefab
+  artifactKey: Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Energy.prefab using Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ab559e04dcbef53e900edc910575a81') in 0.018655 seconds
+  Import took 0.027712 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 19.187974 seconds.
+  path: Assets/Prefabs/Powerup_Energy.prefab
+  artifactKey: Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Energy.prefab using Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03ba58adad6967caceebcbae44b58920') in 0.013986 seconds
+  Import took 0.021551 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.609991 seconds.
+  path: Assets/Prefabs/Powerup_Energy.prefab
+  artifactKey: Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Powerup_Energy.prefab using Guid(36a2f8ad9ab7c5442ae3a2c3876db822) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8e20f5956101797a0f9614e870418453') in 0.016928 seconds
+  Import took 0.022719 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001198 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.41 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.196 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.67 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2965.
+Total: 3.562800 ms (FindLiveObjects: 0.558000 ms CreateObjectMapping: 0.150300 ms MarkObjects: 2.688000 ms  DeleteObjects: 0.163800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 207.578327 seconds.
+  path: Assets/Prefabs/Label_SpeedPickup.prefab
+  artifactKey: Guid(4344af347bcb03046989b70aca2ec6fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Label_SpeedPickup.prefab using Guid(4344af347bcb03046989b70aca2ec6fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5a95402f94e76933bff0d6f47c05bdd4') in 0.099531 seconds
+  Import took 0.105002 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.897819 seconds.
+  path: Assets/Prefabs/Label_SpeedPickup.prefab
+  artifactKey: Guid(4344af347bcb03046989b70aca2ec6fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Label_SpeedPickup.prefab using Guid(4344af347bcb03046989b70aca2ec6fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a5389e941170499ac458d4d18a0833ee') in 0.020751 seconds
+  Import took 0.027997 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 11.749749 seconds.
+  path: Assets/Prefabs/Label_EnergyPickup.prefab
+  artifactKey: Guid(49dd30d8d47b0f142b5a0c7c52e9e502) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Label_EnergyPickup.prefab using Guid(49dd30d8d47b0f142b5a0c7c52e9e502) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cda412c2dedaaa2e6568397ddd427042') in 0.021252 seconds
+  Import took 0.030250 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001030 seconds.
+  path: Assets/Prefabs/Label_EnergyPickup.prefab
+  artifactKey: Guid(49dd30d8d47b0f142b5a0c7c52e9e502) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Label_EnergyPickup.prefab using Guid(49dd30d8d47b0f142b5a0c7c52e9e502) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cda412c2dedaaa2e6568397ddd427042') in 0.013011 seconds
+  Import took 0.016909 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 28.128572 seconds.
+  path: Assets/Scripts/EnergyPowerup.cs
+  artifactKey: Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/EnergyPowerup.cs using Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '76098df275308a002574c06a78daf9f8') in 0.008951 seconds
+  Import took 0.015326 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001641 seconds.
+  path: Assets/Scripts/EnergyPowerup.cs
+  artifactKey: Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/EnergyPowerup.cs using Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '76098df275308a002574c06a78daf9f8') in 0.004216 seconds
+  Import took 0.008904 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001888 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.44 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.131 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.48 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2970.
+Total: 2.935100 ms (FindLiveObjects: 0.420500 ms CreateObjectMapping: 0.165200 ms MarkObjects: 2.220300 ms  DeleteObjects: 0.127700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 100.509140 seconds.
+  path: Assets/Scripts/EnergyPowerup.cs
+  artifactKey: Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/EnergyPowerup.cs using Guid(b8686ffe3dc1fda49b8f1f9cc53ec2e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '392b1aea1933def548330ca78aea5727') in 0.006170 seconds
+  Import took 0.012294 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001757 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.51 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.117 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.49 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2105 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.2 MB.
+System memory in use after: 100.3 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2974.
+Total: 3.001600 ms (FindLiveObjects: 0.287200 ms CreateObjectMapping: 0.105900 ms MarkObjects: 2.461200 ms  DeleteObjects: 0.145800 ms)
+

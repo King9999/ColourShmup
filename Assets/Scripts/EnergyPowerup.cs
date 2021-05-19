@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//increases bullet speed
-public class SpeedPowerup : MonoBehaviour
+//gives +20 to rainbow gauge
+public class EnergyPowerup : MonoBehaviour
 {
-
-    public float cooldownMod;       //reduces shot cooldown
+    public float gaugeAmount;       //how much meter is gained
     public float vy;                //how fast powerup falls
-    AudioSource audioSource;
-    //public AudioClip pickupSound;
-    //public GameObject pickupLabel;
 
     private void Start()
     {
-        //audioSource = GetComponent<AudioSource>();
+        
     }
     private void FixedUpdate()
     {
@@ -43,29 +39,15 @@ public class SpeedPowerup : MonoBehaviour
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.pickupSound);
 
             //display pickup label
-            GameManager.instance.speedUpLabelList.Add(Instantiate(GameManager.instance.speedUpLabelPrefab, transform.position, Quaternion.identity));
+            GameManager.instance.energyLabelList.Add(Instantiate(GameManager.instance.energyLabelPrefab, transform.position, Quaternion.identity));
 
             Player player = collision.GetComponent<Player>();
 
-            if (player.bulletSpeed < player.MaxBulletSpeed())
-            {
-                player.bulletSpeed++;
-                foreach (GameObject bullet in player.playerBullets)
-                {
-                    bullet.GetComponent<Bullet>().BulletSpeed = player.bulletSpeed;
-                }
+           //Add energy to the rainbow gauge
 
-                //cooldown is reduced slightly every time speed goes up so there isn't a large gap between shots.
-                player.shotCooldown -= cooldownMod;
 
-                //Debug.Log("Bullet Speed +1, cooldown is now " + player.shotCooldown);
-            }
-
-         
             Destroy(gameObject);
             //Debug.Log("Touched Powerup");
         }
     }
-
-
 }
