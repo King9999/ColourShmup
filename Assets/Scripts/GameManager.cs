@@ -8,13 +8,30 @@ public class GameManager : MonoBehaviour
 {
     [Header("Player")]
     public GameObject playerPrefab;
-    GameObject player;                                           //used to reference position on the screen
+    GameObject player;                                            //used to reference position on the screen
 
+    [Header("Sounds")]
+    [HideInInspector]
+    public AudioSource audioSource;
+    public AudioClip pickupSound;                                 //plays whenever player touches a powerup
+
+    [Header("Labels")]
+    public GameObject speedUpLabelPrefab;
+    [HideInInspector]
+    public List<GameObject> speedUpLabelList;                              //manages the labels
 
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
+
     public static GameManager instance;
 
+    #region Constants Accessor Methods
+
+    public float ScreenBoundaryX() { return SCREEN_BOUNDARY_X; }
+    public float ScreenBoundaryY() { return SCREEN_BOUNDARY_Y; }
+
+
+    #endregion
 
     private void Awake()
     {
@@ -32,6 +49,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+
+        audioSource = GetComponent<AudioSource>();
+        speedUpLabelList = new List<GameObject>();
     }
 
     // Update is called once per frame

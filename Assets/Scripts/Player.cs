@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Shot cooldown " + shotCooldown);
+        //Debug.Log("Shot cooldown " + shotCooldown);
         StartCoroutine(ManageBullets());
 
         //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
@@ -87,28 +87,8 @@ public class Player : MonoBehaviour
             }
         }
 
-        /********Collision with powerup************/
     }
 
-    /*private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //did we collide with powerup?
-        if (collision.gameObject.CompareTag("Powerup"))
-        {
-            //which powerup is it?
-            bool isSpeedPowerup = collision.gameObject.TryGetComponent(out SpeedPowerup speedUp);
-
-            if (isSpeedPowerup)
-            {
-                collision.gameObject.GetComponent<SpeedPowerup>().ActivateEffect();
-            }
-            else  //it's the other powerup
-            {
-
-            }
-            
-        }
-    }*/
 
     public float MaxBulletSpeed()
     {

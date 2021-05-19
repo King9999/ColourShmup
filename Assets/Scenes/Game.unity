@@ -237,6 +237,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5792474110621814028, guid: 1ea9558a78aa1e2448ad621812269a9c, type: 3}
+  audioSource: {fileID: 0}
+  pickupSound: {fileID: 8300000, guid: 03a625449c3bf9b43b9b7154b5b997d7, type: 3}
+  speedUpLabelPrefab: {fileID: 7722270444965291846, guid: 4344af347bcb03046989b70aca2ec6fa, type: 3}
+  speedUpLabelList: []
 --- !u!4 &1739392352
 Transform:
   m_ObjectHideFlags: 0
@@ -528,6 +532,10 @@ PrefabInstance:
     - target: {fileID: 5311858800310493162, guid: 0afc305abf179aa499bcb8d4590f202e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393471782290779380, guid: 0afc305abf179aa499bcb8d4590f202e, type: 3}
+      propertyPath: m_audioClip
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0afc305abf179aa499bcb8d4590f202e, type: 3}

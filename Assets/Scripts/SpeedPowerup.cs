@@ -7,38 +7,43 @@ public class SpeedPowerup : MonoBehaviour
 {
 
     public float cooldownMod;       //reduces shot cooldown
+    public float vy;                //how fast powerup falls
+    AudioSource audioSource;
+    public AudioClip pickupSound;
+    public GameObject pickupLabel;
 
-    public bool IsOnScreen { get; set; }
-
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     private void FixedUpdate()
     {
         //when a powerup is generated, it travels downward until it's off the screen.
-
-
-        /*if(!GetComponent<SpriteRenderer>().isVisible)
-        {
-            //hide the powerup until next time it's generated.
-            gameObject.SetActive(false);
-        }*/
+        transform.position = new Vector3(transform.position.x, transform.position.y - (vy * Time.deltaTime), 0);
     }
-    public void ActivateEffect()
+
+    private void Update()
     {
-        //increase player's bullet speed. It should be capped.
-        Bullet bullet = FindObjectOfType<Bullet>();
+        //remove powerup if it goes offscreen
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
 
-        /*if (bullet.bulletSpeed < MAX_SPEED)
+        if (transform.position.y + (GetComponent<SpriteRenderer>().sprite.bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
         {
-            bullet.bulletSpeed++;
-            Debug.Log("Bullet Speed Up");
-        }*/
-
-        gameObject.SetActive(false);
+            Destroy(gameObject);
+            Debug.Log("Powerup went off screen");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+
+            //play sound. Game manager must play the sound because sound will not play if it's attached to an object that's about to be destroyed.
+            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.pickupSound);
+
+            //display pickup label
+            GameManager.instance.speedUpLabelList.Add(Instantiate(GameManager.instance.speedUpLabelPrefab, transform.position, Quaternion.identity));
 
             Player player = collision.GetComponent<Player>();
 
@@ -56,8 +61,11 @@ public class SpeedPowerup : MonoBehaviour
                 //Debug.Log("Bullet Speed +1, cooldown is now " + player.shotCooldown);
             }
 
+         
             Destroy(gameObject);
             //Debug.Log("Touched Powerup");
         }
     }
+
+
 }
