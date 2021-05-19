@@ -59,7 +59,39 @@ public class GameManager : MonoBehaviour
     {
         /********check player boundaries*********/
         CheckPlayerBoundaries();
-        
+
+        StartCoroutine(ManagePickupLabels());
+    }
+
+    IEnumerator ManagePickupLabels()
+    {
+        for (int i = 0; i < speedUpLabelList.Count; i++)
+        {          
+            SpriteRenderer sr = speedUpLabelList[i].GetComponent<SpriteRenderer>();
+            //destroy label when alpha reaches 0.
+            while (sr != null && sr.color.a > 0)
+            {
+                Debug.Log("Reducing alpha");
+                //reduce alpha and move label upwards
+                sr.color = new Color(1, 1, 1, sr.color.a - (0.02f * Time.deltaTime));
+                speedUpLabelList[i].GetComponent<SpriteRenderer>().color = sr.color;
+                speedUpLabelList[i].transform.position = new Vector3(speedUpLabelList[i].transform.position.x, 
+                    speedUpLabelList[i].transform.position.y + (0.04f * Time.deltaTime), 0);
+
+                yield return null;
+            }
+            
+        }
+
+        //Once we get here it's safe to clear list
+        for (int i = 0; i < speedUpLabelList.Count; i++)
+            Destroy(speedUpLabelList[i]);
+
+        if (speedUpLabelList.Capacity > 0)
+        {
+            speedUpLabelList.Clear();
+            speedUpLabelList.Capacity = 0;
+        }
     }
 
     void CheckPlayerBoundaries()
