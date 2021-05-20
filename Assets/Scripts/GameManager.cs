@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> absorbLabelList;
     [HideInInspector]
     public List<GameObject> starList;                             //used to manage the random stars on screen
-    const int STAR_COUNT = 50;
+    const int STAR_COUNT = 80;
 
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
@@ -82,18 +82,7 @@ public class GameManager : MonoBehaviour
 
         //set up stars
         starList = new List<GameObject>();
-
-        //randomize star locations
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
-        for (int i = 0; i < STAR_COUNT; i++)
-        {
-
-            Vector3 randomPos = new Vector3(Random.Range(-(screenPos.x * SCREEN_BOUNDARY_X), screenPos.x * SCREEN_BOUNDARY_X),
-                                            Random.Range(-(screenPos.y * SCREEN_BOUNDARY_Y), (screenPos.y * SCREEN_BOUNDARY_Y) + 1), 1);
-            //Debug.Log("New Star Pos: " + randomPos);
-
-            starList.Add(Instantiate(starPrefab, randomPos, Quaternion.identity));
-        }
+        SetupStars(starList);
     }
 
     // Update is called once per frame
@@ -192,4 +181,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void SetupStars(List<GameObject> stars)
+    {
+        //randomize star locations
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        List<Vector3> starPosList = new List<Vector3>();    //used to prevent duplicate positions
+
+        for (int i = 0; i < STAR_COUNT; i++)
+        {
+
+            Vector3 randomPos = new Vector3(Random.Range(-(screenPos.x * SCREEN_BOUNDARY_X), screenPos.x * SCREEN_BOUNDARY_X),
+                                            Random.Range(-(screenPos.y * SCREEN_BOUNDARY_Y), (screenPos.y * SCREEN_BOUNDARY_Y) + 1), 1);
+
+            //Debug.Log("New Star Pos: " + randomPos);
+
+            //if random pos was already used, keep finding random number until we get an original.         
+            while (starPosList.Contains(randomPos))
+            {
+                randomPos = randomPos + new Vector3(Random.Range(-(screenPos.x * SCREEN_BOUNDARY_X), screenPos.x * SCREEN_BOUNDARY_X),
+                                    Random.Range(-(screenPos.y * SCREEN_BOUNDARY_Y), (screenPos.y * SCREEN_BOUNDARY_Y) + 1), 1);
+
+                Debug.Log("Found duplicate, new Star Pos: " + randomPos);
+            }
+            
+
+            starPosList.Add(randomPos);
+            stars.Add(Instantiate(starPrefab, randomPos, Quaternion.identity));
+        }
+    }
 }
+
