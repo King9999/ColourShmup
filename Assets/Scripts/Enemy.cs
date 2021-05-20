@@ -19,29 +19,29 @@ public class Enemy : MonoBehaviour
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;              //this increases as the game progresses
     public float bulletSpeed;            //this too
-    float cooldown = 3;
-    float currentTime = 0;
+    float shotChance;                    //probability that enemy fires a shot. Only applicable after player reaches certain level.
 
 
     // Start is called before the first frame update
     void Start()
     {
         //test bullet
-        bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
-        bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
-        Debug.Log("Enemy Bullet fired");
+        //bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
+       // bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
+        //Debug.Log("Enemy Bullet fired");
+
+        //set shot chance according to current level. shot chance goes up the higher the level.
     }
 
     // Update is called once per frame
     void Update()
     {
         //Enemies start shooting at the player at higher levels.
-        if (Time.time > currentTime + cooldown)
+        if (Random.value <= shotChance)
         {
-            currentTime = Time.time;
             bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
             bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
-            Debug.Log("Enemy Bullet fired");
+            Debug.Log("Enemy Bullet fired, shot chance: " + shotChance * 100 + "%");
         }
     }
 

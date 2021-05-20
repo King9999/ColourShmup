@@ -22,7 +22,10 @@ public class GameManager : MonoBehaviour
 
     [Header("HUD")]
     public float rainbowGaugeMaxValue;
-    public int score;
+    public int enemyCount;
+    public int targetCount;                                 //total # of enemies required to advance level.
+    public int level;                                       //game difficulty rises after certain levels.
+    const int DEFAULT_TARGET = 20;
 
     [Header("Prefabs")]
     public GameObject speedUpLabelPrefab;
@@ -80,6 +83,9 @@ public class GameManager : MonoBehaviour
 
         //HUD set up
         HUD.instance.SetRainbowGaugeMaxValue(rainbowGaugeMaxValue);
+        HUD.instance.levelText.text = "Level " + level;
+        targetCount = DEFAULT_TARGET;
+        HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
 
         //set up stars
         starList = new List<GameObject>();

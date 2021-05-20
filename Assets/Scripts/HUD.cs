@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HUD : MonoBehaviour
 {
@@ -10,11 +11,21 @@ public class HUD : MonoBehaviour
     public Slider fillDamage;
     public float reductionAmount;           //controls how fast damage fill depletes
 
+    [Header("UI Text")]
+    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI enemyCountText;      //contains both the current count and the target amount
+
     //static variable
     public static HUD instance;
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);    //Only want one instance of game manager
+            return;
+        }
+
         instance = this;
     }
 
@@ -23,8 +34,6 @@ public class HUD : MonoBehaviour
     {
         //adjust damage gauge
         StartCoroutine(ReduceDamageBar());
-        //if (fillDamage.value > fillRainbowMeter.value)
-            //fillDamage.value -= reductionAmount * Time.deltaTime;
     }
 
     IEnumerator ReduceDamageBar()
