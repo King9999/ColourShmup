@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     
     [Header("Player")]
     public GameObject playerPrefab;
-    GameObject player;                                            //used to reference position on the screen
+    [HideInInspector]
+    public GameObject player;                                            //used to reference position on the screen
 
     [Header("Sounds")]
     [HideInInspector]

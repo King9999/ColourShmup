@@ -5,9 +5,6 @@ using UnityEngine;
 //generates projectiles that deal damage. May also use this as a parent class to the super attack.
 public class Bullet : MonoBehaviour
 {
-    //public Sprite bulletSprite;
-    public AudioClip bulletSound;
-    AudioSource audioSource;
     public float BulletSpeed { get; set; }
     public bool BulletFired { get; set; } = false;     
 

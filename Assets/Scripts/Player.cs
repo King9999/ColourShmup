@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public Sprite playerBlue;
     public Sprite playerBlack;
     public Sprite playerWhite;
+
+    [Header("Prefabs")]
     public GameObject bulletPrefab;
 
     [Header("Player Properties")]
