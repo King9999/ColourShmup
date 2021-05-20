@@ -96,10 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040202ee892a96d49b5b4d153f71126f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownMod: 0.02
+  cooldownMod: 0.01
   vy: 2
-  pickupSound: {fileID: 0}
-  pickupLabel: {fileID: 0}
+  speedAmount: 0.5
 --- !u!70 &4246820225920162763
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

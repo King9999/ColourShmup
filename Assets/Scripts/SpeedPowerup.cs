@@ -8,6 +8,7 @@ public class SpeedPowerup : MonoBehaviour
 
     public float cooldownMod;       //reduces shot cooldown
     public float vy;                //how fast powerup falls
+    public float speedAmount;       //how much to increase bullet speed
     AudioSource audioSource;
     //public AudioClip pickupSound;
     //public GameObject pickupLabel;
@@ -43,22 +44,25 @@ public class SpeedPowerup : MonoBehaviour
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.pickupSound);
 
             //display pickup label
-            GameManager.instance.speedUpLabelList.Add(Instantiate(GameManager.instance.speedUpLabelPrefab, transform.position, Quaternion.identity));
+            //GameManager.instance.speedUpLabelList.Add(Instantiate(GameManager.instance.speedUpLabelPrefab, transform.position, Quaternion.identity));
 
             Player player = collision.GetComponent<Player>();
 
             if (player.bulletSpeed < player.MaxBulletSpeed())
             {
-                player.bulletSpeed++;
+                player.bulletSpeed += speedAmount;
                 foreach (GameObject bullet in player.playerBullets)
                 {
                     bullet.GetComponent<Bullet>().BulletSpeed = player.bulletSpeed;
                 }
 
+                //display pickup label
+                GameManager.instance.speedUpLabelList.Add(Instantiate(GameManager.instance.speedUpLabelPrefab, transform.position, Quaternion.identity));
+
                 //cooldown is reduced slightly every time speed goes up so there isn't a large gap between shots.
                 player.shotCooldown -= cooldownMod;
 
-                //Debug.Log("Bullet Speed +1, cooldown is now " + player.shotCooldown);
+                Debug.Log("Bullet Speed +" + speedAmount + ", cooldown is now " + player.shotCooldown);
             }
 
          
