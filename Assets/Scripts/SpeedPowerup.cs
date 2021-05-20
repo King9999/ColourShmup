@@ -43,9 +43,6 @@ public class SpeedPowerup : MonoBehaviour
             //play sound. Game manager must play the sound because sound will not play if it's attached to an object that's about to be destroyed.
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.pickupSound);
 
-            //display pickup label
-            //GameManager.instance.speedUpLabelList.Add(Instantiate(GameManager.instance.speedUpLabelPrefab, transform.position, Quaternion.identity));
-
             Player player = collision.GetComponent<Player>();
 
             if (player.bulletSpeed < player.MaxBulletSpeed())
@@ -62,7 +59,7 @@ public class SpeedPowerup : MonoBehaviour
                 //cooldown is reduced slightly every time speed goes up so there isn't a large gap between shots.
                 player.shotCooldown -= cooldownMod;
 
-                Debug.Log("Bullet Speed +" + speedAmount + ", cooldown is now " + player.shotCooldown);
+                //Debug.Log("Bullet Speed +" + speedAmount + ", cooldown is now " + player.shotCooldown);
             }
 
          

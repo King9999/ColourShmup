@@ -30,9 +30,11 @@ public class Player : MonoBehaviour
     const float INIT_COOLDOWN = 0.4f;    //need to have this since cooldown changes over time.
 
     [HideInInspector]
-    public List<GameObject> playerBullets;   
-    bool[] playerBulletClip;             //controls how many bullets are fired. When true, bullet can be fired.
-    int currentBullet;
+    public List<GameObject> playerBullets;
+    [HideInInspector]
+    public bool[] playerBulletClip;             //controls how many bullets are fired. When true, bullet can be fired.
+    [HideInInspector]
+    public int currentBullet;
 
     //colours
     [HideInInspector]
@@ -94,6 +96,10 @@ public class Player : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //if (collision.CompareTag)
+    }
 
     public float MaxBulletSpeed()
     {
@@ -105,13 +111,15 @@ public class Player : MonoBehaviour
         foreach (GameObject bullet in playerBullets)
         {
             int i = playerBullets.IndexOf(bullet);
+            Bullet b = bullet.GetComponent<Bullet>();
             //if bullet is offscreen, bullet is returned to player position
-            if (bullet.GetComponent<Bullet>().BulletFired && !bullet.GetComponent<SpriteRenderer>().isVisible)
+            if (b.BulletFired && (!bullet.GetComponent<SpriteRenderer>().isVisible || b.BulletHit))
             {
                 Debug.Log("Bullet " + i + " is offscreen");
 
                 playerBulletClip[i] = true;
-                bullet.GetComponent<Bullet>().BulletFired = false;
+                b.BulletHit = false;
+                b.BulletFired = false;
             }
 
             //bullets always follow player when not fired

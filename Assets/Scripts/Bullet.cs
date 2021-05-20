@@ -6,7 +6,9 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float BulletSpeed { get; set; }
-    public bool BulletFired { get; set; } = false;     
+    public bool BulletFired { get; set; } = false;
+
+    public bool BulletHit { get; set; } = false;        //used for collision checking, and to send bullet back to player
 
     private void FixedUpdate()
     {

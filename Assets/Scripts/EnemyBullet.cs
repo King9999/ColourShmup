@@ -22,4 +22,14 @@ public class EnemyBullet : MonoBehaviour
         transform.position += bulletDirection * BulletSpeed * Time.deltaTime;
        
     }
+
+    private void Update()
+    {
+        //destroy bullet if it goes offscreen.
+        if (!GetComponent<SpriteRenderer>().isVisible)
+        {
+            Destroy(gameObject);
+            Debug.Log("Enemy bullet destroyed");
+        }
+    }
 }

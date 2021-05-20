@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     public float moveSpeed;              //this increases as the game progresses
     public float bulletSpeed;            //this too
     float shotChance;                    //probability that enemy fires a shot. Only applicable after player reaches certain level.
+    float cooldown = 3;
+    float currentTime;
 
     byte currentColor;
     const byte RED = 0;
@@ -63,11 +65,12 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         //Enemies start shooting at the player at higher levels.
-        if (Random.value <= shotChance)
+        if (Time.time > currentTime + cooldown /*Random.value <= shotChance*/)
         {
+            currentTime = Time.time;
             bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
             bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
-            Debug.Log("Enemy Bullet fired, shot chance: " + shotChance * 100 + "%");
+            //Debug.Log("Enemy Bullet fired, shot chance: " + shotChance * 100 + "%");
         }
     }
 
@@ -98,7 +101,7 @@ public class Enemy : MonoBehaviour
                     else
                     {
                         Instantiate(GameManager.instance.speedPowerupPrefab, transform.position, Quaternion.identity);
-                        Debug.Log("Speed powerup created, drop chance for Energy powerup: " + rollValue);
+                        Debug.Log("Speed powerup created");
                     }
                 }
 
@@ -112,6 +115,8 @@ public class Enemy : MonoBehaviour
             }
 
             //send bullet back to player
+            collision.GetComponent<Bullet>().BulletHit = true;
+            
         }
        
     }
