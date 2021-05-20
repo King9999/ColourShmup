@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
             if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
                 currentTime = Time.time;                //need this to restart the cooldown
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.bulletSound, GameManager.instance.SoundEffectVolume());
                 playerBulletClip[currentBullet] = false;
                 playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
 
@@ -201,42 +202,46 @@ public class Player : MonoBehaviour
     /***Colour Change*****/
     public void TurnRed(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (currentColor != RED && context.phase == InputActionPhase.Performed)
         {
             GetComponent<SpriteRenderer>().sprite = playerRed;
             currentColor = RED;
+            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             Debug.Log("Changing to red");
         }
     }
 
     public void TurnBlue(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (currentColor != BLUE && context.phase == InputActionPhase.Performed)
         {           
             GetComponent<SpriteRenderer>().sprite = playerBlue;
             currentColor = BLUE;
+            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             Debug.Log("Changing to blue");
         }
     }
 
     public void TurnBlack(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (currentColor != BLACK && context.phase == InputActionPhase.Performed)
         {
             
             GetComponent<SpriteRenderer>().sprite = playerBlack;
             currentColor = BLACK;
+            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             Debug.Log("Changing to black");
         }
     }
 
     public void TurnWhite(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (currentColor != WHITE && context.phase == InputActionPhase.Performed)
         {
            
             GetComponent<SpriteRenderer>().sprite = playerWhite;
             currentColor = WHITE;
+            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             Debug.Log("Changing to white");
         }
     }

@@ -336,7 +336,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 37e8cfdd3e4022a43a980e0739566580, type: 3}
-  m_Type: 0
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.66
 --- !u!222 &380590446
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -581,7 +581,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 920897da41b9ee44b935b7d32b3076ae, type: 3}
-  m_Type: 0
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 1.66
 --- !u!222 &622494715
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -821,11 +821,17 @@ MonoBehaviour:
   playerPrefab: {fileID: 5792474110621814028, guid: 1ea9558a78aa1e2448ad621812269a9c, type: 3}
   audioSource: {fileID: 0}
   pickupSound: {fileID: 8300000, guid: 03a625449c3bf9b43b9b7154b5b997d7, type: 3}
+  bulletSound: {fileID: 8300000, guid: 6952c753e36b9ed4cb0f5da4b2d17c9d, type: 3}
   rainbowGaugeMaxValue: 100
+  score: 0
   speedUpLabelPrefab: {fileID: 7722270444965291846, guid: 4344af347bcb03046989b70aca2ec6fa, type: 3}
   energyLabelPrefab: {fileID: 8423534307951240580, guid: 49dd30d8d47b0f142b5a0c7c52e9e502, type: 3}
+  absorbLabelPrefab: {fileID: 7408468227014047927, guid: f7e904f5bb2677145b1457701d148ee2, type: 3}
+  starPrefab: {fileID: 8550668714844463610, guid: 3da1988a9a39d6c4bb843d305ddf9e76, type: 3}
   speedUpLabelList: []
   energyLabelList: []
+  absorbLabelList: []
+  starList: []
 --- !u!4 &1739392352
 Transform:
   m_ObjectHideFlags: 0
@@ -1145,8 +1151,8 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 100
-  m_WholeNumbers: 1
-  m_Value: 0
+  m_WholeNumbers: 0
+  m_Value: 60.7
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

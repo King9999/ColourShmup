@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    
     [Header("Player")]
     public GameObject playerPrefab;
     GameObject player;                                            //used to reference position on the screen
@@ -14,17 +15,30 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public AudioSource audioSource;
     public AudioClip pickupSound;                                 //plays whenever player touches a powerup
+    public AudioClip bulletSound;                                   //SFX for firing bullets
+    public AudioClip colourChange;                                  //sound when player changes colour
+    const float SFX_VOLUME = 0.2f;                                   //default sound volume so it doesn't overpower the music.
 
     [Header("HUD")]
     public float rainbowGaugeMaxValue;
+    public int score;
 
-    [Header("Labels")]
+    [Header("Prefabs")]
     public GameObject speedUpLabelPrefab;
     public GameObject energyLabelPrefab;
+    public GameObject absorbLabelPrefab;
+    public GameObject starPrefab;
+
+    //lists
     [HideInInspector]
-    public List<GameObject> speedUpLabelList;                              //manages the labels
+    public List<GameObject> speedUpLabelList;                     //These lists are used to manage label movement when player interacts with
+    [HideInInspector]                                             //powerups or enemies
+    public List<GameObject> energyLabelList;                             
     [HideInInspector]
-    public List<GameObject> energyLabelList;                              //manages the labels
+    public List<GameObject> absorbLabelList;
+    [HideInInspector]
+    public List<GameObject> starList;                             //used to manage the random stars on screen
+    const int STAR_COUNT = 50;
 
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
@@ -36,6 +50,7 @@ public class GameManager : MonoBehaviour
     public float ScreenBoundaryX() { return SCREEN_BOUNDARY_X; }
     public float ScreenBoundaryY() { return SCREEN_BOUNDARY_Y; }
 
+    public float SoundEffectVolume() { return SFX_VOLUME; }
 
     #endregion
 
@@ -59,19 +74,41 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         speedUpLabelList = new List<GameObject>();
         energyLabelList = new List<GameObject>();
+        absorbLabelList = new List<GameObject>();
+        
 
         //HUD set up
-        HUD.instance.SetRainbowGaugeMaxValue(100);
+        HUD.instance.SetRainbowGaugeMaxValue(rainbowGaugeMaxValue);
+
+        //set up stars
+        starList = new List<GameObject>();
+
+        //randomize star locations
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        for (int i = 0; i < STAR_COUNT; i++)
+        {
+
+            Vector3 randomPos = new Vector3(Random.Range(-(screenPos.x * SCREEN_BOUNDARY_X), screenPos.x * SCREEN_BOUNDARY_X),
+                                            Random.Range(-(screenPos.y * SCREEN_BOUNDARY_Y), (screenPos.y * SCREEN_BOUNDARY_Y) + 1), 1);
+            //Debug.Log("New Star Pos: " + randomPos);
+
+            starList.Add(Instantiate(starPrefab, randomPos, Quaternion.identity));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        /********check player boundaries*********/
+        //check player boundaries
         CheckPlayerBoundaries();
 
+        //manage labels
         StartCoroutine(ManagePickupLabels(speedUpLabelList));
         StartCoroutine(ManagePickupLabels(energyLabelList));
+        StartCoroutine(ManagePickupLabels(absorbLabelList));
+
+        //manage stars
+        StartCoroutine(ManageStars());
     }
 
     IEnumerator ManagePickupLabels(List<GameObject> labelList)
@@ -105,6 +142,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator ManageStars()
+    {
+        //move all stars down. If they reach bottom of screen, move them back up to top of screen
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        foreach (GameObject star in starList)
+        {
+            star.transform.position = new Vector3(star.transform.position.x, star.transform.position.y - (1 * Time.deltaTime), 1);
+
+            if (star.transform.position.y < -(screenPos.y * SCREEN_BOUNDARY_Y) - 1)
+            {
+                //move star to top of screen outside of view
+                star.transform.position = new Vector3(star.transform.position.x, (screenPos.y * SCREEN_BOUNDARY_Y) + 1, 1);
+            }
+            yield return null;
+        }
+    }
 
     void CheckPlayerBoundaries()
     {

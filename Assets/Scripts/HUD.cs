@@ -49,6 +49,8 @@ public class HUD : MonoBehaviour
     public void SetRainbowGaugeMaxValue(float amount)
     {
         fillRainbowMeter.maxValue = amount;
+        fillRainbowMeter.value = 0;
         fillDamage.maxValue = fillRainbowMeter.maxValue;
+        fillDamage.value = fillRainbowMeter.value;
     }
 }
