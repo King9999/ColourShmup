@@ -10,24 +10,29 @@ public class GameManager : MonoBehaviour
     [Header("Player")]
     public GameObject playerPrefab;
     [HideInInspector]
-    public GameObject player;                                            //used to reference position on the screen
+    public GameObject player;                           //used to reference position on the screen
 
-    [Header("Sounds")]
-    [HideInInspector]
-    public AudioSource audioSource;
+    [Header("Powerup data")]
+    public float energyPowerUpChance;                   //odds that an energy powerup is generated upon killing enemy
+
+    [Header("Sounds")]  
     public AudioClip pickupSound;                                 //plays whenever player touches a powerup
     public AudioClip bulletSound;                                   //SFX for firing bullets
     public AudioClip colourChange;                                  //sound when player changes colour
-    const float SFX_VOLUME = 0.2f;                                   //default sound volume so it doesn't overpower the music.
+    [HideInInspector]
+    public AudioSource audioSource;
+    
 
     [Header("HUD")]
     public float rainbowGaugeMaxValue;
     public int enemyCount;
     public int targetCount;                                 //total # of enemies required to advance level.
     public int level;                                       //game difficulty rises after certain levels.
-    const int DEFAULT_TARGET = 20;
+
 
     [Header("Prefabs")]
+    public GameObject speedPowerupPrefab;
+    public GameObject energyPowerupPrefab;
     public GameObject speedUpLabelPrefab;
     public GameObject energyLabelPrefab;
     public GameObject absorbLabelPrefab;
@@ -41,11 +46,18 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public List<GameObject> absorbLabelList;
     [HideInInspector]
-    public List<GameObject> starList;                             //used to manage the random stars on screen
-    const int STAR_COUNT = 80;
+    public List<GameObject> energyPowerupList;
+    [HideInInspector]
+    public List<GameObject> speedPowerupList;
 
+    List<GameObject> starList;                             //used to manage the random stars on screen
+
+    //consts
+    const float SFX_VOLUME = 0.2f;                                   //default sound volume so it doesn't overpower the music.
+    const int STAR_COUNT = 80;
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
+    const int DEFAULT_TARGET = 20;                              //initial number of enemies to kill to advance level
 
     public static GameManager instance;
 

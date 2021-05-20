@@ -1149,14 +1149,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5792474110621814028, guid: 1ea9558a78aa1e2448ad621812269a9c, type: 3}
   player: {fileID: 0}
-  audioSource: {fileID: 0}
+  energyPowerUpChance: 0.2
   pickupSound: {fileID: 8300000, guid: 03a625449c3bf9b43b9b7154b5b997d7, type: 3}
   bulletSound: {fileID: 8300000, guid: 6952c753e36b9ed4cb0f5da4b2d17c9d, type: 3}
   colourChange: {fileID: 8300000, guid: c99226537e709814881719491eb6e1a3, type: 3}
+  audioSource: {fileID: 0}
   rainbowGaugeMaxValue: 100
   enemyCount: 0
   targetCount: 0
-  level: 0
+  level: 1
+  speedPowerupPrefab: {fileID: 5311858800310493141, guid: 0afc305abf179aa499bcb8d4590f202e, type: 3}
+  energyPowerupPrefab: {fileID: 7382250102371928254, guid: 36a2f8ad9ab7c5442ae3a2c3876db822, type: 3}
   speedUpLabelPrefab: {fileID: 7722270444965291846, guid: 4344af347bcb03046989b70aca2ec6fa, type: 3}
   energyLabelPrefab: {fileID: 8423534307951240580, guid: 49dd30d8d47b0f142b5a0c7c52e9e502, type: 3}
   absorbLabelPrefab: {fileID: 7408468227014047927, guid: f7e904f5bb2677145b1457701d148ee2, type: 3}
@@ -1164,7 +1167,8 @@ MonoBehaviour:
   speedUpLabelList: []
   energyLabelList: []
   absorbLabelList: []
-  starList: []
+  energyPowerupList: []
+  speedPowerupList: []
 --- !u!4 &1739392352
 Transform:
   m_ObjectHideFlags: 0

@@ -34,8 +34,9 @@ public class Player : MonoBehaviour
     bool[] playerBulletClip;             //controls how many bullets are fired. When true, bullet can be fired.
     int currentBullet;
 
-
-    byte currentColor;
+    //colours
+    [HideInInspector]
+    public byte currentColor;
     const byte RED = 0;
     const byte BLUE = 1;
     const byte WHITE = 2;
