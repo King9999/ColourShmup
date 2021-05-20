@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip pickupSound;                                 //plays whenever player touches a powerup
 
+    [Header("HUD")]
+    public float rainbowGaugeMaxValue;
+
     [Header("Labels")]
     public GameObject speedUpLabelPrefab;
     public GameObject energyLabelPrefab;
@@ -56,6 +59,9 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         speedUpLabelList = new List<GameObject>();
         energyLabelList = new List<GameObject>();
+
+        //HUD set up
+        HUD.instance.SetRainbowGaugeMaxValue(100);
     }
 
     // Update is called once per frame

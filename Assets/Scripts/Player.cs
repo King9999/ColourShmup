@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     public float bulletSpeed;           
     public float invulDuration;          //period of invulnerability after getting hit.
     public float shotCooldown;           //delay in seconds in between bullets being fired.
-    float currentTime;                   //gets the current time. Used to check if player can fire again.  
+    float currentTime;                   //gets the current time. Used to check if player can fire again.
+    public float rainbowGaugeAmount;     //a percentage used to keep player alive and to power the super bullet. Max is 100%.
 
     //constants
     const byte BULLET_LIMIT = 5;         //max number of bullets that can be generated in the game

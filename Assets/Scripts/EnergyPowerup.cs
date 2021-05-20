@@ -43,8 +43,8 @@ public class EnergyPowerup : MonoBehaviour
 
             Player player = collision.GetComponent<Player>();
 
-           //Add energy to the rainbow gauge
-
+            //Add energy to the rainbow gauge
+            HUD.instance.AdjustRainbowGauge(gaugeAmount);
 
             Destroy(gameObject);
             //Debug.Log("Touched Powerup");

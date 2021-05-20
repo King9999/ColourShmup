@@ -332,6 +332,7 @@ MonoBehaviour:
   bulletSpeed: 6
   invulDuration: 0
   shotCooldown: 0.4
+  rainbowGaugeAmount: 0
   playerBullets: []
 --- !u!114 &7663986118061014244
 MonoBehaviour:
