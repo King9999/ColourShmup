@@ -107,7 +107,9 @@ public class GameManager : MonoBehaviour
         speedUpLabelList = new List<GameObject>();
         energyLabelList = new List<GameObject>();
         absorbLabelList = new List<GameObject>();
-        
+
+        //level data
+        enemyTotal = DEFAULT_ENEMY_TOTAL;
 
         //HUD set up
         HUD.instance.SetRainbowGaugeMaxValue(rainbowGaugeMaxValue);
