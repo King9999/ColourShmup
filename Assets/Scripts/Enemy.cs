@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     float cooldown = 3;
     float currentTime;
 
-    byte currentColor;
+    public byte currentColor;
     const byte RED = 0;
     const byte BLUE = 1;
     const byte WHITE = 2;

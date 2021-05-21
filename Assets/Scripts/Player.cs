@@ -74,7 +74,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //player begins the game invincible due to the game time being less than invul duration.
+        StartCoroutine(BeginInvincibility());
+
         //Debug.Log("Shot cooldown " + shotCooldown);
         StartCoroutine(ManageBullets());
 
@@ -186,7 +188,88 @@ public class Player : MonoBehaviour
            
 
         }
+
         //check collision against enemy. Enemy is absorbed if collision against same colour enemy
+        if (collision.CompareTag("Enemy") && Time.time > currentInvulTime + invulDuration)
+        {
+            SpriteRenderer sr = collision.GetComponent<SpriteRenderer>();
+            Enemy enemy = collision.GetComponent<Enemy>();
+            //if player colour is the same as bullet colour, gain energy
+            switch (currentColor)
+            {
+                case RED:
+                    if (enemy.currentColor == RED)
+                        gaugeAmount = ENEMY_GAIN_AMOUNT;
+                    else if (enemy.currentColor == BLUE)   //did we touch an opposing colour?
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                    break;
+
+                case BLUE:
+                    if (enemy.currentColor == BLUE)
+                        gaugeAmount = ENEMY_GAIN_AMOUNT;
+                    else if (enemy.currentColor == RED)   //did we touch an opposing colour?
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                    break;
+
+                case WHITE:
+                    if (enemy.currentColor == WHITE)
+                        gaugeAmount = ENEMY_GAIN_AMOUNT;
+                    else if (enemy.currentColor == BLACK)   //did we touch an opposing colour?
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                    break;
+
+                case BLACK:
+                    if (enemy.currentColor == BLACK)
+                        gaugeAmount = ENEMY_GAIN_AMOUNT;
+                    else if (enemy.currentColor == WHITE)   //did we touch an opposing colour?
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                    break;
+
+                default:
+                    break;
+            }
+
+            //destroy enemy
+            Destroy(collision.gameObject);
+
+            //if enemy was absorbed, generate absorb label
+            //NOTE: try adding a coroutine to flash player showing they absorbed something
+            if (gaugeAmount > 0)
+            {
+                GameManager.instance.absorbLabelList.Add(Instantiate(GameManager.instance.absorbLabelPrefab, transform.position, Quaternion.identity));
+                //run pulse coroutine
+                StartCoroutine(Pulse(Color.green));
+            }
+            else if (Time.time > currentInvulTime + invulDuration)
+            {
+                //we're taking damage
+                currentInvulTime = Time.time;
+                StartCoroutine(BeginInvincibility());
+            }
+
+
+            //adjust the rainbow gauge
+            HUD.instance.AdjustRainbowGauge(gaugeAmount);
+
+            if (HUD.instance.fillRainbowMeter.value <= 0)
+            {
+                //player dead, game over
+            }
+
+
+        }
     }
 
     public float MaxBulletSpeed()
