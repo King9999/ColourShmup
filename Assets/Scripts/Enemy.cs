@@ -89,8 +89,13 @@ public class Enemy : MonoBehaviour
         {
             if (currentColor != player.currentColor)
             {
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+
+                //add to score
+                GameManager.instance.enemyCount++;
+
                 //check if enemy is an opposing colour. If true, then generate a powerup
-                if(PlayerIsOpposingColour(player.currentColor, currentColor))
+                if (PlayerIsOpposingColour(player.currentColor, currentColor))
                 {
                     //create powerup. Check which one to create
                     float rollValue = Random.value;
@@ -114,11 +119,12 @@ public class Enemy : MonoBehaviour
                 //Destroy(anim, 0.5f);
                 
                 
-                Debug.Log("Enemy destroyed");
+                //Debug.Log("Enemy destroyed");
             }
             else
             {
-                //play a sound effect that indicates bullet had no effect
+                //enemy took no damage
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.blockSound);
             }
 
             //send bullet back to player

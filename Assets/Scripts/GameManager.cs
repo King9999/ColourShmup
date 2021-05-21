@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public AudioClip pickupSound;                                 //plays whenever player touches a powerup
     public AudioClip bulletSound;                                   //SFX for firing bullets
     public AudioClip colourChange;                                  //sound when player changes colour
+    public AudioClip explodeSound;                      //used for when enemy is destroyed
+    public AudioClip blockSound;                        //when player hits enemy of same colour
     [HideInInspector]
     public AudioSource audioSource;
     
@@ -26,8 +28,9 @@ public class GameManager : MonoBehaviour
     [Header("HUD")]
     public float rainbowGaugeMaxValue;
     public int enemyCount;
-    public int targetCount;                                 //total # of enemies required to advance level.
+    public int targetCount;                                 //total # of enemies required to defeat to advance level.
     public int level;                                       //game difficulty rises after certain levels.
+    public int enemyTotal;                              //total # of enemies to spawn at once.
 
 
     [Header("Prefabs")]
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
     const int STAR_COUNT = 80;
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
+    const int DEFAULT_ENEMY_TOTAL = 4;
     const int DEFAULT_TARGET = 20;                              //initial number of enemies to kill to advance level
     const string STATE_EXPLOSION = "Explosion";
 
@@ -135,6 +139,14 @@ public class GameManager : MonoBehaviour
 
         //manage stars
         StartCoroutine(ManageStars());
+
+        //Update HUD
+        HUD.instance.levelText.text = "Level " + level;
+        HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
+
+        //advance level?
+        if (enemyCount >= targetCount)
+            AdvanceLevel();
     }
 
     void ChangeAnimationState(Animator anim, string animState)
@@ -255,6 +267,18 @@ public class GameManager : MonoBehaviour
             starPosList.Add(randomPos);
             stars.Add(Instantiate(starPrefab, randomPos, Quaternion.identity));
         }
+    }
+
+    /*Increases difficulty of next level*/
+    void AdvanceLevel()
+    {
+        level++;
+        enemyCount = 0;
+        targetCount += 2;
+        enemyTotal++;
+
+        //destroy all enemies in list to give the player a breather
+        //change movement patterns
     }
 }
 

@@ -34,6 +34,7 @@ public class HUD : MonoBehaviour
     {
         //adjust damage gauge
         StartCoroutine(ReduceDamageBar());
+
     }
 
     IEnumerator ReduceDamageBar()
