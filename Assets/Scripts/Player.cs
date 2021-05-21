@@ -19,9 +19,10 @@ public class Player : MonoBehaviour
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;
     public float bulletSpeed;           
-    public float invulDuration;          //period of invulnerability after getting hit.
+    public float invulDuration;          //period of invulnerability after getting hit. Set to 3 seconds
     public float shotCooldown;           //delay in seconds in between bullets being fired.
     float currentTime;                   //gets the current time. Used to check if player can fire again.
+    float currentInvulTime;              //gets current time, checks if player no longer invincible
     float gaugeAmount;                   //rainbow gauge value that changes depending on situation.
 
     //constants
@@ -104,7 +105,7 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //check collision against enemy bullet
-        if (collision.CompareTag("Bullet_Enemy"))
+        if (collision.CompareTag("Bullet_Enemy") && Time.time > currentInvulTime + invulDuration)
         {
             SpriteRenderer sr = collision.GetComponent<SpriteRenderer>();
             EnemyBullet bulletColor = collision.GetComponent<EnemyBullet>();
@@ -160,13 +161,26 @@ public class Player : MonoBehaviour
 
             //if bullet was absorbed, generate absorb label
             //NOTE: try adding a coroutine to flash player showing they absorbed something
+            if (gaugeAmount > 0)
+            {
+                GameManager.instance.absorbLabelList.Add(Instantiate(GameManager.instance.absorbLabelPrefab, transform.position, Quaternion.identity));
+            }
+            else if (Time.time > currentInvulTime + invulDuration)
+            {
+                //we're taking damage
+                currentInvulTime = Time.time;
+                StartCoroutine(BeginInvincibility());
+            }
+           
 
             //adjust the rainbow gauge
             HUD.instance.AdjustRainbowGauge(gaugeAmount);
+
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, game over
             }
+           
 
         }
         //check collision against enemy. Enemy is absorbed if collision against same colour enemy
@@ -177,6 +191,7 @@ public class Player : MonoBehaviour
         return MAX_SPEED;
     }
 
+    #region Coroutines
     IEnumerator ManageBullets()
     {
         foreach (GameObject bullet in playerBullets)
@@ -204,6 +219,24 @@ public class Player : MonoBehaviour
         }
         yield return null;
     }
+
+    IEnumerator BeginInvincibility()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        while (Time.time < currentInvulTime + invulDuration)
+        {
+            //player sprite visibility alternates between 0 and 1.
+            if (sr.enabled)
+                sr.enabled = false;
+            else if (!sr.enabled)
+                sr.enabled = true;
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    #endregion
 
     private void FixedUpdate()
     {

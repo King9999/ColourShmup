@@ -80,10 +80,12 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5024110468425044301, guid: fb0d090ec34138e469826c7f40c3b927, type: 3}
   moveSpeed: 4
   bulletSpeed: 6
-  invulDuration: 0
+  invulDuration: 2
   shotCooldown: 0.4
-  rainbowGaugeAmount: 0
   playerBullets: []
+  playerBulletClip: 
+  currentBullet: 0
+  currentColor: 0
 --- !u!114 &7663986118061014244
 MonoBehaviour:
   m_ObjectHideFlags: 0
