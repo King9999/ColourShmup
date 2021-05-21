@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public GameObject energyLabelPrefab;
     public GameObject absorbLabelPrefab;
     public GameObject starPrefab;
+    public GameObject enemyPrefab;
 
     //lists
     [HideInInspector]
@@ -58,6 +59,15 @@ public class GameManager : MonoBehaviour
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
     const int DEFAULT_TARGET = 20;                              //initial number of enemies to kill to advance level
+    const string STATE_EXPLOSION = "Explosion";
+
+    //animatons
+    [Header("Animations")]
+    public Animator explosionAnim;
+    [HideInInspector]
+    public AnimationController animController;                               //handles all animations
+    string currentState;
+
 
     public static GameManager instance;
 
@@ -67,6 +77,8 @@ public class GameManager : MonoBehaviour
     public float ScreenBoundaryY() { return SCREEN_BOUNDARY_Y; }
 
     public float SoundEffectVolume() { return SFX_VOLUME; }
+
+    public string ExplosionState() { return STATE_EXPLOSION; }
 
     #endregion
 
@@ -102,11 +114,17 @@ public class GameManager : MonoBehaviour
         //set up stars
         starList = new List<GameObject>();
         SetupStars(starList);
+
+        //animation set up
+        animController = new AnimationController();
+        //explosionAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //explosionAnim.Play(STATE_EXPLOSION);
+        ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
         //check player boundaries
         CheckPlayerBoundaries();
 
@@ -117,6 +135,16 @@ public class GameManager : MonoBehaviour
 
         //manage stars
         StartCoroutine(ManageStars());
+    }
+
+    void ChangeAnimationState(Animator anim, string animState)
+    {
+        if (currentState == animState)
+            return;
+
+        anim.Play(animState);
+
+        currentState = animState;
     }
 
     IEnumerator ManagePickupLabels(List<GameObject> labelList)
