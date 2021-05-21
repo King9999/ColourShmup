@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
+    [Header("Bullet Colours")]
+    public Sprite bulletRed;
+    public Sprite bulletBlue;
+    public Sprite bulletBlack;
+    public Sprite bulletWhite;
+
     public float BulletSpeed { get; set; }
 
     Vector3 playerLastPos;

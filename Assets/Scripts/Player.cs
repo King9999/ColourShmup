@@ -101,7 +101,9 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.CompareTag)
+        //check collision against enemy bullet
+        //if (collision.CompareTag("Bullet_Enemy"))
+        //check collision against enemy. Enemy is absorbed if collision against same colour enemy
     }
 
     public float MaxBulletSpeed()
@@ -217,6 +219,7 @@ public class Player : MonoBehaviour
         }
 
     }
+
 
     /***Colour Change*****/
     public void TurnRed(InputAction.CallbackContext context)

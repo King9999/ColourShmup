@@ -112,3 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d132e854e72bbd4fbd358675b0f3c0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletRed: {fileID: 21300000, guid: f6bc9e141bb7587429a3676018d21996, type: 3}
+  bulletBlue: {fileID: 21300000, guid: 1446a95384aad9e4383b6d6be65da427, type: 3}
+  bulletBlack: {fileID: 21300000, guid: 97ff03fbce79d7b4396f3291919d42fb, type: 3}
+  bulletWhite: {fileID: 21300000, guid: 3c611f80f15157349b9353481731b443, type: 3}

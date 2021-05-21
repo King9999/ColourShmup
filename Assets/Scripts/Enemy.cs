@@ -70,10 +70,40 @@ public class Enemy : MonoBehaviour
             currentTime = Time.time;
             bullet = Instantiate(enemyBulletPrefab, new Vector3(transform.position.x, 
                 transform.position.y - GetComponent<SpriteRenderer>().bounds.extents.y, -1), Quaternion.identity); //bullet is generated at the enemy's nose
+
+            //change bullet colour accordingly
+            EnemyBullet bulletColor = bullet.GetComponent<EnemyBullet>();
+            SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
+            sr.sprite = GetBulletColor(bulletColor);
             bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
             //Debug.Log("Enemy Bullet fired, shot chance: " + shotChance * 100 + "%");
         }
 
+    }
+
+    Sprite GetBulletColor(EnemyBullet bullet)
+    {
+        Sprite spriteColor = null;
+
+        switch(currentColor)    //current color of the enemy
+        {
+            case RED:
+                spriteColor = bullet.bulletRed;
+                break;
+            case BLUE:
+                spriteColor = bullet.bulletBlue;
+                break;
+            case BLACK:
+                spriteColor = bullet.bulletBlack;
+                break;
+            case WHITE:
+                spriteColor = bullet.bulletWhite;
+                break;
+            default:
+                break;
+        }
+
+        return spriteColor;
     }
 
     private void FixedUpdate()
