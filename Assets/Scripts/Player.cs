@@ -22,12 +22,14 @@ public class Player : MonoBehaviour
     public float invulDuration;          //period of invulnerability after getting hit.
     public float shotCooldown;           //delay in seconds in between bullets being fired.
     float currentTime;                   //gets the current time. Used to check if player can fire again.
-    public float rainbowGaugeAmount;     //a percentage used to keep player alive and to power the super bullet. Max is 100%.
+    float gaugeAmount;                   //rainbow gauge value that changes depending on situation.
 
     //constants
     const byte BULLET_LIMIT = 5;         //max number of bullets that can be generated in the game
     const float MAX_SPEED = 12;          //highest bullet speed
     const float INIT_COOLDOWN = 0.4f;    //need to have this since cooldown changes over time.
+    const float BULLET_GAIN_AMOUNT = 20;        //default value added to rainbow gauge if bullet of same colour touched
+    const float ENEMY_GAIN_AMOUNT = 30;         //default value added to rainbow gauge if enemy of same colour touched
 
     [HideInInspector]
     public List<GameObject> playerBullets;
@@ -102,7 +104,71 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //check collision against enemy bullet
-        //if (collision.CompareTag("Bullet_Enemy"))
+        if (collision.CompareTag("Bullet_Enemy"))
+        {
+            SpriteRenderer sr = collision.GetComponent<SpriteRenderer>();
+            EnemyBullet bulletColor = collision.GetComponent<EnemyBullet>();
+            //if player colour is the same as bullet colour, gain energy
+            switch (currentColor)
+            {
+                case RED:
+                    if (sr.sprite == bulletColor.bulletRed)
+                        gaugeAmount = BULLET_GAIN_AMOUNT;
+                    else if (sr.sprite == bulletColor.bulletBlue)   //did we touch an opposing colour?
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                    break;
+
+                case BLUE:
+                    if (sr.sprite == bulletColor.bulletBlue)
+                        gaugeAmount = BULLET_GAIN_AMOUNT;
+                    else if (sr.sprite == bulletColor.bulletRed)   //did we touch an opposing colour?
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                    break;
+
+                case WHITE:
+                    if (sr.sprite == bulletColor.bulletWhite)
+                        gaugeAmount = BULLET_GAIN_AMOUNT;
+                    else if (sr.sprite == bulletColor.bulletBlack)   //did we touch an opposing colour?
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                    break;
+
+                case BLACK:
+                    if (sr.sprite == bulletColor.bulletBlack)
+                        gaugeAmount = BULLET_GAIN_AMOUNT;
+                    else if (sr.sprite == bulletColor.bulletWhite)   //did we touch an opposing colour?
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                    else
+                        //take normal damage
+                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                    break;
+
+                default:
+                    break;
+            }
+
+            //destroy bullet
+            Destroy(collision.gameObject);
+
+            //if bullet was absorbed, generate absorb label
+            //NOTE: try adding a coroutine to flash player showing they absorbed something
+
+            //adjust the rainbow gauge
+            HUD.instance.AdjustRainbowGauge(gaugeAmount);
+            if (HUD.instance.fillRainbowMeter.value <= 0)
+            {
+                //player dead, game over
+            }
+
+        }
         //check collision against enemy. Enemy is absorbed if collision against same colour enemy
     }
 

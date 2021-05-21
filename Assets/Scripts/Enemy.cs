@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour
     {
         Player player = GameManager.instance.player.GetComponent<Player>();
         //if enemy touches a player bullet, different interactions occur based on the enemy and player's colour.
-        if (collision.CompareTag("Bullet_Player"))
+        if (collision.CompareTag("Bullet_Player") && collision.GetComponent<SpriteRenderer>().enabled == true)  //bullet has to be on screen
         {
             if (currentColor != player.currentColor)
             {
