@@ -74,6 +74,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //Debug.Log("Shot cooldown " + shotCooldown);
         StartCoroutine(ManageBullets());
 
@@ -164,6 +165,8 @@ public class Player : MonoBehaviour
             if (gaugeAmount > 0)
             {
                 GameManager.instance.absorbLabelList.Add(Instantiate(GameManager.instance.absorbLabelPrefab, transform.position, Quaternion.identity));
+                //run pulse coroutine
+                StartCoroutine(Pulse(Color.green));
             }
             else if (Time.time > currentInvulTime + invulDuration)
             {
@@ -234,6 +237,42 @@ public class Player : MonoBehaviour
         }
 
         GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    IEnumerator Pulse(Color pulseColor, bool pulseRepeat = false)
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Color originalColor = sr.color;
+        bool secondLerpComplete = false;
+        bool firstLerpComplete = false;
+        float p = 0;
+
+        //change player colour to pulse colour and then return.
+        while (!secondLerpComplete)
+        {
+            while (!firstLerpComplete && sr.color != pulseColor)
+            {
+                p += 0.1f;
+                sr.color = Color.Lerp(originalColor, pulseColor,  p);
+                yield return new WaitForSeconds(0.016f); //1 fps = 16ms
+            }
+
+            //once we get here, reset p
+            firstLerpComplete = true;
+            p = 0;
+
+            while (firstLerpComplete && sr.color != originalColor)
+            {
+                //reverse the pulse until back to original color
+                p += 0.1f;
+                sr.color = Color.Lerp(pulseColor, originalColor, p);
+                yield return new WaitForSeconds(0.016f);
+            }
+
+            secondLerpComplete = true;
+            
+        }
+        
     }
 
     #endregion
