@@ -82,6 +82,9 @@ public class Player : MonoBehaviour
             if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
                 currentTime = Time.time;                //need this to restart the cooldown
+
+                //show bullet
+                playerBullets[currentBullet].GetComponent<SpriteRenderer>().enabled = true;
                 GameManager.instance.audioSource.PlayOneShot(GameManager.instance.bulletSound, GameManager.instance.SoundEffectVolume());
                 playerBulletClip[currentBullet] = false;
                 playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
@@ -124,7 +127,12 @@ public class Player : MonoBehaviour
 
             //bullets always follow player when not fired
             if (!bullet.GetComponent<Bullet>().BulletFired && playerBulletClip[i] == true)
-                bullet.transform.position = new Vector3(transform.position.x, transform.position.y, 1);   //Z is 1 so that it's hidden behind player
+            {
+                //hide bullet when not fired
+                bullet.GetComponent<SpriteRenderer>().enabled = false;
+                bullet.transform.position = new Vector3(transform.position.x,
+                    transform.position.y + GetComponent<SpriteRenderer>().bounds.extents.y, -1); //bullet is positioned at player's nose
+            }
         }
         yield return null;
     }

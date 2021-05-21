@@ -68,7 +68,8 @@ public class Enemy : MonoBehaviour
         if (Time.time > currentTime + cooldown /*Random.value <= shotChance*/)
         {
             currentTime = Time.time;
-            bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
+            bullet = Instantiate(enemyBulletPrefab, new Vector3(transform.position.x, 
+                transform.position.y - GetComponent<SpriteRenderer>().bounds.extents.y, -1), Quaternion.identity); //bullet is generated at the enemy's nose
             bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
             //Debug.Log("Enemy Bullet fired, shot chance: " + shotChance * 100 + "%");
         }
