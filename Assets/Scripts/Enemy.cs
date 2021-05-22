@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
     public float moveSpeed;              //this increases as the game progresses
     public float bulletSpeed;            //this too
     public float shotChance;               //probability that enemy fires a shot. Only applicable after player reaches certain level.
-    public float prevShotChance;         //need this to ensure that enemies in odd-numbered levels are able to shoot.
     public float shotCooldown;
     float currentTime;
     const float INIT_COOLDOWN = 2;
@@ -59,13 +58,15 @@ public class Enemy : MonoBehaviour
         }
 
         //set shot chance according to current level. shot chance goes up the higher the level.
-        shotChance = prevShotChance;
+        shotChance = EnemyManager.instance.enemyShotChance;
         if (GameManager.instance.level % 2 == 0)
         {
             shotChance += SHOT_INC_AMT;  //increase shot chance by 4% every 2 levels
-            prevShotChance = shotChance;
+            
             if (shotChance > 1)
                 shotChance = 1;
+
+            EnemyManager.instance.enemyShotChance = shotChance;
             //Debug.Log("New enemy shot chance: " + shotChance);
         }
 
