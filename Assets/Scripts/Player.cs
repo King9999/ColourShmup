@@ -46,8 +46,9 @@ public class Player : MonoBehaviour
     const byte BLUE = 1;
     const byte WHITE = 2;
     const byte BLACK = 3;
-    
-    //game manager instance variables to make 
+
+    //variable to prevent pulse coroutine from activating more than once at a time
+    bool isPulseCoroutineRunning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -69,13 +70,15 @@ public class Player : MonoBehaviour
 
         currentBullet = 0;
         shotCooldown = INIT_COOLDOWN;
+
+        //player begins the game invincible due to the game time being less than invul duration.
+        StartCoroutine(BeginInvincibility());
     }
 
     // Update is called once per frame
     void Update()
     {
-        //player begins the game invincible due to the game time being less than invul duration.
-        StartCoroutine(BeginInvincibility());
+       
 
         //Debug.Log("Shot cooldown " + shotCooldown);
         StartCoroutine(ManageBullets());
@@ -163,12 +166,16 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
 
             //if bullet was absorbed, generate absorb label
-            //NOTE: try adding a coroutine to flash player showing they absorbed something
             if (gaugeAmount > 0)
             {
                 GameManager.instance.absorbLabelList.Add(Instantiate(GameManager.instance.absorbLabelPrefab, transform.position, Quaternion.identity));
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.absorbSound);
                 //run pulse coroutine
-                StartCoroutine(Pulse(Color.green));
+                if (!isPulseCoroutineRunning)
+                {
+                    Color teal = new Color(0, 0.86f, 0.98f);
+                    StartCoroutine(Pulse(teal));
+                }
             }
             else if (Time.time > currentInvulTime + invulDuration)
             {
@@ -184,8 +191,15 @@ public class Player : MonoBehaviour
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, game over
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+                Debug.Log("Player dead");
             }
-           
+            else if (Time.time < currentInvulTime + invulDuration)
+            {
+                //not dead but took damage, play approproate sound
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.playerHit, GameManager.instance.SoundEffectVolume() + 0.1f);
+            }
+
 
         }
 
@@ -249,12 +263,17 @@ public class Player : MonoBehaviour
             if (gaugeAmount > 0)
             {
                 GameManager.instance.absorbLabelList.Add(Instantiate(GameManager.instance.absorbLabelPrefab, transform.position, Quaternion.identity));
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.absorbSound);
                 //run pulse coroutine
-                StartCoroutine(Pulse(Color.green));
+                if (!isPulseCoroutineRunning)
+                {
+                    Color teal = new Color(0, 0.86f, 0.98f);
+                    StartCoroutine(Pulse(teal));
+                }
             }
             else if (Time.time > currentInvulTime + invulDuration)
             {
-                //we're taking damage
+                //we're taking damage                
                 currentInvulTime = Time.time;
                 StartCoroutine(BeginInvincibility());
             }
@@ -266,6 +285,13 @@ public class Player : MonoBehaviour
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, game over
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+                Debug.Log("Player dead");
+            }
+            else if (Time.time < currentInvulTime + invulDuration)
+            {
+                //not dead but took damage, play approproate sound
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.playerHit, GameManager.instance.SoundEffectVolume() + 0.1f);
             }
 
 
@@ -309,6 +335,7 @@ public class Player : MonoBehaviour
     IEnumerator BeginInvincibility()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        
         while (Time.time < currentInvulTime + invulDuration)
         {
             //player sprite visibility alternates between 0 and 1.
@@ -324,6 +351,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Pulse(Color pulseColor, bool pulseRepeat = false)
     {
+        isPulseCoroutineRunning = true;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         Color originalColor = sr.color;
         bool secondLerpComplete = false;
@@ -340,7 +368,7 @@ public class Player : MonoBehaviour
                 yield return new WaitForSeconds(0.016f); //1 fps = 16ms
             }
 
-            //once we get here, reset p
+            //once we get here, reset p so we can use it again for the next lerp
             firstLerpComplete = true;
             p = 0;
 
@@ -353,7 +381,7 @@ public class Player : MonoBehaviour
             }
 
             secondLerpComplete = true;
-            
+            isPulseCoroutineRunning = false;
         }
         
     }

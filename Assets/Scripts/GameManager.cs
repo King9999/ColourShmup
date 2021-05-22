@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public AudioClip colourChange;                                  //sound when player changes colour
     public AudioClip explodeSound;                      //used for when enemy is destroyed
     public AudioClip blockSound;                        //when player hits enemy of same colour
+    public AudioClip absorbSound;
+    public AudioClip playerHit;                         //plays when player hit by something but not destroyed
     [HideInInspector]
     public AudioSource audioSource;
     
