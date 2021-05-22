@@ -20,9 +20,12 @@ public class Enemy : MonoBehaviour
     private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;              //this increases as the game progresses
     public float bulletSpeed;            //this too
-    float shotChance;                    //probability that enemy fires a shot. Only applicable after player reaches certain level.
-    float cooldown = 3;
+    public float shotChance;               //probability that enemy fires a shot. Only applicable after player reaches certain level.
+    public float prevShotChance;         //need this to ensure that enemies in odd-numbered levels are able to shoot.
+    public float shotCooldown;
     float currentTime;
+    const float INIT_COOLDOWN = 2;
+    const float SHOT_INC_AMT = 0.04f;
 
     public byte currentColor;
     const byte RED = 0;
@@ -30,13 +33,10 @@ public class Enemy : MonoBehaviour
     const byte WHITE = 2;
     const byte BLACK = 3;
 
+
     // Start is called before the first frame update
     void Start()
     {
-        //test bullet
-        //bullet = Instantiate(enemyBulletPrefab, transform.position, Quaternion.identity);
-        // bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
-        //Debug.Log("Enemy Bullet fired");
         //enemies are always instantiated with a random colour
         currentColor = (byte)Random.Range(RED, BLACK + 1);
 
@@ -59,24 +59,30 @@ public class Enemy : MonoBehaviour
         }
 
         //set shot chance according to current level. shot chance goes up the higher the level.
+        shotChance = prevShotChance;
+        if (GameManager.instance.level % 2 == 0)
+        {
+            shotChance += SHOT_INC_AMT;  //increase shot chance by 4% every 2 levels
+            prevShotChance = shotChance;
+            if (shotChance > 1)
+                shotChance = 1;
+            //Debug.Log("New enemy shot chance: " + shotChance);
+        }
+
+        //shot cooldown is random
+        shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Enemies start shooting at the player at higher levels.
-        if (Time.time > currentTime + cooldown /*Random.value <= shotChance*/)
+        //Enemies start shooting at the player at higher levels. Cooldown is randomized to vary the timing of shots
+        if (Random.value <= shotChance && Time.time > currentTime + shotCooldown)
         {
             currentTime = Time.time;
-            bullet = Instantiate(enemyBulletPrefab, new Vector3(transform.position.x, 
-                transform.position.y - GetComponent<SpriteRenderer>().bounds.extents.y, -1), Quaternion.identity); //bullet is generated at the enemy's nose
-
-            //change bullet colour accordingly
-            EnemyBullet bulletColor = bullet.GetComponent<EnemyBullet>();
-            SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
-            sr.sprite = GetBulletColor(bulletColor);
-            bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
-            //Debug.Log("Enemy Bullet fired, shot chance: " + shotChance * 100 + "%");
+            ShootBullet();
+            //randomize the next cooldown
+            shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
         }
 
     }
@@ -190,6 +196,18 @@ public class Enemy : MonoBehaviour
 
         return coloursOpposed;
 	}
+
+    public void ShootBullet()
+    {
+        bullet = Instantiate(enemyBulletPrefab, new Vector3(transform.position.x,
+            transform.position.y - GetComponent<SpriteRenderer>().bounds.extents.y, -1), Quaternion.identity); //bullet is generated at the enemy's nose
+
+        //change bullet colour accordingly
+        EnemyBullet bulletColor = bullet.GetComponent<EnemyBullet>();
+        SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
+        sr.sprite = GetBulletColor(bulletColor);
+        bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
+    }
 
     IEnumerator Explode()
     {

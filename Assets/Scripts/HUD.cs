@@ -76,18 +76,5 @@ public class HUD : MonoBehaviour
         fillDamage.value = fillRainbowMeter.value;
     }
 
-    public void ToggleMute(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            muted = !muted;
-            Debug.Log("Muted is " + muted);
-
-            //change audioSource
-            muteIcon.enabled = (muted == true) ? true : false;
-            GameManager.instance.audioSource.enabled = (muted == false) ? true : false;
-            GameManager.instance.musicSource.enabled = (muted == false) ? true : false;
-        }
-       
-    }
+   
 }
