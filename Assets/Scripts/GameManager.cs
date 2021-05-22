@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public AudioClip playerHit;                         //plays when player hit by something but not destroyed
     [HideInInspector]
     public AudioSource audioSource;
+    public AudioSource musicSource;
     
 
     [Header("HUD")]
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     //consts
     const float SFX_VOLUME = 0.2f;                                   //default sound volume so it doesn't overpower the music.
+    const float MUSIC_VOLUME = 0.5f;
     const int STAR_COUNT = 80;
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
@@ -103,7 +105,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        //set up player at bottom of screen
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);   //converting screen pixels to units
+        player = Instantiate(playerPrefab, new Vector3(0, screenPos.y * -SCREEN_BOUNDARY_Y, 0), Quaternion.identity);
 
         audioSource = GetComponent<AudioSource>();
         speedUpLabelList = new List<GameObject>();
@@ -126,13 +130,27 @@ public class GameManager : MonoBehaviour
         //animation set up
         animController = new AnimationController();
         //explosionAnim = GetComponent<Animator>();
+
+        //HUD.instance.muted = true;   
     }
 
     // Update is called once per frame
     void Update()
     {
+        //is audio muted?
+        /*if (HUD.instance.muted == true)
+        {
+            audioSource.enabled = false;
+            musicSource.enabled = false;
+        }
+        else
+        {
+            audioSource.enabled = true;
+            musicSource.enabled = true;
+        }*/
         //explosionAnim.Play(STATE_EXPLOSION);
-        ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
+        //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
+
         //check player boundaries
         CheckPlayerBoundaries();
 
@@ -163,6 +181,7 @@ public class GameManager : MonoBehaviour
         currentState = animState;
     }
 
+    #region Coroutines
     IEnumerator ManagePickupLabels(List<GameObject> labelList)
     {
         for (int i = 0; i < labelList.Count; i++)
@@ -200,7 +219,7 @@ public class GameManager : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
         foreach (GameObject star in starList)
         {
-            star.transform.position = new Vector3(star.transform.position.x, star.transform.position.y - (1 * Time.deltaTime), 1);
+            star.transform.position = new Vector3(star.transform.position.x, star.transform.position.y - Time.deltaTime, 1);
 
             if (star.transform.position.y < -(screenPos.y * SCREEN_BOUNDARY_Y) - 1)
             {
@@ -210,6 +229,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
+
+    #endregion
 
     void CheckPlayerBoundaries()
     {
@@ -258,13 +279,15 @@ public class GameManager : MonoBehaviour
 
             //Debug.Log("New Star Pos: " + randomPos);
 
-            //if random pos was already used, keep finding random number until we get an original.         
-            while (starPosList.Contains(randomPos))
+            float offset = 0.1f;
+            //if random pos was already used, or if a star is too close to another, keep finding random number until we get an original.         
+            while (starPosList.Contains(randomPos) || starPosList.Contains(new Vector3(Random.Range(randomPos.x - offset, randomPos.x + offset), 
+                                                                                       Random.Range(randomPos.y - offset, randomPos.y + offset), 1)))
             {
                 randomPos = randomPos + new Vector3(Random.Range(-(screenPos.x * SCREEN_BOUNDARY_X), screenPos.x * SCREEN_BOUNDARY_X),
                                     Random.Range(-(screenPos.y * SCREEN_BOUNDARY_Y), (screenPos.y * SCREEN_BOUNDARY_Y) + 1), 1);
 
-                Debug.Log("Found duplicate, new Star Pos: " + randomPos);
+                Debug.Log("Found duplicate star, new Star Pos: " + randomPos);
             }
             
 

@@ -518,4 +518,18 @@ public class Player : MonoBehaviour
             Debug.Log("Changing to white");
         }
     }
+    public void ToggleMute(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            HUD.instance.muted = !HUD.instance.muted;
+            Debug.Log("Muted is " + HUD.instance.muted);
+
+            //change audioSource
+            HUD.instance.muteIcon.enabled = (HUD.instance.muted == true) ? true : false;
+            GameManager.instance.audioSource.enabled = (HUD.instance.muted == false) ? true : false;
+            GameManager.instance.musicSource.enabled = (HUD.instance.muted == false) ? true : false;
+        }
+
+    }
 }

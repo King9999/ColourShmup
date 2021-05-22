@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class HUD : MonoBehaviour
 {
-    //rainbow gauge variables
+    [Header("Rainbow Gauge")]
     public Slider fillRainbowMeter;
     public Slider fillDamage;
     public float reductionAmount;           //controls how fast damage fill depletes
@@ -14,6 +15,10 @@ public class HUD : MonoBehaviour
     [Header("UI Text")]
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI enemyCountText;      //contains both the current count and the target amount
+
+    [Header("Audio")]
+    public Image muteIcon;
+    public bool muted;                       //false by default
 
     //static variable
     public static HUD instance;
@@ -27,6 +32,13 @@ public class HUD : MonoBehaviour
         }
 
         instance = this;
+        DontDestroyOnLoad(this);    //want to be able to use this on multiple scenes, where sound can be disabled/enabled
+    }
+
+    private void Start()
+    {
+        //mute icon disabled by default
+        muteIcon.enabled = false;
     }
 
     // Update is called once per frame
@@ -34,7 +46,7 @@ public class HUD : MonoBehaviour
     {
         //adjust damage gauge
         StartCoroutine(ReduceDamageBar());
-
+      
     }
 
     IEnumerator ReduceDamageBar()
@@ -62,5 +74,20 @@ public class HUD : MonoBehaviour
         fillRainbowMeter.value = 0;
         fillDamage.maxValue = fillRainbowMeter.maxValue;
         fillDamage.value = fillRainbowMeter.value;
+    }
+
+    public void ToggleMute(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            muted = !muted;
+            Debug.Log("Muted is " + muted);
+
+            //change audioSource
+            muteIcon.enabled = (muted == true) ? true : false;
+            GameManager.instance.audioSource.enabled = (muted == false) ? true : false;
+            GameManager.instance.musicSource.enabled = (muted == false) ? true : false;
+        }
+       
     }
 }

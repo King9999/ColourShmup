@@ -85,7 +85,7 @@ MonoBehaviour:
   playerBullets: []
   playerBulletClip: 
   currentBullet: 0
-  currentColor: 0
+  currentColor: 1
 --- !u!114 &7663986118061014244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,46 +111,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ce846ebf-5aac-4644-84f6-3da04fb7fab9
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9bdc78ed-4008-4f9a-b41c-99fe83be900d
-    m_ActionName: UI/Submit[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9ec3a91c-1f39-40ca-b5db-7123be95a7f4
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c4c5a7b0-c718-49cc-8579-e44b5f49085f
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 1bf0bcfc-8fad-4565-9a7b-01f052ee4489
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d4ae9482-d2d1-46a5-b00a-5125d820bd18
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d82a5b32-b581-44c6-ac15-9ddce45a305f
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6bfd4b33-236b-46e6-9267-cdc6cc1f6dbf
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: efa76965-dfc6-41da-bacb-db43a6ca01ef
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 1c30d3bc-0c77-49ea-9f8f-e1a5b74751cb
-    m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4347438763232638525}
@@ -295,6 +255,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0cbfc7e0-d152-4ed1-ada6-bf736a45d8c2
     m_ActionName: Player/Black[/Keyboard/downArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a03321bf-a9ed-4000-a3c5-dff5fabfcbf1
+    m_ActionName: UI/Mute Toggle[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4347438763232638525}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ToggleMute
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 59ce6af0-06a7-49a4-88e6-bf8326f7d35d
+    m_ActionName: Player/Mute[/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
