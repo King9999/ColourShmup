@@ -473,19 +473,21 @@ public class Player : MonoBehaviour
     /***Colour Change*****/
     public void TurnRed(InputAction.CallbackContext context)
     {
-        if (currentColor != RED && context.phase == InputActionPhase.Performed)
-        {
+        if (currentColor != RED && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        {           
+            StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerRed;
             currentColor = RED;
-            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
+            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);          
             Debug.Log("Changing to red");
         }
     }
 
     public void TurnBlue(InputAction.CallbackContext context)
     {
-        if (currentColor != BLUE && context.phase == InputActionPhase.Performed)
-        {           
+        if (currentColor != BLUE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        {        
+            StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerBlue;
             currentColor = BLUE;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
@@ -495,9 +497,9 @@ public class Player : MonoBehaviour
 
     public void TurnBlack(InputAction.CallbackContext context)
     {
-        if (currentColor != BLACK && context.phase == InputActionPhase.Performed)
+        if (currentColor != BLACK && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
         {
-            
+            StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerBlack;
             currentColor = BLACK;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
@@ -507,9 +509,9 @@ public class Player : MonoBehaviour
 
     public void TurnWhite(InputAction.CallbackContext context)
     {
-        if (currentColor != WHITE && context.phase == InputActionPhase.Performed)
-        {
-           
+        if (currentColor != WHITE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        {          
+            StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerWhite;
             currentColor = WHITE;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
