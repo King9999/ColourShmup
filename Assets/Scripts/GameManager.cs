@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
         SetupStars(starList);
 
         //animation set up
-        animController = new AnimationController();
+        //animController = new AnimationController();
         //explosionAnim = GetComponent<Animator>();
 
         //HUD.instance.muted = true;   
@@ -137,17 +137,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //is audio muted?
-        /*if (HUD.instance.muted == true)
-        {
-            audioSource.enabled = false;
-            musicSource.enabled = false;
-        }
-        else
-        {
-            audioSource.enabled = true;
-            musicSource.enabled = true;
-        }*/
         //explosionAnim.Play(STATE_EXPLOSION);
         //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
 
@@ -161,6 +150,9 @@ public class GameManager : MonoBehaviour
 
         //manage stars
         StartCoroutine(ManageStars());
+
+        //move enemies
+        EnemyManager.instance.MoveAllEnemies();
 
         //Update HUD
         HUD.instance.levelText.text = "Level " + level;

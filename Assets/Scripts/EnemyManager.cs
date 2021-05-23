@@ -5,10 +5,12 @@ using UnityEngine;
 //Handles enemy movement patterns and tracks all living enemies.
 public class EnemyManager : MonoBehaviour
 {
-    public List<Enemy> enemies = new List<Enemy>();
+    [HideInInspector]
+    public List<GameObject> enemies = new List<GameObject>();
+    public GameObject enemyPrefab;
     public float enemyShotChance;
     public float enemyMoveSpeed;
-    
+    public Path enemyPath;
 
     public static EnemyManager instance;
 
@@ -25,12 +27,24 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        enemyPath.pathPoints.Add(Vector3.zero);
+        enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[0], Quaternion.identity));
     }
 
     // Update is called once per frame
-    void Update()
+   public void MoveAllEnemies()
     {
-        
+        StartCoroutine(MoveEnemies());
+    }
+
+    IEnumerator MoveEnemies()
+    {
+        yield return new WaitForFixedUpdate();  //update every 0.02 seconds
+
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy != null)
+                enemy.GetComponent<Enemy>().Move();
+        }
     }
 }

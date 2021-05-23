@@ -113,6 +113,21 @@ public class Enemy : MonoBehaviour
         return spriteColor;
     }
 
+    public void Move()
+    {
+        //default pattern is to move in a straight line until off screen.
+        transform.position = new Vector3(transform.position.x, transform.position.y - (moveSpeed * Time.deltaTime), 0);
+
+        //destroy enemy if off screen
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
+        if (transform.position.y + (GetComponent<SpriteRenderer>().bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
+        {
+            Destroy(gameObject);
+            Debug.Log("Enemy off screen");
+        }
+        
+    }
+
     private void FixedUpdate()
     {
         //enemies move in different ways. Their default is to move in a straight line, but as the game progresses
