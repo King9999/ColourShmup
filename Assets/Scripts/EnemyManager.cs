@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemyPrefab;
     public float enemyShotChance;
     public float enemyMoveSpeed;
-    Path enemyPath;
+    public Path enemyPath;
     public int currentEnemy;
     float currentTime;
     float SpawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
@@ -53,6 +53,7 @@ public class EnemyManager : MonoBehaviour
         if (Time.time > currentTime + SpawnTimer && currentEnemyCount < totalEnemyCount)
         {
             currentTime = Time.time;
+            enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;
         }

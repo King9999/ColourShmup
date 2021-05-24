@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
         //set path
         enemyPathPoints = new List<Vector3>();
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        enemyPathPoints = SetPath(Path.PathType.LinearVertical, flightPath.pathPoints);
+        enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.enemyPath.pathPoints/*flightPath.pathPoints*/);
         Debug.Log("Flightpath point: " + flightPath.pathPoints[(int)Path.PathType.LinearVertical][1]);
         //enemyPathPoints.Add(Vector3.zero);
         //enemyPathPoints.Add(new Vector3(transform.position.x, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));

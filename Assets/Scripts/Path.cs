@@ -60,8 +60,20 @@ public class Path
         //pathPoints[(int)PathType.LinearHorizontal].Add(Vector3.zero);
     }
 
-    public void SetPath(List<Vector3> points)
+    public List<Vector3> SetPath(PathType pathType)
     {
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+        pathPoints[(int)pathType] = new List<Vector3>();
+
+        //re-initialize the selected path
+        if (pathType == PathType.LinearVertical)
+        {
+            float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
+            pathPoints[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
+            pathPoints[(int)pathType].Add(new Vector3(xValue, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+        }
+
+        return pathPoints[(int)pathType];
 
     }
 
