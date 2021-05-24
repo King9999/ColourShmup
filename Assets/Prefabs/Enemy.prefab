@@ -56,6 +56,8 @@ MonoBehaviour:
   shotChance: 0
   shotCooldown: 0
   currentColor: 0
+  flightPathPrefab: {fileID: 2305116109703513456, guid: 02f8ef88091d2fe44a4ce31a381aed5e, type: 3}
+  enemyPathPoints: []
 --- !u!61 &2004307023179419385
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     const byte BLACK = 3;
 
     Path flightPath;                    //the path the enemy follows when they're generated.
-    List<Vector3> pathPoints;
+    public List<Vector3> enemyPathPoints;
     Vector3 direction;
     int currentPoint;
     int destinationPoint;               //tracks where enemy is along the flight path. These contain the indexes of the path vectors.
@@ -41,6 +41,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Path flightPath = new Path();
         //enemies are always instantiated with a random colour
         currentColor = (byte)Random.Range(RED, BLACK + 1);
 
@@ -79,11 +80,12 @@ public class Enemy : MonoBehaviour
         shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
 
         //set path
-        pathPoints = new List<Vector3>();
+        enemyPathPoints = new List<Vector3>();
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        //SetPath(flightPath.pathPoints[0]);
-        pathPoints.Add(Vector3.zero);
-        pathPoints.Add(new Vector3(transform.position.x, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+        enemyPathPoints = SetPath(Path.PathType.LinearVertical, flightPath.pathPoints);
+        Debug.Log("Flightpath point: " + flightPath.pathPoints[(int)Path.PathType.LinearVertical][1]);
+        //enemyPathPoints.Add(Vector3.zero);
+        //enemyPathPoints.Add(new Vector3(transform.position.x, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
         currentPoint = 0;
         destinationPoint = currentPoint + 1;
     }
@@ -133,9 +135,9 @@ public class Enemy : MonoBehaviour
         //transform.position = new Vector3(transform.position.x, transform.position.y - (moveSpeed * Time.deltaTime), 0);
 
         //get the direction of the destination point from enemy's current position.
-        Vector3 direction = (pathPoints[destinationPoint] - pathPoints[currentPoint]).normalized;
+        Vector3 direction = (enemyPathPoints[destinationPoint] - enemyPathPoints[currentPoint]).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
-        if (transform.position == pathPoints[destinationPoint])
+        if (transform.position == enemyPathPoints[destinationPoint])
         {
             //move to next point in path if it exists
 
@@ -245,6 +247,11 @@ public class Enemy : MonoBehaviour
         SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
         sr.sprite = GetBulletColor(bulletColor);
         bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
+    }
+
+    public List<Vector3> SetPath(Path.PathType pathType, List<Vector3>[] path)
+    {
+        return path[(int)pathType];
     }
 
     IEnumerator Explode()

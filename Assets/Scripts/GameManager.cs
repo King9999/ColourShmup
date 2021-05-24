@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
     public int enemyCount;
     public int targetCount;                                 //total # of enemies required to defeat to advance level.
     public int level;                                       //game difficulty rises after certain levels.
-    public int enemyTotal;                              //total # of enemies to spawn at once.
+    public int playerLives;
+    //public int enemyTotal;                              //total # of enemies to spawn at once.
 
 
     [Header("Prefabs")]
@@ -115,7 +116,7 @@ public class GameManager : MonoBehaviour
         absorbLabelList = new List<GameObject>();
 
         //level data
-        enemyTotal = DEFAULT_ENEMY_TOTAL;
+        //enemyTotal = DEFAULT_ENEMY_TOTAL;
 
         //HUD set up
         HUD.instance.SetRainbowGaugeMaxValue(rainbowGaugeMaxValue);
@@ -294,7 +295,7 @@ public class GameManager : MonoBehaviour
         level++;
         enemyCount = 0;
         targetCount += 2;
-        enemyTotal++;
+        //enemyTotal++;
 
         //destroy all enemies in list to give the player a breather
         //change movement patterns
