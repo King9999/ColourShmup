@@ -255,8 +255,9 @@ public class Player : MonoBehaviour
                     break;
             }
 
-            //destroy enemy
+            //destroy enemy            
             Destroy(collision.gameObject);
+            EnemyManager.instance.enemies.RemoveAt(collision.GetComponent<Enemy>().enemyIndex);
 
             //if enemy was absorbed, generate absorb label
             //NOTE: try adding a coroutine to flash player showing they absorbed something
@@ -313,7 +314,7 @@ public class Player : MonoBehaviour
             //if bullet is offscreen, bullet is returned to player position
             if (b.BulletFired && (!bullet.GetComponent<SpriteRenderer>().isVisible || b.BulletHit))
             {
-                Debug.Log("Bullet " + i + " is offscreen");
+                //Debug.Log("Bullet " + i + " is offscreen");
 
                 playerBulletClip[i] = true;
                 b.BulletHit = false;
@@ -479,7 +480,7 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = playerRed;
             currentColor = RED;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);          
-            Debug.Log("Changing to red");
+           // Debug.Log("Changing to red");
         }
     }
 
@@ -491,7 +492,7 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = playerBlue;
             currentColor = BLUE;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
-            Debug.Log("Changing to blue");
+            //Debug.Log("Changing to blue");
         }
     }
 
@@ -503,7 +504,7 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = playerBlack;
             currentColor = BLACK;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
-            Debug.Log("Changing to black");
+            //Debug.Log("Changing to black");
         }
     }
 
@@ -515,7 +516,7 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = playerWhite;
             currentColor = WHITE;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
-            Debug.Log("Changing to white");
+            //Debug.Log("Changing to white");
         }
     }
     public void ToggleMute(InputAction.CallbackContext context)
@@ -523,7 +524,7 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             HUD.instance.muted = !HUD.instance.muted;
-            Debug.Log("Muted is " + HUD.instance.muted);
+            //Debug.Log("Muted is " + HUD.instance.muted);
 
             //change audioSource
             HUD.instance.muteIcon.enabled = (HUD.instance.muted == true) ? true : false;

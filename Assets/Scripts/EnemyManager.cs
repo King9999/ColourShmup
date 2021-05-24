@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemyPrefab;
     public float enemyShotChance;
     public float enemyMoveSpeed;
-    public Path enemyPath;
+    Path enemyPath;
     public int currentEnemy;
     float currentTime;
     float SpawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
@@ -39,11 +39,6 @@ public class EnemyManager : MonoBehaviour
         enemyPath = new Path();
         totalEnemyCount = INIT_ENEMY_COUNT;
         SpawnTimer = INIT_SPAWN_TIME;
-        //enemyPath.pathPoints.Add(Vector3.zero);
-        //enemyPath.AddPoint(Vector3.zero);
-        //enemyPath.AddPoint(new Vector3(2, -2, 0));
-        //enemyPath.DrawPath();
-        //enemies.Add(Instantiate(enemyPrefab, enemies[currentEnemy].GetComponent<Enemy>().pathPoints[0], Quaternion.identity));
     }
 
     // Update is called once per frame
@@ -58,6 +53,27 @@ public class EnemyManager : MonoBehaviour
             currentEnemyCount++;
         }
 
+        CleanupEnemyList();
+    }
+
+    //removes any null references after enemies are destroyed.
+    public void CleanupEnemyList()
+    {
+        if (enemies.Count <= 0)
+            return;
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] == null)
+                enemies.RemoveAt(i);
+        }
+
+        Debug.Log("Enemy Count: " + enemies.Count);
+    }
+
+    public List<Vector3>[] EnemyPath()
+    {
+        return enemyPath.pathPoints;
     }
 
     public void MoveAllEnemies()

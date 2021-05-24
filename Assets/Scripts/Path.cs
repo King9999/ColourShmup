@@ -44,17 +44,17 @@ public class Path
         //linePath.SetPositions(pathPoints.ToArray());
 
         //*************All paths go in here******************
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+        //Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
 
         //Linear vertical path from top to bottom of screen
-        float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
-        pathPoints[(int)PathType.LinearVertical].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
-        pathPoints[(int)PathType.LinearVertical].Add(new Vector3(xValue, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+        //float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
+        //pathPoints[(int)PathType.LinearVertical].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
+        //pathPoints[(int)PathType.LinearVertical].Add(new Vector3(xValue, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
 
-        for (int i = 0; i < pathPoints[(int)PathType.LinearVertical].Count; i++)
+        /*for (int i = 0; i < pathPoints[(int)PathType.LinearVertical].Count; i++)
         {
             Debug.Log("Linear Vertical path points: " + pathPoints[(int)PathType.LinearVertical][i]);
-        }
+        }*/
         
         //Horizontal path from right to left.
         //pathPoints[(int)PathType.LinearHorizontal].Add(Vector3.zero);

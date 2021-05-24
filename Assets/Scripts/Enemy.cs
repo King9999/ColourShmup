@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public float shotChance;               //probability that enemy fires a shot. Only applicable after player reaches certain level.
     public float shotCooldown;
     float currentTime;
+    public int enemyIndex;                      //used to track location in the enemy list.
     const float INIT_COOLDOWN = 2;
     const float SHOT_INC_AMT = 0.04f;
 
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemyIndex = EnemyManager.instance.enemies.Count - 1;
         Path flightPath = new Path();
         //enemies are always instantiated with a random colour
         currentColor = (byte)Random.Range(RED, BLACK + 1);
@@ -82,8 +84,8 @@ public class Enemy : MonoBehaviour
         //set path
         enemyPathPoints = new List<Vector3>();
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.enemyPath.pathPoints/*flightPath.pathPoints*/);
-        Debug.Log("Flightpath point: " + flightPath.pathPoints[(int)Path.PathType.LinearVertical][1]);
+        enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.EnemyPath()/*flightPath.pathPoints*/);
+        //Debug.Log("Flightpath point: " + flightPath.pathPoints[(int)Path.PathType.LinearVertical][1]);
         //enemyPathPoints.Add(Vector3.zero);
         //enemyPathPoints.Add(new Vector3(transform.position.x, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
         currentPoint = 0;
@@ -146,7 +148,7 @@ public class Enemy : MonoBehaviour
         //destroy enemy if off screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
         if (transform.position.y + (GetComponent<SpriteRenderer>().bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
-        {
+        {           
             Destroy(gameObject);
             Debug.Log("Enemy off screen");
         }      
@@ -179,12 +181,12 @@ public class Enemy : MonoBehaviour
                     if (rollValue <= GameManager.instance.energyPowerUpChance)
                     {
                         Instantiate(GameManager.instance.energyPowerupPrefab, transform.position, Quaternion.identity);
-                        Debug.Log("Energy powerup created, drop chance " + rollValue);
+                        //Debug.Log("Energy powerup created, drop chance " + rollValue);
                     }
                     else
                     {
                         Instantiate(GameManager.instance.speedPowerupPrefab, transform.position, Quaternion.identity);
-                        Debug.Log("Speed powerup created");
+                        //Debug.Log("Speed powerup created");
                     }
                 }
 
@@ -194,8 +196,8 @@ public class Enemy : MonoBehaviour
                 //GameManager.instance.animController.ChangeAnimationState(anim, GameManager.instance.ExplosionState());
                 Destroy(gameObject);
                 //Destroy(anim, 0.5f);
-                
-                
+
+
                 //Debug.Log("Enemy destroyed");
             }
             else

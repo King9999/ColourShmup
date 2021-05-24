@@ -233,28 +233,28 @@ public class GameManager : MonoBehaviour
         if (player.transform.position.x < screenPos.x * -SCREEN_BOUNDARY_X)
         {
             player.transform.position = new Vector3(screenPos.x * -SCREEN_BOUNDARY_X, player.transform.position.y, 0);
-            Debug.Log("Hit the left boundary");
+            //Debug.Log("Hit the left boundary");
         }
 
         //right edge
         if (player.transform.position.x > screenPos.x * SCREEN_BOUNDARY_X)
         {
             player.transform.position = new Vector3(screenPos.x * SCREEN_BOUNDARY_X, player.transform.position.y, 0);
-            Debug.Log("Hit the right boundary");
+            //Debug.Log("Hit the right boundary");
         }
 
         //top edge
         if (player.transform.position.y > screenPos.y * SCREEN_BOUNDARY_Y)
         {
             player.transform.position = new Vector3(player.transform.position.x, screenPos.y * SCREEN_BOUNDARY_Y, 0);
-            Debug.Log("Hit the top boundary");
+            //Debug.Log("Hit the top boundary");
         }
 
         //bottom edge
         if (player.transform.position.y < screenPos.y * -SCREEN_BOUNDARY_Y)
         {
             player.transform.position = new Vector3(player.transform.position.x, screenPos.y * -SCREEN_BOUNDARY_Y, 0);
-            Debug.Log("Hit the bottom boundary");
+            //Debug.Log("Hit the bottom boundary");
         }
     }
 
