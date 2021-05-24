@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour
     const byte WHITE = 2;
     const byte BLACK = 3;
 
+    Path flightPath;                    //the path the enemy follows when they're generated.
+    List<Vector3> pathPoints;
+    Vector3 direction;
+    int currentPoint;
+    int destinationPoint;               //tracks where enemy is along the flight path. These contain the indexes of the path vectors.
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +77,15 @@ public class Enemy : MonoBehaviour
 
         //shot cooldown is random
         shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
+
+        //set path
+        pathPoints = new List<Vector3>();
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+        //SetPath(flightPath.pathPoints[0]);
+        pathPoints.Add(Vector3.zero);
+        pathPoints.Add(new Vector3(transform.position.x, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+        currentPoint = 0;
+        destinationPoint = currentPoint + 1;
     }
 
     // Update is called once per frame
@@ -116,7 +130,16 @@ public class Enemy : MonoBehaviour
     public void Move()
     {
         //default pattern is to move in a straight line until off screen.
-        transform.position = new Vector3(transform.position.x, transform.position.y - (moveSpeed * Time.deltaTime), 0);
+        //transform.position = new Vector3(transform.position.x, transform.position.y - (moveSpeed * Time.deltaTime), 0);
+
+        //get the direction of the destination point from enemy's current position.
+        Vector3 direction = (pathPoints[destinationPoint] - pathPoints[currentPoint]).normalized;
+        transform.position += direction * moveSpeed * Time.deltaTime;
+        if (transform.position == pathPoints[destinationPoint])
+        {
+            //move to next point in path if it exists
+
+        }
 
         //destroy enemy if off screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
@@ -124,8 +147,7 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
             Debug.Log("Enemy off screen");
-        }
-        
+        }      
     }
 
     private void FixedUpdate()

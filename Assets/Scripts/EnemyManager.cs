@@ -27,8 +27,11 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemyPath.pathPoints.Add(Vector3.zero);
-        enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[0], Quaternion.identity));
+        //enemyPath.pathPoints.Add(Vector3.zero);
+        //enemyPath.AddPoint(Vector3.zero);
+        //enemyPath.AddPoint(new Vector3(2, -2, 0));
+        //enemyPath.DrawPath();
+        enemies.Add(Instantiate(enemyPrefab, Vector3.zero, Quaternion.identity));
     }
 
     // Update is called once per frame
