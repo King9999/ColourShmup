@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
         player = Instantiate(playerPrefab, new Vector3(0, screenPos.y * -SCREEN_BOUNDARY_Y, 0), Quaternion.identity);
 
         //background setup
-        background = new GameObject[backgroundPrefab.Length];
+        background = new GameObject[2];
         int backgroundNum = Random.Range(0, backgroundPrefab.Length);   //max is exclusive
         Debug.Log("Background num is " + backgroundNum);
         background[0] = Instantiate(backgroundPrefab[backgroundNum], new Vector3(0, 0, 10), Quaternion.identity);
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
     void UpdateBackground()
     {
         float scrollSpeed = 1;
-        float yOffset = 0.5f;       //used to eliminate gap between backgrounds
+        float yOffset = 0.6f;       //used to eliminate gap between backgrounds
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
         for (int i = 0; i < background.Length; i++)
