@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
     Vector3 direction;
     int currentPoint;
     int destinationPoint;               //tracks where enemy is along the flight path. These contain the indexes of the path vectors.
+    Path.PathType path;                 //randomly chosen path to follow when spawned.
+    float duration = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -84,9 +86,10 @@ public class Enemy : MonoBehaviour
 
         //set path
         enemyPathPoints = new List<Vector3>();
+        path = EnemyManager.instance.path;
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
         //enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.EnemyPath());
-        enemyPathPoints = SetPath(Path.PathType.LPattern, EnemyManager.instance.EnemyPath());
+        enemyPathPoints = SetPath(path, EnemyManager.instance.EnemyPath());
         currentPoint = 0;
         destinationPoint = currentPoint + 1;
     }
@@ -135,12 +138,19 @@ public class Enemy : MonoBehaviour
         //default pattern is to move in a straight line until off screen.
         //transform.position = new Vector3(transform.position.x, transform.position.y - (moveSpeed * Time.deltaTime), 0);
 
+        //float time = 0;
+        
         //get the direction of the destination point from enemy's current position.
         Vector3 direction = (enemyPathPoints[destinationPoint] - enemyPathPoints[currentPoint]).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
-        if (transform.position.y < enemyPathPoints[destinationPoint].y)
+        /*while (time < duration)
         {
-            Debug.Log("Got here");
+            transform.position = Vector3.Lerp(enemyPathPoints[currentPoint], enemyPathPoints[destinationPoint], time / duration);
+            time += Time.deltaTime;
+        }*/
+        if (enemyPathPoints[currentPoint] == enemyPathPoints[destinationPoint])
+        {
+            //Debug.Log("Got here");
             //move to next point in path if it exists
             if (destinationPoint == enemyPathPoints.Count - 1)
                 return; //made it to end
