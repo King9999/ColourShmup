@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     public GameObject absorbLabelPrefab;
     public GameObject starPrefab;
     public GameObject enemyPrefab;
+    public GameObject backgroundPrefab;                     //this should be an array. 2 of them must be instantiated for scrolling purposes
+    public GameObject[] background;
 
     //lists
     [HideInInspector]
@@ -111,6 +113,12 @@ public class GameManager : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);   //converting screen pixels to units
         player = Instantiate(playerPrefab, new Vector3(0, screenPos.y * -SCREEN_BOUNDARY_Y, 0), Quaternion.identity);
 
+        //background setup
+        background = new GameObject[2];
+        background[0] = Instantiate(backgroundPrefab, new Vector3(0, 0, 10), Quaternion.identity);
+        //background[1] = Instantiate(backgroundPrefab, new Vector3(0, screenPos.y * SCREEN_BOUNDARY_Y, 10), Quaternion.identity);
+        background[1] = Instantiate(backgroundPrefab, new Vector3(0, backgroundPrefab.GetComponent<SpriteRenderer>().bounds.extents.y * 2, 10), Quaternion.identity);
+
         audioSource = GetComponent<AudioSource>();
         speedUpLabelList = new List<GameObject>();
         energyLabelList = new List<GameObject>();
@@ -127,7 +135,7 @@ public class GameManager : MonoBehaviour
 
         //set up stars
         starList = new List<GameObject>();
-        SetupStars(starList);
+        //SetupStars(starList);
 
         //animation set up
         //animController = new AnimationController();
@@ -139,6 +147,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //update background
+        UpdateBackground();
         //explosionAnim.Play(STATE_EXPLOSION);
         //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
         playerPos = player.transform.position;
@@ -152,7 +162,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ManagePickupLabels(absorbLabelList));
 
         //manage stars
-        StartCoroutine(ManageStars());
+        //StartCoroutine(ManageStars());
 
         //move enemies
         EnemyManager.instance.MoveAllEnemies();
@@ -174,6 +184,34 @@ public class GameManager : MonoBehaviour
         anim.Play(animState);
 
         currentState = animState;
+    }
+
+    void UpdateBackground()
+    {
+        float scrollSpeed = 1;
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        for (int i = 0; i < background.Length; i++)
+        {
+            background[i].transform.position = new Vector3(background[i].transform.position.x, background[i].transform.position.y - scrollSpeed * Time.deltaTime, 10);
+
+            if (background[i].transform.position.y + background[i].GetComponent<SpriteRenderer>().bounds.extents.y + 0.5f < screenPos.y * -SCREEN_BOUNDARY_Y)
+            {
+
+                //move background to top of screen, and on top of the other background.
+                background[i].transform.position = new Vector3(background[i].transform.position.x,
+                        backgroundPrefab.GetComponent<SpriteRenderer>().bounds.extents.y * 2, 10);
+                /*if (i == 0)
+                {
+                    background[i].transform.position = new Vector3(background[i].transform.position.x,
+                        background[i + 1].transform.position.y + background[i + 1].GetComponent<SpriteRenderer>().bounds.extents.y * 2, 10);
+                }
+                else
+                {
+                    background[i].transform.position = new Vector3(background[i].transform.position.x,
+                       background[i - 1].transform.position.y + background[i - 1].GetComponent<SpriteRenderer>().bounds.extents.y * 2, 10);
+                }*/
+            }
+        }
     }
 
     #region Coroutines
