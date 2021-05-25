@@ -1249,6 +1249,8 @@ MonoBehaviour:
   backgroundPrefab:
   - {fileID: 2655192633798480760, guid: 4ded6d7309f580343a9747f2fcb862ff, type: 3}
   - {fileID: 2223451868704069187, guid: e67f6340a7593f74585d127f8396fef8, type: 3}
+  - {fileID: 5777062650499497044, guid: 3889bebb69029b54ba8929d2f7c17ed1, type: 3}
+  - {fileID: 1278788414579477079, guid: 81eb74ea672a0bc43a5b2adec5bfaf7f, type: 3}
   background: []
   speedUpLabelList: []
   energyLabelList: []
@@ -1256,7 +1258,7 @@ MonoBehaviour:
   energyPowerupList: []
   speedPowerupList: []
   explosionAnim: {fileID: 4892111285817323864, guid: e1ebebaa88dff7f43ae8839d946676b3, type: 3}
-  animController: {fileID: 0}
+  animController: {fileID: 2056052379626398201, guid: d3c9efb4c3560384f825e68cdd5794ff, type: 3}
 --- !u!4 &1739392352
 Transform:
   m_ObjectHideFlags: 0
@@ -1283,7 +1285,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

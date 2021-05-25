@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [Header("Prefabs")]
     public GameObject enemyBulletPrefab;
     GameObject bullet;
-    Animator anim;                      //used for explosions
+    public GameObject explosionPrefab;                      //used for explosions
 
     [Header("Enemy Properties")]
     private float vx, vy;                //velocity. Both values should be the same
@@ -206,10 +206,13 @@ public class Enemy : MonoBehaviour
                 }
 
                 //play explosion animation
-                //StartCoroutine(Explode());
+                // StartCoroutine(Explode());
                 //anim = Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
                 //GameManager.instance.animController.ChangeAnimationState(anim, GameManager.instance.ExplosionState());
-                Destroy(gameObject);
+                //Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
+                //Destroy(gameObject);
+                
+                StartCoroutine(Explode());
                 //Destroy(anim, 0.5f);
 
 
@@ -273,12 +276,14 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Explode()
     {
-        //anim = Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
-        GameManager.instance.animController.ChangeAnimationState(anim, GameManager.instance.ExplosionState());
+        //GameManager.instance.explosionAnim.SetTrigger("Explode");
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        //explodeAnim = Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
+        //GameManager.instance.animController.ChangeAnimationState(GameManager.instance.explosionAnim, GameManager.instance.ExplosionState());
         //while (anim.)
-        yield return new WaitForSeconds(1);
+        yield return null;
 
-        Destroy(anim);
+       // Destroy(explodeAnim);
         Destroy(gameObject);
     }
 }
