@@ -237,6 +237,7 @@ MonoBehaviour:
   enemyShotChance: 0
   enemyMoveSpeed: 0.5
   bulletSpeed: 0
+  path: 0
   currentEnemy: 0
   totalEnemyCount: 0
   currentEnemyCount: 0
@@ -661,7 +662,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.20473477, g: 0.28680718, b: 0.6698113, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1222,6 +1223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 5792474110621814028, guid: 1ea9558a78aa1e2448ad621812269a9c, type: 3}
   player: {fileID: 0}
+  playerPos: {x: 0, y: 0, z: 0}
   energyPowerUpChance: 0.2
   pickupSound: {fileID: 8300000, guid: 03a625449c3bf9b43b9b7154b5b997d7, type: 3}
   bulletSound: {fileID: 8300000, guid: 6952c753e36b9ed4cb0f5da4b2d17c9d, type: 3}
@@ -1244,6 +1246,10 @@ MonoBehaviour:
   absorbLabelPrefab: {fileID: 7408468227014047927, guid: f7e904f5bb2677145b1457701d148ee2, type: 3}
   starPrefab: {fileID: 8550668714844463610, guid: 3da1988a9a39d6c4bb843d305ddf9e76, type: 3}
   enemyPrefab: {fileID: 8629751884673346374, guid: bc24bd3867bfb1f4d8034dc70d22c488, type: 3}
+  backgroundPrefab:
+  - {fileID: 2655192633798480760, guid: 4ded6d7309f580343a9747f2fcb862ff, type: 3}
+  - {fileID: 2223451868704069187, guid: e67f6340a7593f74585d127f8396fef8, type: 3}
+  background: []
   speedUpLabelList: []
   energyLabelList: []
   absorbLabelList: []
