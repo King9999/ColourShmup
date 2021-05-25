@@ -10,6 +10,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemyPrefab;
     public float enemyShotChance;
     public float enemyMoveSpeed;
+    public float bulletSpeed;
     Path enemyPath;
     public int currentEnemy;
     float currentTime;
@@ -20,6 +21,7 @@ public class EnemyManager : MonoBehaviour
     //consts
     const int INIT_ENEMY_COUNT = 4;
     const float INIT_SPAWN_TIME = 2;
+    const float SHOT_INC_AMT = 0.04f;
 
     public static EnemyManager instance;
 
@@ -48,8 +50,10 @@ public class EnemyManager : MonoBehaviour
         if (Time.time > currentTime + SpawnTimer && currentEnemyCount < totalEnemyCount)
         {
             currentTime = Time.time;
-            enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
-            enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
+            //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
+            enemyPath.SetPath(enemyPath.pathPoints, Path.PathType.LPattern);
+            enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LPattern][0], Quaternion.identity));
+            //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;
         }
 
@@ -68,9 +72,13 @@ public class EnemyManager : MonoBehaviour
                 enemies.RemoveAt(i);
         }
 
-        Debug.Log("Enemy Count: " + enemies.Count);
+        //Debug.Log("Enemy Count: " + enemies.Count);
     }
 
+    public float ShotChanceAmount()
+    {
+        return SHOT_INC_AMT;
+    }
     public List<Vector3>[] EnemyPath()
     {
         return enemyPath.pathPoints;

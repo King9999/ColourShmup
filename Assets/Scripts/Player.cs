@@ -257,7 +257,9 @@ public class Player : MonoBehaviour
 
             //destroy enemy            
             Destroy(collision.gameObject);
-            EnemyManager.instance.enemies.RemoveAt(collision.GetComponent<Enemy>().enemyIndex);
+
+            //add to score
+            GameManager.instance.enemyCount++;
 
             //if enemy was absorbed, generate absorb label
             //NOTE: try adding a coroutine to flash player showing they absorbed something
@@ -451,10 +453,10 @@ public class Player : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        /*if (context.phase == InputActionPhase.Performed)
         {
             //fire weapon           
-            /*if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
+            if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
                 currentTime = Time.time;                //need this to restart the cooldown
                 playerBulletClip[currentBullet] = false;
@@ -465,8 +467,8 @@ public class Player : MonoBehaviour
 
                 if (currentBullet >= BULLET_LIMIT)
                     currentBullet = 0;
-            }*/
-        }
+            }
+        }*/
 
     }
 

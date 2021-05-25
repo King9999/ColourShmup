@@ -20,6 +20,7 @@ public class EnemyBullet : MonoBehaviour
         //get player's last known position so bullet can travel towards it.
         playerLastPos = GameManager.instance.player.transform.position;
         bulletDirection = (playerLastPos - transform.position).normalized;
+        BulletSpeed = EnemyManager.instance.bulletSpeed;
     }
 
     private void FixedUpdate()

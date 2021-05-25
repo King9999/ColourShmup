@@ -16,7 +16,9 @@ public class Path
     public enum PathType
     {
         LinearVertical,
-        LinearHorizontal
+        LinearHorizontal,
+        LPattern,
+        LPatternReverse
     };
 
 
@@ -60,20 +62,44 @@ public class Path
         //pathPoints[(int)PathType.LinearHorizontal].Add(Vector3.zero);
     }
 
-    public List<Vector3> SetPath(PathType pathType)
+    public void SetPath(List<Vector3>[] points, PathType pathType)
     {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        pathPoints[(int)pathType] = new List<Vector3>();
+        points[(int)pathType] = new List<Vector3>();
 
         //re-initialize the selected path
         if (pathType == PathType.LinearVertical)
         {
             float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
-            pathPoints[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
-            pathPoints[(int)pathType].Add(new Vector3(xValue, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+            points[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
+            points[(int)pathType].Add(new Vector3(xValue, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+        }
+        else if (pathType == PathType.LinearHorizontal)
+        {
+
+        }
+        else if (pathType == PathType.LPattern) //tracks player position.
+        {
+            //float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
+            float xValue = GameManager.instance.playerPos.x;
+            float yValue = GameManager.instance.playerPos.y;
+            points[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
+            points[(int)pathType].Add(new Vector3(xValue, yValue, 0));
+            points[(int)pathType].Add(new Vector3(xValue + GameManager.instance.ScreenBoundaryX() + 1, yValue, 0));
+
+            /*for (int i = 0; i < pathPoints[(int)pathType].Count; i++)
+            {
+                Debug.Log("path points: " + pathPoints[(int)pathType][i]);
+            }*/
+            
+
+        }
+        else if (pathType == PathType.LPatternReverse)
+        {
+
         }
 
-        return pathPoints[(int)pathType];
+        //return pathPoints[(int)pathType];
 
     }
 

@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     [HideInInspector]
     public GameObject player;                           //used to reference position on the screen
+    public Vector3 playerPos;
 
     [Header("Powerup data")]
     public float energyPowerUpChance;                   //odds that an energy powerup is generated upon killing enemy
@@ -140,6 +141,7 @@ public class GameManager : MonoBehaviour
     {
         //explosionAnim.Play(STATE_EXPLOSION);
         //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
+        playerPos = player.transform.position;
 
         //check player boundaries
         CheckPlayerBoundaries();
@@ -296,6 +298,19 @@ public class GameManager : MonoBehaviour
         enemyCount = 0;
         targetCount += 2;
         //enemyTotal++;
+
+        //set shot chance according to current level. shot chance goes up the higher the level.
+        float shotChance = EnemyManager.instance.enemyShotChance;
+        if (level % 2 == 0)
+        {
+            shotChance += EnemyManager.instance.ShotChanceAmount();  //increase shot chance by 4% every 2 levels
+
+            if (shotChance > 1)
+                shotChance = 1;
+
+            EnemyManager.instance.enemyShotChance = shotChance;
+            //Debug.Log("New enemy shot chance: " + shotChance);
+        }
 
         //destroy all enemies in list to give the player a breather
         //change movement patterns

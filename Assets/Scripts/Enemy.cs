@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour
     public float shotChance;               //probability that enemy fires a shot. Only applicable after player reaches certain level.
     public float shotCooldown;
     float currentTime;
-    public int enemyIndex;                      //used to track location in the enemy list.
     const float INIT_COOLDOWN = 2;
     const float SHOT_INC_AMT = 0.04f;
 
@@ -42,7 +41,6 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemyIndex = EnemyManager.instance.enemies.Count - 1;
         Path flightPath = new Path();
         //enemies are always instantiated with a random colour
         currentColor = (byte)Random.Range(RED, BLACK + 1);
@@ -65,9 +63,12 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
+        //set speed
+        moveSpeed = EnemyManager.instance.enemyMoveSpeed;
+
         //set shot chance according to current level. shot chance goes up the higher the level.
         shotChance = EnemyManager.instance.enemyShotChance;
-        if (GameManager.instance.level % 2 == 0)
+        /*if (GameManager.instance.level % 2 == 0)
         {
             shotChance += SHOT_INC_AMT;  //increase shot chance by 4% every 2 levels
             
@@ -76,7 +77,7 @@ public class Enemy : MonoBehaviour
 
             EnemyManager.instance.enemyShotChance = shotChance;
             //Debug.Log("New enemy shot chance: " + shotChance);
-        }
+        }*/
 
         //shot cooldown is random
         shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
@@ -84,10 +85,8 @@ public class Enemy : MonoBehaviour
         //set path
         enemyPathPoints = new List<Vector3>();
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.EnemyPath()/*flightPath.pathPoints*/);
-        //Debug.Log("Flightpath point: " + flightPath.pathPoints[(int)Path.PathType.LinearVertical][1]);
-        //enemyPathPoints.Add(Vector3.zero);
-        //enemyPathPoints.Add(new Vector3(transform.position.x, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
+        //enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.EnemyPath());
+        enemyPathPoints = SetPath(Path.PathType.LPattern, EnemyManager.instance.EnemyPath());
         currentPoint = 0;
         destinationPoint = currentPoint + 1;
     }
@@ -139,10 +138,16 @@ public class Enemy : MonoBehaviour
         //get the direction of the destination point from enemy's current position.
         Vector3 direction = (enemyPathPoints[destinationPoint] - enemyPathPoints[currentPoint]).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
-        if (transform.position == enemyPathPoints[destinationPoint])
+        if (transform.position.y < enemyPathPoints[destinationPoint].y)
         {
+            Debug.Log("Got here");
             //move to next point in path if it exists
+            if (destinationPoint == enemyPathPoints.Count - 1)
+                return; //made it to end
 
+            currentPoint = destinationPoint;
+            destinationPoint++;
+            Debug.Log("New Destination " + enemyPathPoints[destinationPoint]);
         }
 
         //destroy enemy if off screen
