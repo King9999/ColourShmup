@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
         }
 
     }
-
+    #region Collision Check
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //check collision against enemy bullet
@@ -300,7 +300,7 @@ public class Player : MonoBehaviour
 
         }
     }
-
+    #endregion
     public float MaxBulletSpeed()
     {
         return MAX_SPEED;
@@ -398,7 +398,7 @@ public class Player : MonoBehaviour
             transform.position.y + (vy * Time.deltaTime), 0);
     }
 
-
+    #region Movement
     public void MoveUp(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -451,6 +451,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    #endregion
+    
     public void Fire(InputAction.CallbackContext context)
     {
         /*if (context.phase == InputActionPhase.Performed)
