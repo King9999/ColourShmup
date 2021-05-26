@@ -85,6 +85,7 @@ MonoBehaviour:
   playerBullets: []
   playerBulletClip: 
   currentBullet: 0
+  superBulletPrefab: {fileID: 3808044697431924040, guid: a0725f1bc71fc304689c9f12fb0c49f3, type: 3}
   currentColor: 1
 --- !u!114 &7663986118061014244
 MonoBehaviour:

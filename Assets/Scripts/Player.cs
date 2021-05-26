@@ -32,12 +32,13 @@ public class Player : MonoBehaviour
     const float BULLET_GAIN_AMOUNT = 20;        //default value added to rainbow gauge if bullet of same colour touched
     const float ENEMY_GAIN_AMOUNT = 30;         //default value added to rainbow gauge if enemy of same colour touched
 
-    [HideInInspector]
+    [Header("Bullet Data")]
     public List<GameObject> playerBullets;
-    [HideInInspector]
     public bool[] playerBulletClip;             //controls how many bullets are fired. When true, bullet can be fired.
-    [HideInInspector]
     public int currentBullet;
+    bool superBulletEngaged;                    //if true, cannot fire regular bullets.
+    GameObject superBullet;
+    public GameObject superBulletPrefab;
 
     //colours
     [HideInInspector]
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour
         //bullets set up
         playerBullets = new List<GameObject>();
         playerBulletClip = new bool[BULLET_LIMIT];
+        superBulletEngaged = false;
 
         for (int i = 0; i < BULLET_LIMIT; i++)
         {
@@ -71,6 +73,8 @@ public class Player : MonoBehaviour
         currentBullet = 0;
         shotCooldown = INIT_COOLDOWN;
 
+        superBullet = Instantiate(superBulletPrefab, transform.position, Quaternion.identity);
+
         //player begins the game invincible due to the game time being less than invul duration.
         StartCoroutine(BeginInvincibility());
     }
@@ -78,7 +82,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        //is rainbow meter full?
+        if (HUD.instance.fillRainbowMeter.value >= HUD.instance.fillRainbowMeter.maxValue)
+            superBulletEngaged = true;
+        else
+            superBulletEngaged = false;
 
         //Debug.Log("Shot cooldown " + shotCooldown);
         StartCoroutine(ManageBullets());
@@ -88,7 +96,7 @@ public class Player : MonoBehaviour
         if (kb.spaceKey.isPressed)
         {
             //fire weapon           
-            if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
+            if (!superBulletEngaged && Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
                 currentTime = Time.time;                //need this to restart the cooldown
 
@@ -103,6 +111,11 @@ public class Player : MonoBehaviour
 
                 if (currentBullet >= BULLET_LIMIT)
                     currentBullet = 0;
+            }
+            else if (superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired)
+            {
+                //do a short pause before firing
+                superBullet.GetComponent<SuperBullet>().BulletFired = true;
             }
         }
 

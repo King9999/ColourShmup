@@ -10,6 +10,9 @@ public class SuperBullet : MonoBehaviour
     //BoxCollider2D hitbox;
     //public Vector3[] bulletPoints;
 
+    public bool BulletFired { get; set; } = false;
+    float drainValue = 15f;              //used to reduce rainbow gauge while firing
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +35,7 @@ public class SuperBullet : MonoBehaviour
         //bullet.SetPositions(bulletPoints);*/
 
         //set scale of bullet to reach top of screen
-        transform.localScale = new Vector3(1, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 1);
+        transform.localScale = new Vector3(0.5f, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 1);
     }
 
     // Update is called once per frame
@@ -43,13 +46,51 @@ public class SuperBullet : MonoBehaviour
          * -widens over time
          * -Continuously remains on screen until rainbow meter runs out
          * -when gauge runs out, line shrinks and then disappears */
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        /*bulletPoints[0] = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
-            GameManager.instance.player.GetComponent<SpriteRenderer>().bounds.extents.y - 0.1f, -1);           //laser positioned at player's nose
-        bulletPoints[1] = new Vector3(GameManager.instance.playerPos.x, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, -1);
-        bullet.SetPositions(bulletPoints);*/
 
-        transform.position = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
-            GetComponent<SpriteRenderer>().bounds.extents.y, -1);
+        if (BulletFired)
+        {
+            Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+            /*bulletPoints[0] = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
+                GameManager.instance.player.GetComponent<SpriteRenderer>().bounds.extents.y - 0.1f, -1);           //laser positioned at player's nose
+            bulletPoints[1] = new Vector3(GameManager.instance.playerPos.x, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, -1);
+            bullet.SetPositions(bulletPoints);*/
+
+            StartCoroutine(ExpandBullet());
+            transform.position = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
+                GetComponent<SpriteRenderer>().bounds.extents.y, -1);
+
+            //reduce rainbow meter
+            HUD.instance.fillRainbowMeter.value -= drainValue * Time.deltaTime;
+
+            //when rainbow gauge runs out, shrink bullet and then destroy it.
+            if (HUD.instance.fillRainbowMeter.value <= 0)
+                StartCoroutine(ShrinkBullet());
+        }
+    }
+
+    IEnumerator ExpandBullet()
+    {
+        //the bullet's x scale expands to a certain point. The bullet's colour also changes colour.
+        float xScale = 10;
+        
+        while (transform.localScale.x < xScale)
+        {
+            transform.localScale = new Vector3(transform.localScale.x + 0.2f * Time.deltaTime, transform.localScale.y, 1);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    IEnumerator ShrinkBullet()
+    {
+        float xScale = 0;
+
+        while (transform.localScale.x > xScale)
+        {
+            transform.localScale = new Vector3(transform.localScale.x - 0.2f * Time.deltaTime, transform.localScale.y, 1);
+            yield return new WaitForFixedUpdate();
+        }
+
+        BulletFired = false;
+        Destroy(gameObject);
     }
 }
