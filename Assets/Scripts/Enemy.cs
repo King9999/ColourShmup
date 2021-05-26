@@ -175,6 +175,7 @@ public class Enemy : MonoBehaviour
         //their movement becomes more complex. 
     }
 
+    #region Collision Check
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Player player = GameManager.instance.player.GetComponent<Player>();
@@ -205,16 +206,8 @@ public class Enemy : MonoBehaviour
                     }
                 }
 
-                //play explosion animation
-                // StartCoroutine(Explode());
-                //anim = Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
-                //GameManager.instance.animController.ChangeAnimationState(anim, GameManager.instance.ExplosionState());
-                //Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
-                //Destroy(gameObject);
-                
-                StartCoroutine(Explode());
-                //Destroy(anim, 0.5f);
-
+                //play death coroutine. Object also destroyed in this coroutine
+                StartCoroutine(DestroyEnemy());
 
                 //Debug.Log("Enemy destroyed");
             }
@@ -228,9 +221,32 @@ public class Enemy : MonoBehaviour
             collision.GetComponent<Bullet>().BulletHit = true;
             
         }
+
+        if (collision.CompareTag("SuperBullet"))
+        {
+            //add to score
+            GameManager.instance.enemyCount++;
+
+            //All enemies are destroyed, regardless of colour.
+            //powerups drop chance is altered. There's a chance nothing is spawned.
+            float rollValue = Random.value;
+            if (rollValue <= GameManager.instance.energyPowerUpChance / 2)  //penalty applied since we don't want the player to extend the gauge too much
+            {
+                Instantiate(GameManager.instance.energyPowerupPrefab, transform.position, Quaternion.identity);
+                //Debug.Log("Energy powerup created, drop chance " + rollValue);
+            }
+            else if (rollValue <= GameManager.instance.speedPowerUpChance)
+            {
+                Instantiate(GameManager.instance.speedPowerupPrefab, transform.position, Quaternion.identity);
+                //Debug.Log("Speed powerup created");
+            }
+
+            //play death coroutine. Object also destroyed in this coroutine
+            StartCoroutine(DestroyEnemy());
+        }
        
     }
-
+    #endregion
     bool PlayerIsOpposingColour(byte playerColour, byte enemyColour)
 	{
 		bool coloursOpposed = false;
@@ -274,16 +290,11 @@ public class Enemy : MonoBehaviour
         return path[(int)pathType];
     }
 
-    IEnumerator Explode()
+    IEnumerator DestroyEnemy()
     {
-        //GameManager.instance.explosionAnim.SetTrigger("Explode");
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        //explodeAnim = Instantiate(GameManager.instance.explosionAnim, transform.position, Quaternion.identity);
-        //GameManager.instance.animController.ChangeAnimationState(GameManager.instance.explosionAnim, GameManager.instance.ExplosionState());
-        //while (anim.)
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);    
         yield return null;
 
-       // Destroy(explodeAnim);
         Destroy(gameObject);
     }
 }

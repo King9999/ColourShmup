@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Powerup data")]
     public float energyPowerUpChance;                   //odds that an energy powerup is generated upon killing enemy
+    public float speedPowerUpChance;                    //only applies when super bullet is active.
 
     [Header("Sounds")]  
     public AudioClip pickupSound;                                 //plays whenever player touches a powerup
