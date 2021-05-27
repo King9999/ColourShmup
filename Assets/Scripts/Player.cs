@@ -74,9 +74,10 @@ public class Player : MonoBehaviour
         shotCooldown = INIT_COOLDOWN;
 
         superBullet = Instantiate(superBulletPrefab, transform.position, Quaternion.identity);
+        //superBullet.GetComponent<SpriteRenderer>().enabled = false;
 
         //player begins the game invincible due to the game time being less than invul duration.
-        StartCoroutine(BeginInvincibility());
+        StartCoroutine(BeginInvincibility(false));
     }
 
     // Update is called once per frame
@@ -85,7 +86,7 @@ public class Player : MonoBehaviour
         //is rainbow meter full?
         if (HUD.instance.fillRainbowMeter.value >= HUD.instance.fillRainbowMeter.maxValue)
             superBulletEngaged = true;
-        else
+        else if (HUD.instance.fillRainbowMeter.value <= 0)
             superBulletEngaged = false;
 
         //Debug.Log("Shot cooldown " + shotCooldown);
@@ -116,6 +117,14 @@ public class Player : MonoBehaviour
             {
                 //do a short pause before firing
                 superBullet.GetComponent<SuperBullet>().BulletFired = true;
+
+                //player is invincible while super bullet is engaged. Show pulse coroutine for this.
+                StartCoroutine(BeginInvincibility(true));
+                /*if (!isPulseCoroutineRunning)
+                {
+                    StartCoroutine(Pulse(Color.yellow, true));
+                    StartCoroutine(BeginInvincibility(true));
+                }*/
             }
         }
 
@@ -194,7 +203,7 @@ public class Player : MonoBehaviour
             {
                 //we're taking damage
                 currentInvulTime = Time.time;
-                StartCoroutine(BeginInvincibility());
+                StartCoroutine(BeginInvincibility(false));
             }
            
 
@@ -291,7 +300,7 @@ public class Player : MonoBehaviour
             {
                 //we're taking damage                
                 currentInvulTime = Time.time;
-                StartCoroutine(BeginInvincibility());
+                StartCoroutine(BeginInvincibility(false));
             }
 
 
@@ -348,18 +357,34 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator BeginInvincibility()
+    IEnumerator BeginInvincibility(bool infiniteDuration)
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        
-        while (Time.time < currentInvulTime + invulDuration)
+
+        if (infiniteDuration == true)
         {
-            //player sprite visibility alternates between 0 and 1.
-            if (sr.enabled)
-                sr.enabled = false;
-            else if (!sr.enabled)
-                sr.enabled = true;
-            yield return new WaitForSeconds(0.05f);
+            while (HUD.instance.fillRainbowMeter.value > 0)
+            {
+                currentInvulTime = Time.time;
+                //player sprite visibility alternates between 0 and 1.
+                if (sr.enabled)
+                    sr.enabled = false;
+                else if (!sr.enabled)
+                    sr.enabled = true;
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+        else
+        {
+            while (Time.time < currentInvulTime + invulDuration)
+            {
+                //player sprite visibility alternates between 0 and 1.
+                if (sr.enabled)
+                    sr.enabled = false;
+                else if (!sr.enabled)
+                    sr.enabled = true;
+                yield return new WaitForSeconds(0.05f);
+            }
         }
 
         GetComponent<SpriteRenderer>().enabled = true;
@@ -374,30 +399,63 @@ public class Player : MonoBehaviour
         bool firstLerpComplete = false;
         float p = 0;
 
-        //change player colour to pulse colour and then return.
-        while (!secondLerpComplete)
+        if (pulseRepeat == true)
         {
-            while (!firstLerpComplete && sr.color != pulseColor)
+            //lerp continuously until rainbow gauge is empty
+            while (HUD.instance.fillRainbowMeter.value > 0)
             {
-                p += 0.1f;
-                sr.color = Color.Lerp(originalColor, pulseColor,  p);
-                yield return new WaitForSeconds(0.016f); //1 fps = 16ms
+                while (!firstLerpComplete && sr.color != pulseColor)
+                {
+                    p += 0.1f;
+                    sr.color = Color.Lerp(originalColor, pulseColor, p);
+                    yield return new WaitForSeconds(0.05f); //1 fps = 16ms
+                }
+
+                //once we get here, reset p so we can use it again for the next lerp
+                firstLerpComplete = true;
+                p = 0;
+
+                while (firstLerpComplete && sr.color != originalColor)
+                {
+                    //reverse the pulse until back to original color
+                    p += 0.1f;
+                    sr.color = Color.Lerp(pulseColor, originalColor, p);
+                    yield return new WaitForSeconds(0.05f);
+                }
+
+                firstLerpComplete = false;
+                p = 0;
             }
 
-            //once we get here, reset p so we can use it again for the next lerp
-            firstLerpComplete = true;
-            p = 0;
-
-            while (firstLerpComplete && sr.color != originalColor)
-            {
-                //reverse the pulse until back to original color
-                p += 0.1f;
-                sr.color = Color.Lerp(pulseColor, originalColor, p);
-                yield return new WaitForSeconds(0.016f);
-            }
-
-            secondLerpComplete = true;
             isPulseCoroutineRunning = false;
+        }
+        else
+        {
+            //change player colour to pulse colour and then return.
+            while (!secondLerpComplete)
+            {
+                while (!firstLerpComplete && sr.color != pulseColor)
+                {
+                    p += 0.1f;
+                    sr.color = Color.Lerp(originalColor, pulseColor, p);
+                    yield return new WaitForSeconds(0.016f); //1 fps = 16ms
+                }
+
+                //once we get here, reset p so we can use it again for the next lerp
+                firstLerpComplete = true;
+                p = 0;
+
+                while (firstLerpComplete && sr.color != originalColor)
+                {
+                    //reverse the pulse until back to original color
+                    p += 0.1f;
+                    sr.color = Color.Lerp(pulseColor, originalColor, p);
+                    yield return new WaitForSeconds(0.016f);
+                }
+
+                secondLerpComplete = true;
+                isPulseCoroutineRunning = false;
+            }
         }
         
     }

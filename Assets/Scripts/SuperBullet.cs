@@ -36,6 +36,9 @@ public class SuperBullet : MonoBehaviour
 
         //set scale of bullet to reach top of screen
         transform.localScale = new Vector3(0.5f, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 1);
+
+        //super bullet is hidden by default
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -49,6 +52,7 @@ public class SuperBullet : MonoBehaviour
 
         if (BulletFired)
         {
+            GetComponent<SpriteRenderer>().enabled = true;
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
             /*bulletPoints[0] = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
                 GameManager.instance.player.GetComponent<SpriteRenderer>().bounds.extents.y - 0.1f, -1);           //laser positioned at player's nose
@@ -57,7 +61,7 @@ public class SuperBullet : MonoBehaviour
 
             StartCoroutine(ExpandBullet());
             transform.position = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
-                GetComponent<SpriteRenderer>().bounds.extents.y, -1);
+                GetComponent<SpriteRenderer>().bounds.extents.y + 0.45f, -1);
 
             //reduce rainbow meter
             HUD.instance.fillRainbowMeter.value -= drainValue * Time.deltaTime;
@@ -86,11 +90,12 @@ public class SuperBullet : MonoBehaviour
 
         while (transform.localScale.x > xScale)
         {
-            transform.localScale = new Vector3(transform.localScale.x - 0.2f * Time.deltaTime, transform.localScale.y, 1);
+            transform.localScale = new Vector3(transform.localScale.x - 1.2f * Time.deltaTime, transform.localScale.y, 1);
             yield return new WaitForFixedUpdate();
         }
 
         BulletFired = false;
-        Destroy(gameObject);
+        GetComponent<SpriteRenderer>().enabled = false;
+        //Destroy(gameObject);
     }
 }
