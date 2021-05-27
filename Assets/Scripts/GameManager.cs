@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
     void UpdateBackground()
     {
         float scrollSpeed = 1;
-        float yOffset = 0.7f;       //used to eliminate gap between backgrounds
+        float yOffset = 0.5f;       //used to eliminate gap between backgrounds
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
         for (int i = 0; i < background.Length; i++)

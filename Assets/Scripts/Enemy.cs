@@ -184,7 +184,7 @@ public class Enemy : MonoBehaviour
         {
             if (currentColor != player.currentColor)
             {
-                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+                //GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
 
                 //add to score
                 GameManager.instance.enemyCount++;
@@ -233,12 +233,10 @@ public class Enemy : MonoBehaviour
             if (rollValue <= GameManager.instance.energyPowerUpChance / 2)  //penalty applied since we don't want the player to extend the gauge too much
             {
                 Instantiate(GameManager.instance.energyPowerupPrefab, transform.position, Quaternion.identity);
-                //Debug.Log("Energy powerup created, drop chance " + rollValue);
             }
             else if (rollValue <= GameManager.instance.speedPowerUpChance)
             {
                 Instantiate(GameManager.instance.speedPowerupPrefab, transform.position, Quaternion.identity);
-                //Debug.Log("Speed powerup created");
             }
 
             //play death coroutine. Object also destroyed in this coroutine
@@ -292,7 +290,8 @@ public class Enemy : MonoBehaviour
 
     IEnumerator DestroyEnemy()
     {
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);    
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
         yield return null;
 
         Destroy(gameObject);

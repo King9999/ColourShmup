@@ -6,36 +6,17 @@ using UnityEngine;
 //like a laser in the updated game.
 public class SuperBullet : MonoBehaviour
 {
-    //LineRenderer bullet;
-    //BoxCollider2D hitbox;
-    //public Vector3[] bulletPoints;
-
     public bool BulletFired { get; set; } = false;
     float drainValue = 15f;              //used to reduce rainbow gauge while firing
+    float defaultScale = 0.5f;              //used to reset x scale
 
     // Start is called before the first frame update
     void Start()
     {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        /*bullet = gameObject.AddComponent<LineRenderer>();
-        hitbox = gameObject.AddComponent<BoxCollider2D>();
-        hitbox.isTrigger = true;
-        hitbox.size = new Vector2(0.1f, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1);
-        hitbox.offset = new Vector2(0, 2.5f);
-        
-        bulletPoints = new Vector3[2];
-        //bulletPoints[0] = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
-        //GameManager.instance.player.GetComponent<SpriteRenderer>().bounds.extents.y, -1);           //laser positioned at player's nose
-        //bulletPoints[1] = new Vector3(GameManager.instance.playerPos.x, screenPos.y * GameManager.instance.ScreenBoundaryY(), -1);
-        bulletPoints[0] = Vector3.zero;
-        bulletPoints[1] = Vector3.zero;
-        bullet.positionCount = bulletPoints.Length;
-        bullet.startWidth = 0.05f;
-        bullet.endWidth = 0.05f;
-        //bullet.SetPositions(bulletPoints);*/
 
         //set scale of bullet to reach top of screen
-        transform.localScale = new Vector3(0.5f, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 1);
+        transform.localScale = new Vector3(defaultScale, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 1);
 
         //super bullet is hidden by default
         GetComponent<SpriteRenderer>().enabled = false;
@@ -54,12 +35,11 @@ public class SuperBullet : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().enabled = true;
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-            /*bulletPoints[0] = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
-                GameManager.instance.player.GetComponent<SpriteRenderer>().bounds.extents.y - 0.1f, -1);           //laser positioned at player's nose
-            bulletPoints[1] = new Vector3(GameManager.instance.playerPos.x, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, -1);
-            bullet.SetPositions(bulletPoints);*/
 
             StartCoroutine(ExpandBullet());
+
+            //use couroutine to lerp through two random colours
+            StartCoroutine(LerpColors());
             transform.position = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
                 GetComponent<SpriteRenderer>().bounds.extents.y + 0.45f, -1);
 
@@ -69,6 +49,10 @@ public class SuperBullet : MonoBehaviour
             //when rainbow gauge runs out, shrink bullet and then destroy it.
             if (HUD.instance.fillRainbowMeter.value <= 0)
                 StartCoroutine(ShrinkBullet());
+        }
+        else
+        {
+            transform.localScale = new Vector3(defaultScale, transform.localScale.y, 1);
         }
     }
 
@@ -86,7 +70,7 @@ public class SuperBullet : MonoBehaviour
 
     IEnumerator ShrinkBullet()
     {
-        float xScale = 0;
+        float xScale = defaultScale;
 
         while (transform.localScale.x > xScale)
         {
@@ -97,5 +81,20 @@ public class SuperBullet : MonoBehaviour
         BulletFired = false;
         GetComponent<SpriteRenderer>().enabled = false;
         //Destroy(gameObject);
+    }
+
+    IEnumerator LerpColors()
+    {
+        //pick two random colours and lerp through them.
+        Color a = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.5f);
+        Color b = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.5f);
+        float time = 0;
+
+        while (HUD.instance.fillRainbowMeter.value > 0)
+        {          
+            GetComponent<SpriteRenderer>().color = Color.Lerp(a, b, time);
+            time += 0.1f * Time.deltaTime;
+            yield return new WaitForSeconds(3.5f);
+        }
     }
 }
