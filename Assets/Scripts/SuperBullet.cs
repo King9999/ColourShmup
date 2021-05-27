@@ -9,6 +9,8 @@ public class SuperBullet : MonoBehaviour
     public bool BulletFired { get; set; } = false;
     float drainValue = 15f;              //used to reduce rainbow gauge while firing
     float defaultScale = 0.5f;              //used to reset x scale
+    public Color a;
+    public Color b;
 
     // Start is called before the first frame update
     void Start()
@@ -86,15 +88,16 @@ public class SuperBullet : MonoBehaviour
     IEnumerator LerpColors()
     {
         //pick two random colours and lerp through them.
-        Color a = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.5f);
-        Color b = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.5f);
+        a = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.5f);
+        b = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 0.5f);
+        //b = new Color(1, 1, 1, 0.5f);
         float time = 0;
 
         while (HUD.instance.fillRainbowMeter.value > 0)
         {          
             GetComponent<SpriteRenderer>().color = Color.Lerp(a, b, time);
-            time += 0.1f * Time.deltaTime;
-            yield return new WaitForSeconds(3.5f);
+            //time += 0.1f * Time.deltaTime;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

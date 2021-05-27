@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         //superBullet.GetComponent<SpriteRenderer>().enabled = false;
 
         //player begins the game invincible due to the game time being less than invul duration.
-        StartCoroutine(BeginInvincibility(false));
+        StartCoroutine(BeginInvincibility());
     }
 
     // Update is called once per frame
@@ -115,10 +115,11 @@ public class Player : MonoBehaviour
             }
             else if (superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired)
             {
-                //do a short pause before firing
-                superBullet.GetComponent<SuperBullet>().BulletFired = true;
+                //fire!
+                StartCoroutine(ActivateSuperBullet());
+                //superBullet.GetComponent<SuperBullet>().BulletFired = true;
 
-                //player is invincible while super bullet is engaged. Show pulse coroutine for this.
+                //player is invincible while super bullet is engaged.
                 StartCoroutine(BeginInvincibility(true));
                 /*if (!isPulseCoroutineRunning)
                 {
@@ -203,7 +204,7 @@ public class Player : MonoBehaviour
             {
                 //we're taking damage
                 currentInvulTime = Time.time;
-                StartCoroutine(BeginInvincibility(false));
+                StartCoroutine(BeginInvincibility());
             }
            
 
@@ -284,7 +285,6 @@ public class Player : MonoBehaviour
             GameManager.instance.enemyCount++;
 
             //if enemy was absorbed, generate absorb label
-            //NOTE: try adding a coroutine to flash player showing they absorbed something
             if (gaugeAmount > 0)
             {
                 GameManager.instance.absorbLabelList.Add(Instantiate(GameManager.instance.absorbLabelPrefab, transform.position, Quaternion.identity));
@@ -300,7 +300,7 @@ public class Player : MonoBehaviour
             {
                 //we're taking damage                
                 currentInvulTime = Time.time;
-                StartCoroutine(BeginInvincibility(false));
+                StartCoroutine(BeginInvincibility());
             }
 
 
@@ -357,7 +357,7 @@ public class Player : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator BeginInvincibility(bool infiniteDuration)
+    IEnumerator BeginInvincibility(bool infiniteDuration = false)
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
@@ -458,6 +458,24 @@ public class Player : MonoBehaviour
             }
         }
         
+    }
+
+    //used to pause the game briefly before super bullet is activated.
+    /*NOTE: must use Time.unscaledTime to check time because setting 0 to time scale will
+     * result in the game being paused, and Time.time won't tick. */
+    IEnumerator ActivateSuperBullet()
+    {
+        float duration = 0.5f;
+        float currentTime = Time.unscaledTime;
+
+        while (Time.unscaledTime < currentTime + duration)
+        {
+            Time.timeScale = 0; //game paused
+            yield return null;
+        }
+
+        Time.timeScale = 1;
+        superBullet.GetComponent<SuperBullet>().BulletFired = true;
     }
 
     #endregion
