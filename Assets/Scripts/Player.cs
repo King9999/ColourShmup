@@ -95,7 +95,8 @@ public class Player : MonoBehaviour
 
         //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
         var kb = Keyboard.current;
-        if (kb.spaceKey.isPressed)
+        var pad = Gamepad.current;
+        if (kb.spaceKey.isPressed || pad.rightTrigger.isPressed)
         {
             //fire weapon           
             if (!superBulletEngaged && Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
