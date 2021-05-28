@@ -795,3 +795,175 @@ Received Import Request.
 Start importing Assets/Sounds/rainbowshot.wav using Guid(2500b68ab6428c1468c5fc1f4d8def6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '49fb261e281b2db16ea68b023ff63a6a') in 0.057777 seconds
   Import took 0.062022 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 252.903962 seconds.
+  path: Assets/Prefabs/ParticleExplosion Variant.prefab
+  artifactKey: Guid(84f66e9cf1037c24495f17342ab28330) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion Variant.prefab using Guid(84f66e9cf1037c24495f17342ab28330) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1d3f34f9101f21dc17aae118df37daff') in 0.027813 seconds
+  Import took 0.036314 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 325.423510 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd06273dc33a26d4cf30f83d7c3740f95') in 0.014291 seconds
+  Import took 0.021448 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 15.868383 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa04a00acac0cd8d926adc5afc6fc6da') in 0.007763 seconds
+  Import took 0.014200 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 35.268518 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fb77c1a3ced79050fb9c5791572ece59') in 0.006700 seconds
+  Import took 0.013224 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001101 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.59 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.119 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.43 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2111 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.7 MB.
+System memory in use after: 100.7 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2692.
+Total: 3.584400 ms (FindLiveObjects: 0.223900 ms CreateObjectMapping: 0.074400 ms MarkObjects: 3.142200 ms  DeleteObjects: 0.142800 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001122 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.43 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.155 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.56 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2111 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.7 MB.
+System memory in use after: 100.7 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2696.
+Total: 3.068400 ms (FindLiveObjects: 0.369800 ms CreateObjectMapping: 0.138600 ms MarkObjects: 2.416500 ms  DeleteObjects: 0.142400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1216.986232 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c9e147e28f5559bc2078780dfd8416c') in 0.046280 seconds
+  Import took 0.052329 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 16.550542 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7c26938eb703697f38c92e67e99e4cde') in 0.006090 seconds
+  Import took 0.011205 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 7.718795 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8f461cc96bee5760e0ae8717c1184128') in 0.007466 seconds
+  Import took 0.012481 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 150.631900 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '060cf8b83f100dfcc31cda9a1f6ba606') in 0.007052 seconds
+  Import took 0.013359 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.225038 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51babb615146e4331013b68397c71767') in 0.006132 seconds
+  Import took 0.012656 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001757 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.66 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.212 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.43 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2111 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.7 MB.
+System memory in use after: 100.7 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2700.
+Total: 3.025200 ms (FindLiveObjects: 0.299400 ms CreateObjectMapping: 0.291400 ms MarkObjects: 2.312000 ms  DeleteObjects: 0.120900 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 154.869526 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a9cc524adcbf71bfe3dfb9f87ffd509f') in 0.037337 seconds
+  Import took 0.042983 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.190145 seconds.
+  path: Assets/Prefabs/ParticleExplosion.prefab
+  artifactKey: Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/ParticleExplosion.prefab using Guid(8285772f799bb224b9fb55aad61cf6d2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '715963ef54a97e8ac97f98f95256585c') in 0.005570 seconds
+  Import took 0.010775 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001408 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.41 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.206 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.51 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2111 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.7 MB.
+System memory in use after: 100.7 MB.
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 2704.
+Total: 2.703900 ms (FindLiveObjects: 0.282800 ms CreateObjectMapping: 0.103300 ms MarkObjects: 2.191800 ms  DeleteObjects: 0.124900 ms)
+

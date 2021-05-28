@@ -473,7 +473,7 @@ public class Player : MonoBehaviour
     {
         float duration = 0.5f;
         float currentTime = Time.unscaledTime;
-        Instantiate(chargeUpPrefab, new Vector3(transform.position.x, transform.position.y + GetComponent<SpriteRenderer>().bounds.extents.y + 1, 0), Quaternion.identity);
+        //Instantiate(chargeUpPrefab, new Vector3(transform.position.x, transform.position.y + GetComponent<SpriteRenderer>().bounds.extents.y + 1, 0), Quaternion.identity);
         while (Time.unscaledTime < currentTime + duration)
         {
             Time.timeScale = 0; //game paused
@@ -482,8 +482,6 @@ public class Player : MonoBehaviour
 
         Time.timeScale = 1;
         superBullet.GetComponent<SuperBullet>().BulletFired = true;
-        //GameManager.instance.audioSource.PlayOneShot(GameManager.instance.rainbowShot, GameManager.instance.SoundEffectVolume());
-        //GetComponent<AudioSource>().Play();
     }
 
     #endregion
