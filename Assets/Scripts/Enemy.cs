@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [Header("Prefabs")]
     public GameObject enemyBulletPrefab;
     GameObject bullet;
-    public GameObject explosionPrefab;                      //used for explosions
+    public GameObject explosionPrefab;                      //called when enemy is destroyed
 
     [Header("Enemy Properties")]
     private float vx, vy;                //velocity. Both values should be the same

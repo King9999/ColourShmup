@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject bulletPrefab;
+    public GameObject chargeUpPrefab;
 
     [Header("Player Properties")]
     private float vx, vy;                //velocity. Both values should be the same
@@ -467,7 +468,7 @@ public class Player : MonoBehaviour
     {
         float duration = 0.5f;
         float currentTime = Time.unscaledTime;
-
+        Instantiate(chargeUpPrefab, new Vector3(transform.position.x, transform.position.y + GetComponent<SpriteRenderer>().bounds.extents.y + 1, 0), Quaternion.identity);
         while (Time.unscaledTime < currentTime + duration)
         {
             Time.timeScale = 0; //game paused
