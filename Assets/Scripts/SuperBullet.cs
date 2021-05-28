@@ -35,6 +35,8 @@ public class SuperBullet : MonoBehaviour
 
         if (BulletFired)
         {
+            if (!GetComponent<AudioSource>().isPlaying)
+                GetComponent<AudioSource>().Play();
             GetComponent<SpriteRenderer>().enabled = true;
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
 
@@ -82,6 +84,7 @@ public class SuperBullet : MonoBehaviour
 
         BulletFired = false;
         GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<AudioSource>().Stop();
         //Destroy(gameObject);
     }
 

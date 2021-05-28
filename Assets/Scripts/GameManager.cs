@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public AudioClip blockSound;                        //when player hits enemy of same colour
     public AudioClip absorbSound;
     public AudioClip playerHit;                         //plays when player hit by something but not destroyed
+    public AudioClip rainbowShot;
     [HideInInspector]
     public AudioSource audioSource;
     public AudioSource musicSource;

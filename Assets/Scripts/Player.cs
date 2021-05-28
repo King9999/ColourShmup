@@ -41,6 +41,10 @@ public class Player : MonoBehaviour
     GameObject superBullet;
     public GameObject superBulletPrefab;
 
+    [Header("Audio")]
+    //public AudioSource playerSource;
+    //public AudioClip rainbowShot;
+
     //colours
     [HideInInspector]
     public byte currentColor;
@@ -478,6 +482,8 @@ public class Player : MonoBehaviour
 
         Time.timeScale = 1;
         superBullet.GetComponent<SuperBullet>().BulletFired = true;
+        //GameManager.instance.audioSource.PlayOneShot(GameManager.instance.rainbowShot, GameManager.instance.SoundEffectVolume());
+        //GetComponent<AudioSource>().Play();
     }
 
     #endregion
@@ -544,9 +550,9 @@ public class Player : MonoBehaviour
 
     #endregion
     
-    public void Fire(InputAction.CallbackContext context)
+    /*public void Fire(InputAction.CallbackContext context)
     {
-        /*if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed)
         {
             //fire weapon           
             if (Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
@@ -561,9 +567,9 @@ public class Player : MonoBehaviour
                 if (currentBullet >= BULLET_LIMIT)
                     currentBullet = 0;
             }
-        }*/
+        }
 
-    }
+    }*/
 
 
     /***Colour Change*****/
