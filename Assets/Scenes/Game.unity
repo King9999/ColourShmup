@@ -236,11 +236,10 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8629751884673346374, guid: bc24bd3867bfb1f4d8034dc70d22c488, type: 3}
   enemyShotChance: 0
   enemyMoveSpeed: 0.5
-  bulletSpeed: 0
+  bulletSpeed: 2
   path: 0
   currentEnemy: 0
-  totalEnemyCount: 0
-  currentEnemyCount: 0
+  SpawnTimer: 0
 --- !u!4 &66340569
 Transform:
   m_ObjectHideFlags: 0

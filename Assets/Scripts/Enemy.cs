@@ -157,7 +157,14 @@ public class Enemy : MonoBehaviour
         {           
             Destroy(gameObject);
             Debug.Log("Enemy off screen");
-        }      
+        }
+
+        //if enemy spawned from left or right side, destroy enemy once they reach opposite side of screen
+        //TODO: May need to change this once more complex paths are introduced
+        if (direction.x > 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) > screenPos.x * GameManager.instance.ScreenBoundaryX() + 1)
+            Destroy(gameObject);
+        else if (direction.x < 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) < screenPos.x * -GameManager.instance.ScreenBoundaryX())
+            Destroy(gameObject);
     }
 
     private void FixedUpdate()

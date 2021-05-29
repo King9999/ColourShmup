@@ -20,8 +20,10 @@ public class SuperBullet : MonoBehaviour
         //set scale of bullet to reach top of screen
         transform.localScale = new Vector3(defaultScale, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 1);
 
-        //super bullet is hidden by default
-        GetComponent<SpriteRenderer>().enabled = false;
+        //super bullet is hidden by default since it's always active in hierarchy
+        SuperBulletEnabled(false);
+        //GetComponent<SpriteRenderer>().enabled = false;
+        //GetComponent<BoxCollider2D>().enabled = false;
     }
 
     // Update is called once per frame
@@ -38,7 +40,9 @@ public class SuperBullet : MonoBehaviour
             if (AudioEnabled() && !GetComponent<AudioSource>().isPlaying)
                 GetComponent<AudioSource>().Play();
 
-            GetComponent<SpriteRenderer>().enabled = true;
+            SuperBulletEnabled(true);
+           // GetComponent<SpriteRenderer>().enabled = true;
+            
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
 
             StartCoroutine(ExpandBullet());
@@ -66,6 +70,12 @@ public class SuperBullet : MonoBehaviour
         return GetComponent<AudioSource>().enabled = (HUD.instance.muted == false) ? true : false;
     }
 
+    void SuperBulletEnabled(bool toggle)
+    {
+        GetComponent<SpriteRenderer>().enabled = toggle;
+        GetComponent<BoxCollider2D>().enabled = toggle;
+    }
+
     #region Coroutines
     IEnumerator ExpandBullet()
     {
@@ -90,7 +100,8 @@ public class SuperBullet : MonoBehaviour
         }
 
         BulletFired = false;
-        GetComponent<SpriteRenderer>().enabled = false;
+        SuperBulletEnabled(false);
+        //GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<AudioSource>().Stop();
         //Destroy(gameObject);
     }

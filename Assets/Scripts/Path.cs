@@ -10,6 +10,7 @@ public class Path
     //public LineRenderer linePath;
     //const int PATH_COUNT = 2;  
     public List<Vector3>[] pathPoints /* = new List<Vector3>[PATH_COUNT]*/;  //an array of paths
+    //public bool boundaryOnLeft;    //used to check if enemy spawn point was on right side and needs to die when it reaches left side of screen.
 
 
     //path names
@@ -27,6 +28,7 @@ public class Path
     {
         int pathCount = Enum.GetNames(typeof(PathType)).Length;
         pathPoints = new List<Vector3>[pathCount];
+        //boundaryOnLeft = false;
 
         //need to initialize each list in the array
         for (int i = 0; i < pathCount; i++)
@@ -65,24 +67,29 @@ public class Path
     public void SetPath(List<Vector3>[] points, PathType pathType)
     {
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+        float xValue, yValue;
         points[(int)pathType] = new List<Vector3>();
 
         //re-initialize the selected path
-        if (pathType == PathType.LinearVertical)
+        if (pathType == PathType.LinearVertical)    //enemy moves from top to bottom of screen in a straight line
         {
-            float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
+            xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
             points[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
             points[(int)pathType].Add(new Vector3(xValue, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0));
         }
-        else if (pathType == PathType.LinearHorizontal)
+        else if (pathType == PathType.LinearHorizontal)  //enemy moves from right to left of screen in a straight line
         {
-
+            float randValue = (UnityEngine.Random.value <= 0.5f) ? 1 : -1;  //used to determine which side enemy spawns from
+            //boundaryOnLeft = (randValue > 0) ? true : false;
+            yValue = UnityEngine.Random.Range(screenPos.y * -GameManager.instance.ScreenBoundaryY(), screenPos.y * GameManager.instance.ScreenBoundaryY());
+            points[(int)pathType].Add(new Vector3(screenPos.x * randValue * GameManager.instance.ScreenBoundaryX(), yValue, 0));
+            points[(int)pathType].Add(new Vector3(screenPos.x * randValue * -GameManager.instance.ScreenBoundaryX(), yValue, 0));
         }
         else if (pathType == PathType.LPattern) //tracks player position.
         {
             //float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
-            float xValue = GameManager.instance.playerPos.x;
-            float yValue = GameManager.instance.playerPos.y;
+            xValue = GameManager.instance.playerPos.x;
+            yValue = GameManager.instance.playerPos.y;
             points[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
             points[(int)pathType].Add(new Vector3(xValue, yValue, 0));
             points[(int)pathType].Add(new Vector3(xValue + GameManager.instance.ScreenBoundaryX() + 1, yValue, 0));

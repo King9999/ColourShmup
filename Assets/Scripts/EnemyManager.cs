@@ -52,11 +52,11 @@ public class EnemyManager : MonoBehaviour
         {
             currentTime = Time.time;
             SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
-            path = Path.PathType.LinearVertical;
+            //path = Path.PathType.LinearVertical;
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             enemyPath.SetPath(enemyPath.pathPoints, path);
             enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
-            //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
+            //enemies.Add(In/stantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;
         }
 
