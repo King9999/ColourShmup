@@ -73,7 +73,8 @@ public class Enemy : MonoBehaviour
         currentTime = Time.time;
 
         //shot cooldown is random
-        shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
+        shotCooldown = Random.Range(INIT_COOLDOWN - INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
+        //shotCooldown = 0;
 
         //set path
         enemyPathPoints = new List<Vector3>();

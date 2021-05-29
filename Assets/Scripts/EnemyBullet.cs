@@ -39,4 +39,14 @@ public class EnemyBullet : MonoBehaviour
             Debug.Log("Enemy bullet destroyed");
         }
     }
+
+    //bullets can be destroyed by super bullets
+    private void OnTriggerEnter2D(Collider2D collision)
+    {   
+        if (collision.CompareTag("SuperBullet"))
+        {
+            Destroy(gameObject);
+        }
+
+    }
 }

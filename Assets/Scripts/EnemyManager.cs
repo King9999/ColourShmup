@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 //Handles enemy movement patterns and tracks all living enemies.
 public class EnemyManager : MonoBehaviour
@@ -53,6 +54,7 @@ public class EnemyManager : MonoBehaviour
             currentTime = Time.time;
             SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
             //path = Path.PathType.LinearVertical;
+            path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LinearHorizontal + 1);
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             enemyPath.SetPath(enemyPath.pathPoints, path);
             enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
@@ -79,6 +81,13 @@ public class EnemyManager : MonoBehaviour
         }
 
         //Debug.Log("Enemy Count: " + enemies.Count);
+    }
+
+    public Path.PathType GetNewPath()
+    {
+        int path = UnityEngine.Random.Range(0, 1/*Enum.GetNames(typeof(Path.PathType)).Length + 1*/);
+
+        return (Path.PathType)path;
     }
 
     public float ShotChanceAmount()
