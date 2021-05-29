@@ -15,10 +15,18 @@ public class HUD : MonoBehaviour
     [Header("UI Text")]
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI enemyCountText;      //contains both the current count and the target amount
+    public TextMeshProUGUI livesCountText;
 
     [Header("Audio")]
     public Image muteIcon;
     public bool muted;                       //false by default
+
+    [Header("Player Colours")]
+    public Image livesImage;
+    public Sprite livesSpriteRed;
+    public Sprite livesSpriteBlue;
+    public Sprite livesSpriteBlack;
+    public Sprite livesSpriteWhite;
 
     //static variable
     public static HUD instance;

@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         //is rainbow meter full?
         if (HUD.instance.fillRainbowMeter.value >= HUD.instance.fillRainbowMeter.maxValue)
             superBulletEngaged = true;
-        else if (HUD.instance.fillRainbowMeter.value <= 0)
+        else /*if (HUD.instance.fillRainbowMeter.value <= 0)*/
             superBulletEngaged = false;
 
         //Debug.Log("Shot cooldown " + shotCooldown);
@@ -103,7 +103,8 @@ public class Player : MonoBehaviour
         if (kb.spaceKey.isPressed || pad.rightTrigger.isPressed)
         {
             //fire weapon           
-            if (!superBulletEngaged && Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
+            if (!superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired && 
+                Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
             {
                 currentTime = Time.time;                //need this to restart the cooldown
 
@@ -577,6 +578,7 @@ public class Player : MonoBehaviour
         {           
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerRed;
+            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteRed;
             currentColor = RED;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);          
            // Debug.Log("Changing to red");
@@ -589,6 +591,7 @@ public class Player : MonoBehaviour
         {        
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerBlue;
+            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteBlue;
             currentColor = BLUE;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             //Debug.Log("Changing to blue");
@@ -601,6 +604,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerBlack;
+            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteBlack;
             currentColor = BLACK;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             //Debug.Log("Changing to black");
@@ -613,6 +617,7 @@ public class Player : MonoBehaviour
         {          
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerWhite;
+            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteWhite;
             currentColor = WHITE;
             GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
             //Debug.Log("Changing to white");
