@@ -15,9 +15,9 @@ public class EnemyManager : MonoBehaviour
     public Path.PathType path;
     public int currentEnemy;
     float currentTime;
-    float SpawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
-    public int totalEnemyCount;          //limits how many enemies can be on screen at once. Number increases as level increases.
-    public int currentEnemyCount;
+    public float SpawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
+    int totalEnemyCount;          //limits how many enemies can be on screen at once. Number increases as level increases.
+    int currentEnemyCount;
 
     //consts
     const int INIT_ENEMY_COUNT = 4;
@@ -51,6 +51,7 @@ public class EnemyManager : MonoBehaviour
         if (Time.time > currentTime + SpawnTimer && currentEnemyCount < totalEnemyCount)
         {
             currentTime = Time.time;
+            SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
             path = Path.PathType.LinearVertical;
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             enemyPath.SetPath(enemyPath.pathPoints, path);
@@ -71,7 +72,10 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < enemies.Count; i++)
         {
             if (enemies[i] == null)
+            {
                 enemies.RemoveAt(i);
+                currentEnemyCount--;
+            }
         }
 
         //Debug.Log("Enemy Count: " + enemies.Count);
@@ -89,6 +93,23 @@ public class EnemyManager : MonoBehaviour
     public void MoveAllEnemies()
     {
         StartCoroutine(MoveEnemies());
+    }
+
+    public void DestroyAllEnemies()
+    {
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            StartCoroutine(enemies[i].GetComponent<Enemy>().DestroyEnemy());
+        }
+    }
+
+    public void AdvanceLevel()
+    {
+        DestroyAllEnemies();
+        currentTime = Time.time;
+        SpawnTimer = 5;             //giving player a breather before level begins
+        currentEnemyCount = 0;
+        totalEnemyCount++;
     }
 
     IEnumerator MoveEnemies()

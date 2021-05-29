@@ -134,7 +134,9 @@ public class GameManager : MonoBehaviour
         HUD.instance.AdjustRainbowGauge(rainbowGaugeMaxValue);
         HUD.instance.levelText.text = "Level " + level;
         targetCount = DEFAULT_TARGET;
+        enemyCount = 19;
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
+        HUD.instance.livesCountText.text = "x " + playerLives;
 
         //set up stars
         //starList = new List<GameObject>();
@@ -173,6 +175,7 @@ public class GameManager : MonoBehaviour
         //Update HUD
         HUD.instance.levelText.text = "Level " + level;
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
+        HUD.instance.livesCountText.text = "x " + playerLives;
 
         //advance level?
         if (enemyCount >= targetCount)
@@ -326,6 +329,10 @@ public class GameManager : MonoBehaviour
     /*Increases difficulty of next level*/
     void AdvanceLevel()
     {
+        //destroy all enemies in list to give the player a breather
+        //change movement patterns
+        EnemyManager.instance.AdvanceLevel();
+
         level++;
         enemyCount = 0;
         targetCount += 2;
@@ -344,8 +351,7 @@ public class GameManager : MonoBehaviour
             //Debug.Log("New enemy shot chance: " + shotChance);
         }
 
-        //destroy all enemies in list to give the player a breather
-        //change movement patterns
+        
     }
 }
 

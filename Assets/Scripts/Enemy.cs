@@ -68,18 +68,9 @@ public class Enemy : MonoBehaviour
         //set speed
         moveSpeed = EnemyManager.instance.enemyMoveSpeed;
 
-        //set shot chance according to current level. shot chance goes up the higher the level.
+        //set shot chance. Get current time so that enemy doesn't shoot immediately.
         shotChance = EnemyManager.instance.enemyShotChance;
-        /*if (GameManager.instance.level % 2 == 0)
-        {
-            shotChance += SHOT_INC_AMT;  //increase shot chance by 4% every 2 levels
-            
-            if (shotChance > 1)
-                shotChance = 1;
-
-            EnemyManager.instance.enemyShotChance = shotChance;
-            //Debug.Log("New enemy shot chance: " + shotChance);
-        }*/
+        currentTime = Time.time;
 
         //shot cooldown is random
         shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
@@ -288,7 +279,7 @@ public class Enemy : MonoBehaviour
         return path[(int)pathType];
     }
 
-    IEnumerator DestroyEnemy()
+    public IEnumerator DestroyEnemy()
     {
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);

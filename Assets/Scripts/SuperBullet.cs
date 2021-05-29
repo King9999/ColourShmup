@@ -35,8 +35,9 @@ public class SuperBullet : MonoBehaviour
 
         if (BulletFired)
         {
-            if (!GetComponent<AudioSource>().isPlaying)
+            if (AudioEnabled() && !GetComponent<AudioSource>().isPlaying)
                 GetComponent<AudioSource>().Play();
+
             GetComponent<SpriteRenderer>().enabled = true;
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
 
@@ -60,6 +61,12 @@ public class SuperBullet : MonoBehaviour
         }
     }
 
+    bool AudioEnabled()
+    {
+        return GetComponent<AudioSource>().enabled = (HUD.instance.muted == false) ? true : false;
+    }
+
+    #region Coroutines
     IEnumerator ExpandBullet()
     {
         //the bullet's x scale expands to a certain point. The bullet's colour also changes colour.
@@ -103,4 +110,5 @@ public class SuperBullet : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+    #endregion
 }

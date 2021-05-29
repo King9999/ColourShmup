@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
         var kb = Keyboard.current;
         var pad = Gamepad.current;
-        if (kb.spaceKey.isPressed || pad.rightTrigger.isPressed)
+        if (kb.spaceKey.isPressed || (pad != null && pad.rightTrigger.isPressed))
         {
             //fire weapon           
             if (!superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired && 
@@ -220,8 +220,9 @@ public class Player : MonoBehaviour
 
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
-                //player dead, game over
+                //player dead, reduce life
                 GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+                GameManager.instance.playerLives--;
                 Debug.Log("Player dead");
             }
             else if (Time.time < currentInvulTime + invulDuration)
@@ -316,8 +317,9 @@ public class Player : MonoBehaviour
 
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
-                //player dead, game over
+                //player dead, lose a life
                 GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+                GameManager.instance.playerLives--;
                 Debug.Log("Player dead");
             }
             else if (Time.time < currentInvulTime + invulDuration)
