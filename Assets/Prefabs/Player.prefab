@@ -79,6 +79,7 @@ MonoBehaviour:
   playerWhite: {fileID: 21300000, guid: bf2dc2a3f2944ee4ea7d73fb1284dff8, type: 3}
   bulletPrefab: {fileID: 5024110468425044301, guid: fb0d090ec34138e469826c7f40c3b927, type: 3}
   chargeUpPrefab: {fileID: 9054099642337363566, guid: d610fab6448be334080606db0df2f73d, type: 3}
+  explosionPrefab: {fileID: 6150631621559945479, guid: 7728ab367ecd28e40a728fab927aebbc, type: 3}
   moveSpeed: 4
   bulletSpeed: 6
   invulDuration: 2

@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [Header("Prefabs")]
     public GameObject bulletPrefab;
     public GameObject chargeUpPrefab;
+    public GameObject explosionPrefab;      //plays when player dies
 
     [Header("Player Properties")]
     private float vx, vy;                //velocity. Both values should be the same
@@ -56,6 +57,9 @@ public class Player : MonoBehaviour
     //variable to prevent pulse coroutine from activating more than once at a time
     bool isPulseCoroutineRunning = false;
 
+    //disable control when dead
+    bool playerDead;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +85,8 @@ public class Player : MonoBehaviour
         superBullet = Instantiate(superBulletPrefab, transform.position, Quaternion.identity);
         //superBullet.GetComponent<SpriteRenderer>().enabled = false;
 
+        playerDead = false;
+
         //player begins the game invincible due to the game time being less than invul duration.
         StartCoroutine(BeginInvincibility());
     }
@@ -100,39 +106,42 @@ public class Player : MonoBehaviour
         //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
         var kb = Keyboard.current;
         var pad = Gamepad.current;
-        if (kb.spaceKey.isPressed || (pad != null && pad.rightTrigger.isPressed))
+        if (!playerDead)
         {
-            //fire weapon           
-            if (!superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired && 
-                Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
+            if (kb.spaceKey.isPressed || (pad != null && pad.rightTrigger.isPressed))
             {
-                currentTime = Time.time;                //need this to restart the cooldown
-
-                //show bullet
-                playerBullets[currentBullet].GetComponent<SpriteRenderer>().enabled = true;
-                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.bulletSound, GameManager.instance.SoundEffectVolume());
-                playerBulletClip[currentBullet] = false;
-                playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
-
-                //bullet fired. move to next bullet
-                currentBullet++;
-
-                if (currentBullet >= BULLET_LIMIT)
-                    currentBullet = 0;
-            }
-            else if (superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired)
-            {
-                //fire!
-                StartCoroutine(ActivateSuperBullet());
-                //superBullet.GetComponent<SuperBullet>().BulletFired = true;
-
-                //player is invincible while super bullet is engaged.
-                StartCoroutine(BeginInvincibility(true));
-                /*if (!isPulseCoroutineRunning)
+                //fire weapon           
+                if (!superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired &&
+                    Time.time > currentTime + shotCooldown && playerBulletClip[currentBullet] == true)
                 {
-                    StartCoroutine(Pulse(Color.yellow, true));
+                    currentTime = Time.time;                //need this to restart the cooldown
+
+                    //show bullet
+                    playerBullets[currentBullet].GetComponent<SpriteRenderer>().enabled = true;
+                    GameManager.instance.audioSource.PlayOneShot(GameManager.instance.bulletSound, GameManager.instance.SoundEffectVolume());
+                    playerBulletClip[currentBullet] = false;
+                    playerBullets[currentBullet].GetComponent<Bullet>().BulletFired = true;
+
+                    //bullet fired. move to next bullet
+                    currentBullet++;
+
+                    if (currentBullet >= BULLET_LIMIT)
+                        currentBullet = 0;
+                }
+                else if (superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired)
+                {
+                    //fire!
+                    StartCoroutine(ActivateSuperBullet());
+                    //superBullet.GetComponent<SuperBullet>().BulletFired = true;
+
+                    //player is invincible while super bullet is engaged.
                     StartCoroutine(BeginInvincibility(true));
-                }*/
+                    /*if (!isPulseCoroutineRunning)
+                    {
+                        StartCoroutine(Pulse(Color.yellow, true));
+                        StartCoroutine(BeginInvincibility(true));
+                    }*/
+                }
             }
         }
 
@@ -207,12 +216,6 @@ public class Player : MonoBehaviour
                     StartCoroutine(Pulse(teal));
                 }
             }
-            else if (Time.time > currentInvulTime + invulDuration)
-            {
-                //we're taking damage
-                currentInvulTime = Time.time;
-                StartCoroutine(BeginInvincibility());
-            }
            
 
             //adjust the rainbow gauge
@@ -221,14 +224,16 @@ public class Player : MonoBehaviour
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, reduce life
-                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
-                GameManager.instance.playerLives--;
+                StartCoroutine(ExplodePlayer());
+                if (GameManager.instance.playerLives > 0)
+                    GameManager.instance.playerLives--;
                 Debug.Log("Player dead");
             }
-            else if (Time.time < currentInvulTime + invulDuration)
+            else if (gaugeAmount < 0 && Time.time > currentInvulTime + invulDuration)
             {
                 //not dead but took damage, play approproate sound
                 GameManager.instance.audioSource.PlayOneShot(GameManager.instance.playerHit, GameManager.instance.SoundEffectVolume() + 0.1f);
+                StartCoroutine(BeginInvincibility());
             }
 
 
@@ -304,12 +309,6 @@ public class Player : MonoBehaviour
                     StartCoroutine(Pulse(teal));
                 }
             }
-            else if (Time.time > currentInvulTime + invulDuration)
-            {
-                //we're taking damage                
-                currentInvulTime = Time.time;
-                StartCoroutine(BeginInvincibility());
-            }
 
 
             //adjust the rainbow gauge
@@ -318,14 +317,16 @@ public class Player : MonoBehaviour
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, lose a life
-                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
-                GameManager.instance.playerLives--;
+                StartCoroutine(ExplodePlayer());
+                if (GameManager.instance.playerLives > 0)
+                    GameManager.instance.playerLives--;
                 Debug.Log("Player dead");
             }
-            else if (Time.time < currentInvulTime + invulDuration)
+            else if (gaugeAmount < 0 && Time.time > currentInvulTime + invulDuration)
             {
                 //not dead but took damage, play approproate sound
                 GameManager.instance.audioSource.PlayOneShot(GameManager.instance.playerHit, GameManager.instance.SoundEffectVolume() + 0.1f);
+                StartCoroutine(BeginInvincibility());
             }
 
 
@@ -385,9 +386,10 @@ public class Player : MonoBehaviour
         }
         else
         {
+            currentInvulTime = Time.time;
             while (Time.time < currentInvulTime + invulDuration)
             {
-                //player sprite visibility alternates between 0 and 1.
+                //player sprite visibility alternates
                 if (sr.enabled)
                     sr.enabled = false;
                 else if (!sr.enabled)
@@ -487,6 +489,32 @@ public class Player : MonoBehaviour
         superBullet.GetComponent<SuperBullet>().BulletFired = true;
     }
 
+    IEnumerator ExplodePlayer()
+    {
+        //hide player sprite and hitbox, play explosion and sound, wait a few seconds then bring back player
+        //if they have remaining lives.
+        playerDead = true;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+        GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(2f);
+
+        //set up player at bottom of screen
+        if (GameManager.instance.playerLives > 0)
+        {
+            Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
+            transform.position = new Vector3(0, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0);
+            GetComponent<SpriteRenderer>().enabled = true;
+            GetComponent<BoxCollider2D>().enabled = true;
+            playerDead = false;
+            StartCoroutine(BeginInvincibility());
+        }
+
+        //if the above condition is false, game is over so we do nothing. 
+    }
+
     #endregion
 
     private void FixedUpdate()
@@ -576,7 +604,7 @@ public class Player : MonoBehaviour
     /***Colour Change*****/
     public void TurnRed(InputAction.CallbackContext context)
     {
-        if (currentColor != RED && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        if (!playerDead && currentColor != RED && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
         {           
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerRed;
@@ -589,7 +617,7 @@ public class Player : MonoBehaviour
 
     public void TurnBlue(InputAction.CallbackContext context)
     {
-        if (currentColor != BLUE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        if (!playerDead && currentColor != BLUE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
         {        
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerBlue;
@@ -602,7 +630,7 @@ public class Player : MonoBehaviour
 
     public void TurnBlack(InputAction.CallbackContext context)
     {
-        if (currentColor != BLACK && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        if (!playerDead && currentColor != BLACK && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
         {
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerBlack;
@@ -615,7 +643,7 @@ public class Player : MonoBehaviour
 
     public void TurnWhite(InputAction.CallbackContext context)
     {
-        if (currentColor != WHITE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        if (!playerDead && currentColor != WHITE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
         {          
             StartCoroutine(Pulse(Color.clear));
             GetComponent<SpriteRenderer>().sprite = playerWhite;
