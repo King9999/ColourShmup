@@ -237,7 +237,7 @@ MonoBehaviour:
   enemyShotChance: 0
   enemyMoveSpeed: 0.5
   bulletSpeed: 2
-  path: 0
+  path: 1
   currentEnemy: 0
   SpawnTimer: 0
 --- !u!4 &66340569
