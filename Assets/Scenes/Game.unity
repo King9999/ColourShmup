@@ -233,8 +233,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
+  enemyBullets: []
   enemyPrefab: {fileID: 8629751884673346374, guid: bc24bd3867bfb1f4d8034dc70d22c488, type: 3}
-  enemyShotChance: 0
+  enemyShotChance: 0.04
   enemyMoveSpeed: 0.5
   bulletSpeed: 2
   path: 1
@@ -1494,6 +1495,7 @@ MonoBehaviour:
   targetCount: 0
   level: 1
   playerLives: 3
+  isGameOver: 0
   speedPowerupPrefab: {fileID: 5311858800310493141, guid: 0afc305abf179aa499bcb8d4590f202e, type: 3}
   energyPowerupPrefab: {fileID: 7382250102371928254, guid: 36a2f8ad9ab7c5442ae3a2c3876db822, type: 3}
   speedUpLabelPrefab: {fileID: 7722270444965291846, guid: 4344af347bcb03046989b70aca2ec6fa, type: 3}
@@ -1867,6 +1869,10 @@ PrefabInstance:
     - target: {fileID: 1404059225931408915, guid: 630953e11aa6b7a44bb2788b3117eb87, type: 3}
       propertyPath: m_Name
       value: Crossfade
+      objectReference: {fileID: 0}
+    - target: {fileID: 1404059225931408915, guid: 630953e11aa6b7a44bb2788b3117eb87, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2241902562933655104, guid: 630953e11aa6b7a44bb2788b3117eb87, type: 3}
       propertyPath: m_Pivot.x

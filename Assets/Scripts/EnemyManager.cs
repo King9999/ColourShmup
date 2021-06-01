@@ -6,8 +6,9 @@ using System;
 //Handles enemy movement patterns and tracks all living enemies.
 public class EnemyManager : MonoBehaviour
 {
-    [HideInInspector]
+    [Header("Enemy Data")]
     public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> enemyBullets = new List<GameObject>();
     public GameObject enemyPrefab;
     public float enemyShotChance;
     public float enemyMoveSpeed;
@@ -63,6 +64,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         CleanupEnemyList();
+        CleanupBulletList();
     }
 
     //removes any null references after enemies are destroyed.
@@ -81,6 +83,20 @@ public class EnemyManager : MonoBehaviour
         }
 
         //Debug.Log("Enemy Count: " + enemies.Count);
+    }
+
+    public void CleanupBulletList()
+    {
+        if (enemyBullets.Count <= 0)
+            return;
+
+        for (int i = 0; i < enemyBullets.Count; i++)
+        {
+            if (enemyBullets[i] == null)
+            {
+                enemyBullets.RemoveAt(i);
+            }
+        }
     }
 
     public Path.PathType GetNewPath()
@@ -109,6 +125,13 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < enemies.Count; i++)
         {
             StartCoroutine(enemies[i].GetComponent<Enemy>().DestroyEnemy());
+        }
+
+        //kill all bullets
+        for (int i = 0; i < enemyBullets.Count; i++)
+        {
+            Destroy(enemyBullets[i]);
+            enemyBullets.RemoveAt(i);
         }
     }
 

@@ -32,12 +32,13 @@ public class GameManager : MonoBehaviour
     public AudioSource musicSource;
     
 
-    [Header("HUD")]
+    [Header("HUD & Game State")]
     public float rainbowGaugeMaxValue;
     public int enemyCount;
     public int targetCount;                                 //total # of enemies required to defeat to advance level.
     public int level;                                       //game difficulty rises after certain levels.
     public int playerLives;
+    public bool isGameOver;
     //public int enemyTotal;                              //total # of enemies to spawn at once.
 
 
@@ -139,6 +140,7 @@ public class GameManager : MonoBehaviour
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
         HUD.instance.livesCountText.text = "x " + playerLives;
 
+        isGameOver = false;
         //set up stars
         //starList = new List<GameObject>();
         //SetupStars(starList);
@@ -153,34 +155,44 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //update background
-        UpdateBackground();
-        //explosionAnim.Play(STATE_EXPLOSION);
-        //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
-        playerPos = player.transform.position;
+        if (!isGameOver)
+        {
+            //update background
+            UpdateBackground();
+            //explosionAnim.Play(STATE_EXPLOSION);
+            //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
+            playerPos = player.transform.position;
 
-        //check player boundaries
-        CheckPlayerBoundaries();
+            //check player boundaries
+            CheckPlayerBoundaries();
 
-        //manage labels
-        StartCoroutine(ManagePickupLabels(speedUpLabelList));
-        StartCoroutine(ManagePickupLabels(energyLabelList));
-        StartCoroutine(ManagePickupLabels(absorbLabelList));
+            //manage labels
+            StartCoroutine(ManagePickupLabels(speedUpLabelList));
+            StartCoroutine(ManagePickupLabels(energyLabelList));
+            StartCoroutine(ManagePickupLabels(absorbLabelList));
 
-        //manage stars
-        //StartCoroutine(ManageStars());
+            //manage stars
+            //StartCoroutine(ManageStars());
 
-        //move enemies
-        EnemyManager.instance.MoveAllEnemies();
+            //move enemies
+            EnemyManager.instance.MoveAllEnemies();
 
-        //Update HUD
-        HUD.instance.levelText.text = "Level " + level;
-        HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
-        HUD.instance.livesCountText.text = "x " + playerLives;
+            //Update HUD
+            HUD.instance.levelText.text = "Level " + level;
+            HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
+            HUD.instance.livesCountText.text = "x " + playerLives;
 
-        //advance level?
-        if (enemyCount >= targetCount)
-            AdvanceLevel();
+            //advance level?
+            if (enemyCount >= targetCount)
+                AdvanceLevel();
+
+        }
+        else
+        {
+            //game is over. Pause game, show game over message, and allow player to restart
+            Debug.Log("Game OVER");
+            Time.timeScale = 0;
+        }
     }
 
     void ChangeAnimationState(Animator anim, string animState)

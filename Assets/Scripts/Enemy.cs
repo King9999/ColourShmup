@@ -89,13 +89,18 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Enemies start shooting at the player at higher levels. Cooldown is randomized to vary the timing of shots
-        if (Random.value <= shotChance && Time.time > currentTime + shotCooldown)
+        //Enemies start shooting at the player at higher levels. I multiply value by 10 to reduce the frequency of shots. If it's still too high
+        //I may reduce the shot chance.
+        float shotRoll = Random.value * 20;
+        if (shotRoll > 1) 
+            shotRoll = 1;
+        if (shotRoll <= shotChance && Time.time > currentTime + shotCooldown)
         {
+            Debug.Log("Random value " + shotRoll);
             currentTime = Time.time;
             ShootBullet();
-            //randomize the next cooldown
-            shotCooldown = Random.Range(INIT_COOLDOWN, INIT_COOLDOWN + INIT_COOLDOWN);
+            //randomize the next cooldown to vary timing of shots
+            shotCooldown = Random.Range(INIT_COOLDOWN - 1, INIT_COOLDOWN);
         }
 
     }
@@ -157,7 +162,7 @@ public class Enemy : MonoBehaviour
         if (transform.position.y + (GetComponent<SpriteRenderer>().bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
         {           
             Destroy(gameObject);
-            Debug.Log("Enemy off screen");
+           // Debug.Log("Enemy off screen");
         }
 
         //if enemy spawned from left or right side, destroy enemy once they reach opposite side of screen
@@ -272,14 +277,15 @@ public class Enemy : MonoBehaviour
 
     public void ShootBullet()
     {
-        bullet = Instantiate(enemyBulletPrefab, new Vector3(transform.position.x,
-            transform.position.y - GetComponent<SpriteRenderer>().bounds.extents.y, -1), Quaternion.identity); //bullet is generated at the enemy's nose
+        EnemyManager.instance.enemyBullets.Add(Instantiate(enemyBulletPrefab, new Vector3(transform.position.x,
+            transform.position.y - GetComponent<SpriteRenderer>().bounds.extents.y, -1), Quaternion.identity)); //bullet is generated at the enemy's nose
 
         //change bullet colour accordingly
-        EnemyBullet bulletColor = bullet.GetComponent<EnemyBullet>();
-        SpriteRenderer sr = bullet.GetComponent<SpriteRenderer>();
+        int lastBullet = EnemyManager.instance.enemyBullets.Count - 1;
+        EnemyBullet bulletColor = EnemyManager.instance.enemyBullets[lastBullet].GetComponent<EnemyBullet>();
+        SpriteRenderer sr = EnemyManager.instance.enemyBullets[lastBullet].GetComponent<SpriteRenderer>();
         sr.sprite = GetBulletColor(bulletColor);
-        bullet.GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
+        EnemyManager.instance.enemyBullets[lastBullet].GetComponent<EnemyBullet>().BulletSpeed = bulletSpeed;
     }
 
     public List<Vector3> SetPath(Path.PathType pathType, List<Vector3>[] path)

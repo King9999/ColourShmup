@@ -224,10 +224,12 @@ public class Player : MonoBehaviour
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, reduce life
-                StartCoroutine(ExplodePlayer());
-                if (GameManager.instance.playerLives > 0)
+                if (GameManager.instance.playerLives - 1 >= 0)
                     GameManager.instance.playerLives--;
-                Debug.Log("Player dead");
+                else
+                    GameManager.instance.isGameOver = true;
+                StartCoroutine(ExplodePlayer());               
+                //Debug.Log("Player dead");
             }
             else if (gaugeAmount < 0 && Time.time > currentInvulTime + invulDuration)
             {
@@ -317,10 +319,12 @@ public class Player : MonoBehaviour
             if (HUD.instance.fillRainbowMeter.value <= 0)
             {
                 //player dead, lose a life
-                StartCoroutine(ExplodePlayer());
-                if (GameManager.instance.playerLives > 0)
+                if (GameManager.instance.playerLives - 1 >= 0)
                     GameManager.instance.playerLives--;
-                Debug.Log("Player dead");
+                else
+                    GameManager.instance.isGameOver = true;
+                StartCoroutine(ExplodePlayer());
+                //Debug.Log("Player dead");
             }
             else if (gaugeAmount < 0 && Time.time > currentInvulTime + invulDuration)
             {
@@ -502,7 +506,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         //set up player at bottom of screen
-        if (GameManager.instance.playerLives > 0)
+        if (!GameManager.instance.isGameOver)
         {
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
             transform.position = new Vector3(0, screenPos.y * -GameManager.instance.ScreenBoundaryY(), 0);
@@ -512,7 +516,7 @@ public class Player : MonoBehaviour
             StartCoroutine(BeginInvincibility());
         }
 
-        //if the above condition is false, game is over so we do nothing. 
+        //if the above condition is true, game is over so we do nothing. 
     }
 
     #endregion
