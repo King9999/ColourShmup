@@ -4,14 +4,15 @@ using UnityEngine;
 using System;
 
 /* Used to generate different paths for enemies to use. My end goal is to have a set of paths that are randomly selected for the
- * enemy to follow. */
-public class Path
+ * enemy to follow. For more complex paths, I use Bezier curves. */
+public class Path : MonoBehaviour
 {
     //public LineRenderer linePath;
     //const int PATH_COUNT = 2;  
     public List<Vector3>[] pathPoints /* = new List<Vector3>[PATH_COUNT]*/;  //an array of paths
     //public bool boundaryOnLeft;    //used to check if enemy spawn point was on right side and needs to die when it reaches left side of screen.
 
+    public Transform[] controlPoints = new Transform[4];   //4 points max per curve
 
     //path names
     public enum PathType
@@ -19,7 +20,7 @@ public class Path
         LinearVertical,
         LinearHorizontal,
         LPattern,
-        LPatternReverse
+        Curve
     };
 
 
@@ -88,11 +89,12 @@ public class Path
         else if (pathType == PathType.LPattern) //tracks player position.
         {
             //float xValue = UnityEngine.Random.Range(screenPos.x * -GameManager.instance.ScreenBoundaryX(), screenPos.x * GameManager.instance.ScreenBoundaryX());
+            float randValue = (UnityEngine.Random.value <= 0.5f) ? 1 : -1;
             xValue = GameManager.instance.playerPos.x;
             yValue = GameManager.instance.playerPos.y;
             points[(int)pathType].Add(new Vector3(xValue, screenPos.y * GameManager.instance.ScreenBoundaryY() + 1, 0));
             points[(int)pathType].Add(new Vector3(xValue, yValue, 0));
-            points[(int)pathType].Add(new Vector3(xValue + GameManager.instance.ScreenBoundaryX() + 1, yValue, 0));
+            points[(int)pathType].Add(new Vector3(xValue + (randValue * GameManager.instance.ScreenBoundaryX() + 1), yValue, 0));
 
             /*for (int i = 0; i < pathPoints[(int)pathType].Count; i++)
             {
@@ -101,9 +103,9 @@ public class Path
             
 
         }
-        else if (pathType == PathType.LPatternReverse)
+        else if (pathType == PathType.Curve)
         {
-
+            //enemy comes in from the side and moves in a circular pattern.
         }
 
         //return pathPoints[(int)pathType];
@@ -115,18 +117,18 @@ public class Path
         pathPoints[pathNumber].Add(point);
     }
 
-    /*public void DrawPath()
+    //public void DrawPath()
+    private void OnDrawGizmos()
     {
-        if (pathPoints.Count <= 0)
+        Vector3 position;   //used to draw the path
+        for (float t = 0; t <= 1; t += 0.05f)
         {
-            Debug.Log("No points to draw path");
-            return;
-        }
+            //Cubic Bezier curve formula
+            position = Mathf.Pow(1 - t, 3) * controlPoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * controlPoints[1].position
+                + 3 * (1 - t) * Mathf.Pow(t, 2) * controlPoints[2].position + Mathf.Pow(t, 3) * controlPoints[3].position;
 
-        linePath.positionCount = pathPoints.Count;
-        linePath.startWidth = 0.1f;
-        linePath.endWidth = 0.1f;
-        linePath.SetPositions(pathPoints.ToArray());
-    }*/
+            Gizmos.DrawSphere(position, 0.25f);
+        }
+    }
 
 }

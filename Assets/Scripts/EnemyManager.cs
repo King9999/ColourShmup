@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
     public float enemyShotChance;
     public float enemyMoveSpeed;
     public float bulletSpeed;
-    Path enemyPath;
+    public Path enemyPath;
     public Path.PathType path;
     public int currentEnemy;
     float currentTime;
@@ -54,8 +54,8 @@ public class EnemyManager : MonoBehaviour
         {
             currentTime = Time.time;
             SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
-            path = Path.PathType.LPattern;
-            //path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LPattern + 1);
+            //path = Path.PathType.LPattern;
+            path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LPattern + 1);
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             enemyPath.SetPath(enemyPath.pathPoints, path);
             enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
