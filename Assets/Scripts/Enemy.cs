@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Enemies start shooting at the player at higher levels. I multiply value by 10 to reduce the frequency of shots. If it's still too high
+        //Enemies start shooting at the player at higher levels. I multiply value by 20 to reduce the frequency of shots. If it's still too high
         //I may reduce the shot chance.
         float shotRoll = Random.value * 20;
         if (shotRoll > 1) 
@@ -145,6 +145,17 @@ public class Enemy : MonoBehaviour
             transform.position = Vector3.Lerp(enemyPathPoints[currentPoint], enemyPathPoints[destinationPoint], time / duration);
             time += Time.deltaTime;
         }*/
+
+        //if the enemy is close to the destination, want them to "snap" to the destination point so they don't overshoot
+        float diffX = Mathf.Abs(enemyPathPoints[destinationPoint].x - transform.position.x);
+        float diffY = Mathf.Abs(enemyPathPoints[destinationPoint].y - transform.position.y);
+        //Debug.Log("DiffX: " + diffX + " DiffY: " + diffY);
+        if (diffX >= 0 && diffX < 0.05f && diffY >= 0 && diffY < 0.05f)
+        {
+           // Debug.Log("Here");
+            enemyPathPoints[currentPoint] = enemyPathPoints[destinationPoint];
+        }
+
         if (enemyPathPoints[currentPoint] == enemyPathPoints[destinationPoint])
         {
             //Debug.Log("Got here");

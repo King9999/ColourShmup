@@ -235,7 +235,7 @@ MonoBehaviour:
   enemies: []
   enemyBullets: []
   enemyPrefab: {fileID: 8629751884673346374, guid: bc24bd3867bfb1f4d8034dc70d22c488, type: 3}
-  enemyShotChance: 0.04
+  enemyShotChance: 0
   enemyMoveSpeed: 0.5
   bulletSpeed: 2
   path: 1
