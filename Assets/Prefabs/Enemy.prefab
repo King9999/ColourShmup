@@ -52,13 +52,15 @@ MonoBehaviour:
   enemyWhite: {fileID: 21300000, guid: de0ad1c1bae6795499c678702a0dd01e, type: 3}
   enemyBulletPrefab: {fileID: 496104575576353797, guid: 52300a47c0e410d4493e0d392d0af128, type: 3}
   explosionPrefab: {fileID: 337180796662896492, guid: 8285772f799bb224b9fb55aad61cf6d2, type: 3}
+  pathPrefab:
+  - {fileID: 1326041219445693637, guid: b658bf9c816cfbe4e8cb076a0b2312f8, type: 3}
   moveSpeed: 0.5
   bulletSpeed: 2
   shotChance: 0
   shotCooldown: 0
   currentColor: 0
-  flightPath: {fileID: 1608000727143791582, guid: 443527d8280764e4793628ea99081260, type: 3}
   enemyPathPoints: []
+  pathCoroutineRunning: 0
 --- !u!61 &2004307023179419385
 BoxCollider2D:
   m_ObjectHideFlags: 0

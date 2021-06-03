@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     public GameObject enemyBulletPrefab;
     GameObject bullet;
     public GameObject explosionPrefab;                      //called when enemy is destroyed
+    public Transform[] pathPrefab;                        //the path the enemy follows when they're generated.
+
 
     [Header("Enemy Properties")]
     private float vx, vy;                //velocity. Both values should be the same
@@ -25,6 +27,7 @@ public class Enemy : MonoBehaviour
     float currentTime;
     const float INIT_COOLDOWN = 2;
     const float SHOT_INC_AMT = 0.04f;
+    int enemyID;                        //used to track which path to destroy when enemy is destroyed.
 
     public byte currentColor;
     const byte RED = 0;
@@ -33,8 +36,8 @@ public class Enemy : MonoBehaviour
     const byte BLACK = 3;
 
     //path variables
-    public Path flightPath;                        //the path the enemy follows when they're generated.
     public List<Vector3> enemyPathPoints;
+    Transform flightPath;
     float t;                                //used in bezier curve formula.
     Vector3 direction;
     int currentPoint;
@@ -47,7 +50,8 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Path flightPath = new Path();
+      
+        enemyID = EnemyManager.instance.enemies.Count - 1;
         pathCoroutineRunning = false;
         routeCounter = 0;
         //enemies are always instantiated with a random colour
@@ -85,20 +89,30 @@ public class Enemy : MonoBehaviour
         //set path
         enemyPathPoints = new List<Vector3>();
 
-        //get a path and populate the list with points
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+        float boundary = GameManager.instance.ScreenBoundaryX();
+        int randomPath = Random.Range(0, pathPrefab.Length);
+        flightPath = Instantiate(pathPrefab[randomPath], new Vector3(Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity);
+
+        //get a path and populate the list with points. Must add the parent's X position to each child transform so the enemy spawns in the right spot
         int lastPath = EnemyManager.instance.pathList.Count - 1;
-        for (int i = 0; i < EnemyManager.instance.pathList[lastPath].childCount; i++)
+        for (int i = 0; i < flightPath.childCount; i++)
         {
-            enemyPathPoints.Add(EnemyManager.instance.pathList[lastPath].GetChild(i).position);
+            enemyPathPoints.Add(new Vector3(flightPath.GetChild(i).position.x /*+ flightPath.position.x*/, flightPath.GetChild(i).position.y, 0));
             Debug.Log("Enemy Point: " + enemyPathPoints[i]);
         }
+
+       
         
-        path = EnemyManager.instance.path;
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+        //path = EnemyManager.instance.path;
+       // Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
         //enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.EnemyPath());
         //enemyPathPoints = SetPath(path, EnemyManager.instance.EnemyPath());
         currentPoint = 0;
         destinationPoint = currentPoint + 1;
+
+        //set up enemy's first position, which should always be offscreen
+        transform.position = enemyPathPoints[currentPoint];
     }
 
     // Update is called once per frame
@@ -188,7 +202,8 @@ public class Enemy : MonoBehaviour
         //destroy enemy if off screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
         if (transform.position.y + (GetComponent<SpriteRenderer>().bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
-        {           
+        {
+            //Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
            // Debug.Log("Enemy off screen");
         }
@@ -196,9 +211,15 @@ public class Enemy : MonoBehaviour
         //if enemy spawned from left or right side, destroy enemy once they reach opposite side of screen
         //TODO: May need to change this once more complex paths are introduced
         if (direction.x > 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) > screenPos.x * GameManager.instance.ScreenBoundaryX() + 1)
+        {
+            //Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
+        }
         else if (direction.x < 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) < screenPos.x * -GameManager.instance.ScreenBoundaryX())
+        {
+           // Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -327,6 +348,7 @@ public class Enemy : MonoBehaviour
         GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
         yield return null;
 
+        //Destroy(EnemyManager.instance.pathList[enemyID]);
         Destroy(gameObject);
     }
 

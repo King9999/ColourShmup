@@ -54,6 +54,8 @@ public class EnemyManager : MonoBehaviour
         //check if it's time to spawn another enemy.
         if (Time.time > currentTime + SpawnTimer && currentEnemyCount < totalEnemyCount)
         {
+            Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+            float boundary = GameManager.instance.ScreenBoundaryX();
             currentTime = Time.time;
             SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
             //path = Path.PathType.LPattern;
@@ -61,8 +63,11 @@ public class EnemyManager : MonoBehaviour
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             //enemyPath.SetPath(enemyPath.pathPoints, path);
             //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
-            pathList.Add(Instantiate(pathPrefab[0]));
-            enemies.Add(Instantiate(enemyPrefab, pathPrefab[0].GetChild(0).position, Quaternion.identity));
+            //int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
+            //pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity));
+            //enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetChild(0).position.x + pathList[pathList.Count - 1].position.x, 
+            //pathPrefab[randomPath].GetChild(0).position.y, 0), Quaternion.identity));
+            enemies.Add(Instantiate(enemyPrefab));
           
             //enemies.Add(In/stantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;
@@ -70,6 +75,7 @@ public class EnemyManager : MonoBehaviour
 
         CleanupEnemyList();
         CleanupBulletList();
+        CleanupPathList();
     }
 
     //removes any null references after enemies are destroyed.
@@ -100,6 +106,20 @@ public class EnemyManager : MonoBehaviour
             if (enemyBullets[i] == null)
             {
                 enemyBullets.RemoveAt(i);
+            }
+        }
+    }
+
+    public void CleanupPathList()
+    {
+        if (pathList.Count <= 0)
+            return;
+
+        for (int i = 0; i < pathList.Count; i++)
+        {
+            if (pathList[i] == null)
+            {
+                pathList.RemoveAt(i);
             }
         }
     }
