@@ -9,7 +9,9 @@ public class EnemyManager : MonoBehaviour
     [Header("Enemy Data")]
     public List<GameObject> enemies = new List<GameObject>();
     public List<GameObject> enemyBullets = new List<GameObject>();
+    public List<Transform> pathList = new List<Transform>();
     public GameObject enemyPrefab;
+    public Transform[] pathPrefab;             //list of enemy paths that an enemy chooses from random             
     public float enemyShotChance;
     public float enemyMoveSpeed;
     public float bulletSpeed;
@@ -55,10 +57,13 @@ public class EnemyManager : MonoBehaviour
             currentTime = Time.time;
             SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
             //path = Path.PathType.LPattern;
-            path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LPattern + 1);
+            //path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LPattern + 1);
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
-            enemyPath.SetPath(enemyPath.pathPoints, path);
-            enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
+            //enemyPath.SetPath(enemyPath.pathPoints, path);
+            //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
+            pathList.Add(Instantiate(pathPrefab[0]));
+            enemies.Add(Instantiate(enemyPrefab, pathPrefab[0].GetChild(0).position, Quaternion.identity));
+          
             //enemies.Add(In/stantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;
         }
@@ -150,8 +155,9 @@ public class EnemyManager : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            if (enemy != null)
+            if (enemy != null /*&& !enemy.GetComponent<Enemy>().pathCoroutineRunning*/)
                 enemy.GetComponent<Enemy>().Move();
+               // StartCoroutine(enemy.GetComponent<Enemy>().FollowPath(0));
         }
     }
 }

@@ -32,18 +32,24 @@ public class Enemy : MonoBehaviour
     const byte WHITE = 2;
     const byte BLACK = 3;
 
-    Path flightPath;                    //the path the enemy follows when they're generated.
+    //path variables
+    public Path flightPath;                        //the path the enemy follows when they're generated.
     public List<Vector3> enemyPathPoints;
+    float t;                                //used in bezier curve formula.
     Vector3 direction;
     int currentPoint;
     int destinationPoint;               //tracks where enemy is along the flight path. These contain the indexes of the path vectors.
     Path.PathType path;                 //randomly chosen path to follow when spawned.
     float duration = 3;
+    public bool pathCoroutineRunning;          //prevents coroutine from executing multiple times.
+    int routeCounter;                   //controls which route in the path enemy is following
 
     // Start is called before the first frame update
     void Start()
     {
         Path flightPath = new Path();
+        pathCoroutineRunning = false;
+        routeCounter = 0;
         //enemies are always instantiated with a random colour
         currentColor = (byte)Random.Range(RED, BLACK + 1);
 
@@ -78,10 +84,19 @@ public class Enemy : MonoBehaviour
 
         //set path
         enemyPathPoints = new List<Vector3>();
+
+        //get a path and populate the list with points
+        int lastPath = EnemyManager.instance.pathList.Count - 1;
+        for (int i = 0; i < EnemyManager.instance.pathList[lastPath].childCount; i++)
+        {
+            enemyPathPoints.Add(EnemyManager.instance.pathList[lastPath].GetChild(i).position);
+            Debug.Log("Enemy Point: " + enemyPathPoints[i]);
+        }
+        
         path = EnemyManager.instance.path;
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
         //enemyPathPoints = SetPath(Path.PathType.LinearVertical, EnemyManager.instance.EnemyPath());
-        enemyPathPoints = SetPath(path, EnemyManager.instance.EnemyPath());
+        //enemyPathPoints = SetPath(path, EnemyManager.instance.EnemyPath());
         currentPoint = 0;
         destinationPoint = currentPoint + 1;
     }
@@ -89,6 +104,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       //if (!pathCoroutineRunning)
+           // StartCoroutine(FollowPath(routeCounter));
         //Enemies start shooting at the player at higher levels. I multiply value by 20 to reduce the frequency of shots. If it's still too high
         //I may reduce the shot chance.
         float shotRoll = Random.value * 20;
@@ -312,4 +329,33 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    /*public IEnumerator FollowPath(int routeNum)
+    {
+        pathCoroutineRunning = true;
+        Vector3 p0 = flightPath.routes[routeNum].GetChild(0).position;
+        Vector3 p1 = flightPath.routes[routeNum].GetChild(1).position;
+        Vector3 p2 = flightPath.routes[routeNum].GetChild(2).position;
+        Vector3 p3 = flightPath.routes[routeNum].GetChild(3).position;
+
+        //enemy follows assigned path until they're off screen or player kills them
+        while (t < 1)
+        {
+            t += Time.deltaTime * moveSpeed;
+
+            transform.position = Mathf.Pow(1 - t, 3) * p0 + 3 * Mathf.Pow(1 - t, 2) * t * p1
+                + 3 * (1 - t) * Mathf.Pow(t, 2) * p2 + Mathf.Pow(t, 3) * p3;
+
+            transform.position = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+            Debug.Log("Enemy moving to " + transform.position);
+            yield return new WaitForFixedUpdate();
+        }
+
+        t = 0f;
+        routeCounter++;
+        if (routeCounter > flightPath.routes.Length - 1)
+            routeCounter = 0;
+
+        pathCoroutineRunning = false;
+    }*/
 }

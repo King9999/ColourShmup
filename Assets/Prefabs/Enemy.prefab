@@ -57,6 +57,7 @@ MonoBehaviour:
   shotChance: 0
   shotCooldown: 0
   currentColor: 0
+  flightPath: {fileID: 1608000727143791582, guid: 443527d8280764e4793628ea99081260, type: 3}
   enemyPathPoints: []
 --- !u!61 &2004307023179419385
 BoxCollider2D:

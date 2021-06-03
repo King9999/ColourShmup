@@ -12,6 +12,8 @@ public class Path : MonoBehaviour
     public List<Vector3>[] pathPoints /* = new List<Vector3>[PATH_COUNT]*/;  //an array of paths
     //public bool boundaryOnLeft;    //used to check if enemy spawn point was on right side and needs to die when it reaches left side of screen.
 
+    
+    public Transform[] routes = new Transform[2];          //4 routes that contain 4 control points. Each control point is a child object of a route in hierarchy
     public Transform[] controlPoints = new Transform[4];   //4 points max per curve
 
     //path names
@@ -37,6 +39,7 @@ public class Path : MonoBehaviour
             pathPoints[i] = new List<Vector3>();   
         }
 
+       
         //pathPoints = new List<Vector3>[PATH_COUNT];
         //the first point that is added to the list is always the enemy's start position, which should be off screen.
         //this is the test path
@@ -121,13 +124,23 @@ public class Path : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector3 position;   //used to draw the path
-        for (float t = 0; t <= 1; t += 0.05f)
+        foreach (Transform route in routes)
         {
-            //Cubic Bezier curve formula
-            position = Mathf.Pow(1 - t, 3) * controlPoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * controlPoints[1].position
-                + 3 * (1 - t) * Mathf.Pow(t, 2) * controlPoints[2].position + Mathf.Pow(t, 3) * controlPoints[3].position;
+            for (float t = 0; t <= 1; t += 0.05f)
+            {
+                //Cubic Bezier curve formula
+                //position = Mathf.Pow(1 - t, 3) * controlPoints[0].position + 3 * Mathf.Pow(1 - t, 2) * t * controlPoints[1].position
+                //+ 3 * (1 - t) * Mathf.Pow(t, 2) * controlPoints[2].position + Mathf.Pow(t, 3) * controlPoints[3].position;
 
-            Gizmos.DrawSphere(position, 0.25f);
+                position = Mathf.Pow(1 - t, 3) * route.GetChild(0).position + 3 * Mathf.Pow(1 - t, 2) * t * route.GetChild(1).position
+                    + 3 * (1 - t) * Mathf.Pow(t, 2) * route.GetChild(2).position + Mathf.Pow(t, 3) * route.GetChild(3).position;
+               
+                Gizmos.DrawSphere(position, 1f);
+            }
+
+            //draw lines between control points
+            Gizmos.DrawLine(route.GetChild(0).position, route.GetChild(1).position);
+            Gizmos.DrawLine(route.GetChild(2).position, route.GetChild(3).position);
         }
     }
 
