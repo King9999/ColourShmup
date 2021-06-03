@@ -51,7 +51,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
       
-        enemyID = EnemyManager.instance.enemies.Count - 1;
         pathCoroutineRunning = false;
         routeCounter = 0;
         //enemies are always instantiated with a random colour
@@ -96,11 +95,12 @@ public class Enemy : MonoBehaviour
 
         //get a path and populate the list with points. Must add the parent's X position to each child transform so the enemy spawns in the right spot
         int lastPath = EnemyManager.instance.pathList.Count - 1;
+        enemyID = lastPath;
         Transform transform = EnemyManager.instance.pathList[lastPath].GetComponent<Transform>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            enemyPathPoints.Add(new Vector3(transform.GetChild(i).position.x /*+ flightPath.position.x*/, transform.GetChild(i).position.y, 0));
-            Debug.Log("Enemy Point: " + enemyPathPoints[i]);
+            enemyPathPoints.Add(new Vector3(transform.GetChild(i).position.x, transform.GetChild(i).position.y, 0));
+            //Debug.Log("Enemy Point: " + enemyPathPoints[i]);
         }
 
        
@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
         destinationPoint = currentPoint + 1;
 
         //set up enemy's first position, which should always be offscreen
-        transform.position = enemyPathPoints[currentPoint];
+        //transform.position = enemyPathPoints[currentPoint];
     }
 
     // Update is called once per frame
@@ -193,11 +193,17 @@ public class Enemy : MonoBehaviour
             //Debug.Log("Got here");
             //move to next point in path if it exists
             if (destinationPoint == enemyPathPoints.Count - 1)
-                return; //made it to end
-
-            currentPoint = destinationPoint;
-            destinationPoint++;
-            Debug.Log("New Destination " + enemyPathPoints[destinationPoint]);
+            {
+                //return; //made it to end, destroy enemy.
+                Destroy(EnemyManager.instance.pathList[enemyID]);
+                Destroy(gameObject);
+            }
+            else
+            {
+                currentPoint = destinationPoint;
+                destinationPoint++;
+                Debug.Log("New Destination " + enemyPathPoints[destinationPoint]);
+            }
         }
 
         //destroy enemy if off screen

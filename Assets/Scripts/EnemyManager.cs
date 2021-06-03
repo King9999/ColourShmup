@@ -28,6 +28,13 @@ public class EnemyManager : MonoBehaviour
     const float INIT_SPAWN_TIME = 2;
     const float SHOT_INC_AMT = 0.04f;
 
+    public enum PathType
+    {
+        LinearVertical,
+        LinearHorizontalR,
+        LinearHorizontalL
+    };
+
     public static EnemyManager instance;
 
     private void Awake()
@@ -55,7 +62,8 @@ public class EnemyManager : MonoBehaviour
         if (Time.time > currentTime + SpawnTimer && currentEnemyCount < totalEnemyCount)
         {
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-            float boundary = GameManager.instance.ScreenBoundaryX();
+            float boundaryX = GameManager.instance.ScreenBoundaryX();
+            float boundaryY = GameManager.instance.ScreenBoundaryY();
             currentTime = Time.time;
             SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
             //path = Path.PathType.LPattern;
@@ -64,9 +72,22 @@ public class EnemyManager : MonoBehaviour
             //enemyPath.SetPath(enemyPath.pathPoints, path);
             //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
             int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
-            pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity));
-            enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x + pathList[pathList.Count - 1].GetComponent<Transform>().position.x, 
-            pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
+
+            //randomize the path's starting X or Y position based on the path chosen
+            if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR)
+            {
+                pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(0, UnityEngine.Random.Range(-screenPos.y * boundaryY, screenPos.y * boundaryY), 0), Quaternion.identity));
+                enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x,
+                   pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y + pathList[pathList.Count - 1].GetComponent<Transform>().position.y, 0), Quaternion.identity));
+            }
+            else
+            {
+                pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundaryX, screenPos.x * boundaryX), 0, 0), Quaternion.identity));
+                enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x + pathList[pathList.Count - 1].GetComponent<Transform>().position.x,
+                    pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
+            }
+
+            
             //enemies.Add(Instantiate(enemyPrefab));
           
             //enemies.Add(In/stantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
@@ -157,6 +178,13 @@ public class EnemyManager : MonoBehaviour
         {
             Destroy(enemyBullets[i]);
             enemyBullets.RemoveAt(i);
+        }
+
+        //and finally, kill the path list
+        for (int i = 0; i < pathList.Count; i++)
+        {
+            Destroy(pathList[i]);
+            pathList.RemoveAt(i);
         }
     }
 
