@@ -13,20 +13,16 @@ public class Enemy : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject enemyBulletPrefab;
-    GameObject bullet;
     public GameObject explosionPrefab;                      //called when enemy is destroyed
-    //public Transform[] pathPrefab;                        //the path the enemy follows when they're generated.
 
 
     [Header("Enemy Properties")]
-    private float vx, vy;                //velocity. Both values should be the same
     public float moveSpeed;              //this increases as the game progresses
     public float bulletSpeed;            //this too
     public float shotChance;               //probability that enemy fires a shot. Only applicable after player reaches certain level.
     public float shotCooldown;
     float currentTime;
     const float INIT_COOLDOWN = 2;
-    const float SHOT_INC_AMT = 0.04f;
     public int enemyID;                        //used to track which path to destroy when enemy is destroyed.
 
     public byte currentColor;
@@ -37,22 +33,13 @@ public class Enemy : MonoBehaviour
 
     //path variables
     public List<Vector3> enemyPathPoints;
-    Transform flightPath;
-    float t;                                //used in bezier curve formula.
-    Vector3 direction;
     int currentPoint;
     int destinationPoint;               //tracks where enemy is along the flight path. These contain the indexes of the path vectors.
-    Path.PathType path;                 //randomly chosen path to follow when spawned.
-    float duration = 3;
-    public bool pathCoroutineRunning;          //prevents coroutine from executing multiple times.
-    int routeCounter;                   //controls which route in the path enemy is following
 
     // Start is called before the first frame update
     void Start()
     {
       
-        pathCoroutineRunning = false;
-        routeCounter = 0;
         //enemies are always instantiated with a random colour
         currentColor = (byte)Random.Range(RED, BLACK + 1);
 
@@ -93,7 +80,7 @@ public class Enemy : MonoBehaviour
        // int randomPath = Random.Range(0, pathPrefab.Length);
        // EnemyManager.instance.pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity));
 
-        //get a path and populate the list with points. Must add the parent's X position to each child transform so the enemy spawns in the right spot
+        //get a path and populate the list with points.
         int lastPath = EnemyManager.instance.pathList.Count - 1;
         enemyID = lastPath;
         Transform transform = EnemyManager.instance.pathList[lastPath].GetComponent<Transform>();
@@ -164,19 +151,11 @@ public class Enemy : MonoBehaviour
 
     public void Move()
     {
-        //default pattern is to move in a straight line until off screen.
-        //transform.position = new Vector3(transform.position.x, transform.position.y - (moveSpeed * Time.deltaTime), 0);
-
-        //float time = 0;
-        
+           
         //get the direction of the destination point from enemy's current position.
         Vector3 direction = (enemyPathPoints[destinationPoint] - enemyPathPoints[currentPoint]).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
-        /*while (time < duration)
-        {
-            transform.position = Vector3.Lerp(enemyPathPoints[currentPoint], enemyPathPoints[destinationPoint], time / duration);
-            time += Time.deltaTime;
-        }*/
+     
 
         //if the enemy is close to the destination, want them to "snap" to the destination point so they don't overshoot
         float diffX = Mathf.Abs(enemyPathPoints[destinationPoint].x - transform.position.x);
@@ -184,25 +163,23 @@ public class Enemy : MonoBehaviour
         //Debug.Log("DiffX: " + diffX + " DiffY: " + diffY);
         if (diffX >= 0 && diffX < 0.05f && diffY >= 0 && diffY < 0.05f)
         {
-           // Debug.Log("Here");
             enemyPathPoints[currentPoint] = enemyPathPoints[destinationPoint];
         }
 
         if (enemyPathPoints[currentPoint] == enemyPathPoints[destinationPoint])
         {
-            //Debug.Log("Got here");
             //move to next point in path if it exists
             if (destinationPoint == enemyPathPoints.Count - 1)
             {
-                //return; //made it to end, destroy enemy.
-                Destroy(EnemyManager.instance.pathList[enemyID]);
+                //made it to end, destroy enemy.
                 Destroy(gameObject);
+                //Destroy(EnemyManager.instance.pathList[enemyID]);
             }
             else
             {
                 currentPoint = destinationPoint;
                 destinationPoint++;
-                Debug.Log("New Destination " + enemyPathPoints[destinationPoint]);
+                //Debug.Log("New Destination " + enemyPathPoints[destinationPoint]);
             }
         }
 
@@ -210,22 +187,22 @@ public class Enemy : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
         if (transform.position.y + (GetComponent<SpriteRenderer>().bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
         {
-            Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
-           // Debug.Log("Enemy off screen");
+            //Destroy(EnemyManager.instance.pathList[enemyID]);
+            // Debug.Log("Enemy off screen");
         }
 
         //if enemy spawned from left or right side, destroy enemy once they reach opposite side of screen
         //TODO: May need to change this once more complex paths are introduced
         if (direction.x > 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) > screenPos.x * GameManager.instance.ScreenBoundaryX() + 1)
         {
-            Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
+            //Destroy(EnemyManager.instance.pathList[enemyID]);
         }
         else if (direction.x < 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) < screenPos.x * -GameManager.instance.ScreenBoundaryX())
         {
-            Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
+            //Destroy(EnemyManager.instance.pathList[enemyID]);
         }
     }
 
@@ -355,8 +332,8 @@ public class Enemy : MonoBehaviour
         GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
         yield return null;
 
-        Destroy(EnemyManager.instance.pathList[enemyID]);
         Destroy(gameObject);
+        //Destroy(EnemyManager.instance.pathList[enemyID]);
     }
 
     /*public IEnumerator FollowPath(int routeNum)

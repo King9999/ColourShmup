@@ -32,7 +32,8 @@ public class EnemyManager : MonoBehaviour
     {
         LinearVertical,
         LinearHorizontalR,
-        LinearHorizontalL
+        LinearHorizontalL,
+        ZigzagVertical
     };
 
     public static EnemyManager instance;
@@ -94,6 +95,7 @@ public class EnemyManager : MonoBehaviour
             currentEnemyCount++;
         }
 
+        //list cleanup
         CleanupEnemyList();
         CleanupBulletList();
         CleanupPathList();
@@ -110,6 +112,7 @@ public class EnemyManager : MonoBehaviour
             if (enemies[i] == null)
             {
                 enemies.RemoveAt(i);
+                i--;
                 currentEnemyCount--;
             }
         }
@@ -127,6 +130,7 @@ public class EnemyManager : MonoBehaviour
             if (enemyBullets[i] == null)
             {
                 enemyBullets.RemoveAt(i);
+                i--;
             }
         }
     }
@@ -141,6 +145,7 @@ public class EnemyManager : MonoBehaviour
             if (pathList[i] == null)
             {
                 pathList.RemoveAt(i);
+                i--;
             }
         }
     }
@@ -177,15 +182,19 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < enemyBullets.Count; i++)
         {
             Destroy(enemyBullets[i]);
-            enemyBullets.RemoveAt(i);
+            //enemyBullets.RemoveAt(i);
         }
 
         //and finally, kill the path list
         for (int i = 0; i < pathList.Count; i++)
         {
             Destroy(pathList[i]);
-            pathList.RemoveAt(i);
-        }
+            //pathList.RemoveAt(i);
+        }     
+        pathList.Clear();
+        pathList.Capacity = 0;
+        enemyBullets.Clear();
+        enemyBullets.Capacity = 0;
     }
 
     public void AdvanceLevel()
@@ -203,9 +212,8 @@ public class EnemyManager : MonoBehaviour
 
         foreach (GameObject enemy in enemies)
         {
-            if (enemy != null /*&& !enemy.GetComponent<Enemy>().pathCoroutineRunning*/)
+            if (enemy != null)
                 enemy.GetComponent<Enemy>().Move();
-               // StartCoroutine(enemy.GetComponent<Enemy>().FollowPath(0));
         }
     }
 }
