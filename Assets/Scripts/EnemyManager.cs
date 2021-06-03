@@ -9,9 +9,9 @@ public class EnemyManager : MonoBehaviour
     [Header("Enemy Data")]
     public List<GameObject> enemies = new List<GameObject>();
     public List<GameObject> enemyBullets = new List<GameObject>();
-    public List<Transform> pathList = new List<Transform>();
+    public List<GameObject> pathList = new List<GameObject>();
     public GameObject enemyPrefab;
-    public Transform[] pathPrefab;             //list of enemy paths that an enemy chooses from random             
+    public GameObject[] pathPrefab;             //list of enemy paths that an enemy chooses from random             
     public float enemyShotChance;
     public float enemyMoveSpeed;
     public float bulletSpeed;
@@ -63,11 +63,11 @@ public class EnemyManager : MonoBehaviour
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
             //enemyPath.SetPath(enemyPath.pathPoints, path);
             //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
-            //int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
-            //pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity));
-            //enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetChild(0).position.x + pathList[pathList.Count - 1].position.x, 
-            //pathPrefab[randomPath].GetChild(0).position.y, 0), Quaternion.identity));
-            enemies.Add(Instantiate(enemyPrefab));
+            int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
+            pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity));
+            enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x + pathList[pathList.Count - 1].GetComponent<Transform>().position.x, 
+            pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
+            //enemies.Add(Instantiate(enemyPrefab));
           
             //enemies.Add(In/stantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;

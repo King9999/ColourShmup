@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
     public GameObject enemyBulletPrefab;
     GameObject bullet;
     public GameObject explosionPrefab;                      //called when enemy is destroyed
-    public Transform[] pathPrefab;                        //the path the enemy follows when they're generated.
+    //public Transform[] pathPrefab;                        //the path the enemy follows when they're generated.
 
 
     [Header("Enemy Properties")]
@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     float currentTime;
     const float INIT_COOLDOWN = 2;
     const float SHOT_INC_AMT = 0.04f;
-    int enemyID;                        //used to track which path to destroy when enemy is destroyed.
+    public int enemyID;                        //used to track which path to destroy when enemy is destroyed.
 
     public byte currentColor;
     const byte RED = 0;
@@ -89,16 +89,17 @@ public class Enemy : MonoBehaviour
         //set path
         enemyPathPoints = new List<Vector3>();
 
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-        float boundary = GameManager.instance.ScreenBoundaryX();
-        int randomPath = Random.Range(0, pathPrefab.Length);
-        flightPath = Instantiate(pathPrefab[randomPath], new Vector3(Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity);
+       // Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+       // float boundary = GameManager.instance.ScreenBoundaryX();
+       // int randomPath = Random.Range(0, pathPrefab.Length);
+       // EnemyManager.instance.pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(Random.Range(-screenPos.x * boundary, screenPos.x * boundary), 0, 0), Quaternion.identity));
 
         //get a path and populate the list with points. Must add the parent's X position to each child transform so the enemy spawns in the right spot
         int lastPath = EnemyManager.instance.pathList.Count - 1;
-        for (int i = 0; i < flightPath.childCount; i++)
+        Transform transform = EnemyManager.instance.pathList[lastPath].GetComponent<Transform>();
+        for (int i = 0; i < transform.childCount; i++)
         {
-            enemyPathPoints.Add(new Vector3(flightPath.GetChild(i).position.x /*+ flightPath.position.x*/, flightPath.GetChild(i).position.y, 0));
+            enemyPathPoints.Add(new Vector3(transform.GetChild(i).position.x /*+ flightPath.position.x*/, transform.GetChild(i).position.y, 0));
             Debug.Log("Enemy Point: " + enemyPathPoints[i]);
         }
 
@@ -203,7 +204,7 @@ public class Enemy : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);   //converting screen pixels to units
         if (transform.position.y + (GetComponent<SpriteRenderer>().bounds.extents.y * 2) < screenPos.y * -GameManager.instance.ScreenBoundaryY())
         {
-            //Destroy(EnemyManager.instance.pathList[enemyID]);
+            Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
            // Debug.Log("Enemy off screen");
         }
@@ -212,12 +213,12 @@ public class Enemy : MonoBehaviour
         //TODO: May need to change this once more complex paths are introduced
         if (direction.x > 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) > screenPos.x * GameManager.instance.ScreenBoundaryX() + 1)
         {
-            //Destroy(EnemyManager.instance.pathList[enemyID]);
+            Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
         }
         else if (direction.x < 0 && transform.position.x + (GetComponent<SpriteRenderer>().bounds.extents.x * 2) < screenPos.x * -GameManager.instance.ScreenBoundaryX())
         {
-           // Destroy(EnemyManager.instance.pathList[enemyID]);
+            Destroy(EnemyManager.instance.pathList[enemyID]);
             Destroy(gameObject);
         }
     }
@@ -348,7 +349,7 @@ public class Enemy : MonoBehaviour
         GameManager.instance.audioSource.PlayOneShot(GameManager.instance.explodeSound);
         yield return null;
 
-        //Destroy(EnemyManager.instance.pathList[enemyID]);
+        Destroy(EnemyManager.instance.pathList[enemyID]);
         Destroy(gameObject);
     }
 

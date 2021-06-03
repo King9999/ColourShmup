@@ -293,7 +293,8 @@ public class Player : MonoBehaviour
                     break;
             }
 
-            //destroy enemy            
+            //destroy enemy
+            Destroy(EnemyManager.instance.pathList[collision.GetComponent<Enemy>().enemyID]);
             Destroy(collision.gameObject);
 
             //add to score
