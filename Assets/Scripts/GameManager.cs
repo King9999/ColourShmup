@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public AudioClip absorbSound;
     public AudioClip playerHit;                         //plays when player hit by something but not destroyed
     public AudioClip rainbowShot;
+    public AudioClip levelClear;
     [HideInInspector]
     public AudioSource audioSource;
     public AudioSource musicSource;
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
         //HUD.instance.AdjustRainbowGauge(rainbowGaugeMaxValue);
         HUD.instance.levelText.text = "Level " + level;
         targetCount = DEFAULT_TARGET;
-        //enemyCount = 19;
+        enemyCount = 19;
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
         HUD.instance.livesCountText.text = "x " + playerLives;
 
@@ -309,7 +310,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetupStars(List<GameObject> stars)
+    /*void SetupStars(List<GameObject> stars)
     {
         //randomize star locations
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
@@ -338,14 +339,14 @@ public class GameManager : MonoBehaviour
             starPosList.Add(randomPos);
             stars.Add(Instantiate(starPrefab, randomPos, Quaternion.identity));
         }
-    }
+    }*/
 
-    /*Increases difficulty of next level*/
+    /*Increases difficulty of next level. Player gains 1 life after every level*/
     void AdvanceLevel()
     {
-        //destroy all enemies in list to give the player a breather
-        //change movement patterns
+        audioSource.PlayOneShot(levelClear);
         level++;
+        playerLives++;
         EnemyManager.instance.AdvanceLevel();     
         enemyCount = 0;
         targetCount += 2;

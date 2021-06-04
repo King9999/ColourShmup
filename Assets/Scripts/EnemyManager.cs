@@ -71,11 +71,7 @@ public class EnemyManager : MonoBehaviour
             float boundaryY = GameManager.instance.ScreenBoundaryY();
             currentTime = Time.time;
             postLevelCooldown = 0;
-            //path = Path.PathType.LPattern;
-            //path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LPattern + 1);
-            //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
-            //enemyPath.SetPath(enemyPath.pathPoints, path);
-            //enemies.Add(Instantiate(enemyPrefab, enemyPath.pathPoints[(int)path][0], Quaternion.identity));
+           
             int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
 
             //randomize the path's starting X or Y position based on the path chosen
@@ -92,10 +88,6 @@ public class EnemyManager : MonoBehaviour
                     pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
             }
 
-            
-            //enemies.Add(Instantiate(enemyPrefab));
-          
-            //enemies.Add(In/stantiate(enemyPrefab, enemyPath.pathPoints[(int)Path.PathType.LinearVertical][0], Quaternion.identity));
             currentEnemyCount++;
         }
 
