@@ -16,6 +16,7 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI enemyCountText;      //contains both the current count and the target amount
     public TextMeshProUGUI livesCountText;
+    public TextMeshProUGUI readyText;
 
     [Header("Audio")]
     public Image muteIcon;
@@ -64,6 +65,28 @@ public class HUD : MonoBehaviour
             fillDamage.value -= reductionAmount * Time.deltaTime;
             yield return null;
         }
+    }
+
+    IEnumerator FlashReadyText()
+    {
+        float currentTime = Time.time;
+        while (Time.time < currentTime + EnemyManager.instance.postLevelCooldown)
+        {
+            if (readyText.enabled)
+                readyText.enabled = false;
+            else if (!readyText.enabled)
+                readyText.enabled = true;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        //hide text until level is cleared
+        readyText.enabled = false;
+    }
+
+    public void ShowGetReadyText()
+    {
+        StartCoroutine(FlashReadyText());
     }
 
     public void AdjustRainbowGauge(float amount)

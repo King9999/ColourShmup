@@ -149,7 +149,8 @@ public class GameManager : MonoBehaviour
         //animController = new AnimationController();
         //explosionAnim = GetComponent<Animator>();
 
-        //HUD.instance.muted = true;   
+        //get ready!
+        HUD.instance.ShowGetReadyText();
     }
 
     // Update is called once per frame
@@ -344,27 +345,15 @@ public class GameManager : MonoBehaviour
     {
         //destroy all enemies in list to give the player a breather
         //change movement patterns
-        EnemyManager.instance.AdvanceLevel();
-
         level++;
+        EnemyManager.instance.AdvanceLevel();     
         enemyCount = 0;
         targetCount += 2;
         //enemyTotal++;
 
-        //set shot chance according to current level. shot chance goes up the higher the level.
-        /*float shotChance = EnemyManager.instance.enemyShotChance;
-        if (level % 2 == 0)
-        {
-            shotChance += EnemyManager.instance.ShotChanceAmount();  //increase shot chance by 4% every 2 levels
+        //get ready
+        HUD.instance.ShowGetReadyText();
 
-            if (shotChance > 1)
-                shotChance = 1;
-
-            EnemyManager.instance.enemyShotChance = shotChance;
-            //Debug.Log("New enemy shot chance: " + shotChance);
-        }*/
-
-        
     }
 }
 

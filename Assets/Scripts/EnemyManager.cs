@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour
     public int currentEnemy;
     float currentTime;
     public float spawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
-    float postLevelCooldown;                        //breather period whenever player beats level.
+    public float postLevelCooldown;                        //breather period whenever player beats level.
     public float spawnMod;                         //reduces spawn timer
     int totalEnemyCount;                         //limits how many enemies can be on screen at once. Number increases as level increases.
     int currentEnemyCount;
@@ -56,7 +56,7 @@ public class EnemyManager : MonoBehaviour
         //enemyPath = new Path();
         totalEnemyCount = INIT_ENEMY_COUNT;
         spawnTimer = INIT_SPAWN_TIME;
-        postLevelCooldown = 0;
+        postLevelCooldown = 5;          //game starts with cooldown so player can get ready
         spawnMod = 0;
     }
 
