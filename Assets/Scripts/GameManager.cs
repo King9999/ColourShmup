@@ -352,7 +352,7 @@ public class GameManager : MonoBehaviour
         //enemyTotal++;
 
         //set shot chance according to current level. shot chance goes up the higher the level.
-        float shotChance = EnemyManager.instance.enemyShotChance;
+        /*float shotChance = EnemyManager.instance.enemyShotChance;
         if (level % 2 == 0)
         {
             shotChance += EnemyManager.instance.ShotChanceAmount();  //increase shot chance by 4% every 2 levels
@@ -362,7 +362,7 @@ public class GameManager : MonoBehaviour
 
             EnemyManager.instance.enemyShotChance = shotChance;
             //Debug.Log("New enemy shot chance: " + shotChance);
-        }
+        }*/
 
         
     }

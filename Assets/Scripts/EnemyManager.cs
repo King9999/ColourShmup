@@ -19,8 +19,10 @@ public class EnemyManager : MonoBehaviour
     public Path.PathType path;
     public int currentEnemy;
     float currentTime;
-    public float SpawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
-    int totalEnemyCount;          //limits how many enemies can be on screen at once. Number increases as level increases.
+    public float spawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
+    float postLevelCooldown;                        //breather period whenever player beats level.
+    public float spawnMod;                         //reduces spawn timer
+    int totalEnemyCount;                         //limits how many enemies can be on screen at once. Number increases as level increases.
     int currentEnemyCount;
 
     //consts
@@ -51,22 +53,24 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemyPath = new Path();
+        //enemyPath = new Path();
         totalEnemyCount = INIT_ENEMY_COUNT;
-        SpawnTimer = INIT_SPAWN_TIME;
+        spawnTimer = INIT_SPAWN_TIME;
+        postLevelCooldown = 0;
+        spawnMod = 0;
     }
 
     // Update is called once per frame
     private void Update()
     {
         //check if it's time to spawn another enemy.
-        if (Time.time > currentTime + SpawnTimer && currentEnemyCount < totalEnemyCount)
+        if (Time.time > currentTime + (spawnTimer - spawnMod) + postLevelCooldown && currentEnemyCount < totalEnemyCount)
         {
             Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
             float boundaryX = GameManager.instance.ScreenBoundaryX();
             float boundaryY = GameManager.instance.ScreenBoundaryY();
             currentTime = Time.time;
-            SpawnTimer = INIT_SPAWN_TIME;           //reset spawn timer in case it changed previously.
+            postLevelCooldown = 0;
             //path = Path.PathType.LPattern;
             //path = (Path.PathType)UnityEngine.Random.Range((int)Path.PathType.LinearVertical, (int)Path.PathType.LPattern + 1);
             //enemyPath.pathPoints[(int)Path.PathType.LinearVertical] = enemyPath.SetPath((int)Path.PathType.LinearVertical);
@@ -201,9 +205,21 @@ public class EnemyManager : MonoBehaviour
     {
         DestroyAllEnemies();
         currentTime = Time.time;
-        SpawnTimer = 5;             //giving player a breather before level begins
+        postLevelCooldown = 5;             //giving player a breather before level begins
         currentEnemyCount = 0;
         totalEnemyCount++;
+
+        //set shot chance and adjust spawn timer according to current level. shot chance goes up the higher the level.
+        if (GameManager.instance.level % 2 == 0)
+        {
+            enemyShotChance += SHOT_INC_AMT;  //increase shot chance by 4% every 2 levels
+
+            if (enemyShotChance > 1)
+                enemyShotChance = 1;
+
+            //enemies spawn a little faster
+            spawnMod += 0.1f;
+        }
     }
 
     IEnumerator MoveEnemies()
