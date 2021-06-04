@@ -116,6 +116,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Random.InitState((int)System.DateTime.Now.Ticks);   //set a new seed. Unsure if Unity keeps the same seed until game is closed.
+
         //set up player at bottom of screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);   //converting screen pixels to units
         player = Instantiate(playerPrefab, new Vector3(0, screenPos.y * -SCREEN_BOUNDARY_Y, 0), Quaternion.identity);

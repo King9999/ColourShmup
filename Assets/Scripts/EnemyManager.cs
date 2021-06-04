@@ -68,38 +68,41 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //check if it's time to spawn another enemy.
-        if (Time.time > currentTime + (spawnTimer - spawnMod) + postLevelCooldown && currentEnemyCount < totalEnemyCount)
+        if (!GameManager.instance.isGameOver)
         {
-            Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
-            float boundaryX = GameManager.instance.ScreenBoundaryX();
-            float boundaryY = GameManager.instance.ScreenBoundaryY();
-            currentTime = Time.time;
-            postLevelCooldown = 0;
-           
-            int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
-
-            //randomize the path's starting X or Y position based on the path chosen
-            if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR)
+            //check if it's time to spawn another enemy.
+            if (Time.time > currentTime + (spawnTimer - spawnMod) + postLevelCooldown && currentEnemyCount < totalEnemyCount)
             {
-                pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(0, UnityEngine.Random.Range(-screenPos.y * boundaryY, screenPos.y * boundaryY), 0), Quaternion.identity));
-                enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x,
-                   pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y + pathList[pathList.Count - 1].GetComponent<Transform>().position.y, 0), Quaternion.identity));
-            }
-            else
-            {
-                pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundaryX, screenPos.x * boundaryX), 0, 0), Quaternion.identity));
-                enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x + pathList[pathList.Count - 1].GetComponent<Transform>().position.x,
-                    pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
+                Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+                float boundaryX = GameManager.instance.ScreenBoundaryX();
+                float boundaryY = GameManager.instance.ScreenBoundaryY();
+                currentTime = Time.time;
+                postLevelCooldown = 0;
+
+                int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
+
+                //randomize the path's starting X or Y position based on the path chosen
+                if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR)
+                {
+                    pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(0, UnityEngine.Random.Range(-screenPos.y * boundaryY, screenPos.y * boundaryY), 0), Quaternion.identity));
+                    enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x,
+                       pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y + pathList[pathList.Count - 1].GetComponent<Transform>().position.y, 0), Quaternion.identity));
+                }
+                else
+                {
+                    pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundaryX, screenPos.x * boundaryX), 0, 0), Quaternion.identity));
+                    enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x + pathList[pathList.Count - 1].GetComponent<Transform>().position.x,
+                        pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
+                }
+
+                currentEnemyCount++;
             }
 
-            currentEnemyCount++;
+            //list cleanup
+            CleanupEnemyList();
+            CleanupBulletList();
+            CleanupPathList();
         }
-
-        //list cleanup
-        CleanupEnemyList();
-        CleanupBulletList();
-        CleanupPathList();
     }
 
     //removes any null references after enemies are destroyed.

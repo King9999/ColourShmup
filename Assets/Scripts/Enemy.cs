@@ -106,8 +106,6 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       //if (!pathCoroutineRunning)
-           // StartCoroutine(FollowPath(routeCounter));
         //Enemies start shooting at the player at higher levels. I multiply value by 20 to reduce the frequency of shots. If it's still too high
         //I may reduce the shot chance.
         float shotRoll = Random.value * 20;
