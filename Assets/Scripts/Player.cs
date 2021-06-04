@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
         //is rainbow meter full?
         if (HUD.instance.fillRainbowMeter.value >= HUD.instance.fillRainbowMeter.maxValue)
             superBulletEngaged = true;
-        else /*if (HUD.instance.fillRainbowMeter.value <= 0)*/
+        else
             superBulletEngaged = false;
 
         //Debug.Log("Shot cooldown " + shotCooldown);
@@ -516,7 +516,7 @@ public class Player : MonoBehaviour
             playerDead = false;
             StartCoroutine(BeginInvincibility());
         }
-
+      
         //if the above condition is true, game is over so we do nothing. 
     }
 

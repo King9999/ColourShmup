@@ -29,6 +29,9 @@ public class HUD : MonoBehaviour
     public Sprite livesSpriteBlack;
     public Sprite livesSpriteWhite;
 
+    [Header("Game Over")]
+    public Image gameoverImage;
+
     //static variable
     public static HUD instance;
 
@@ -46,8 +49,9 @@ public class HUD : MonoBehaviour
 
     private void Start()
     {
-        //mute icon disabled by default
+        //mute and game over icon disabled by default
         muteIcon.enabled = false;
+        gameoverImage.enabled = false;
     }
 
     // Update is called once per frame

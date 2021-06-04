@@ -7,9 +7,9 @@ using System;
 public class EnemyManager : MonoBehaviour
 {
     [Header("Enemy Data")]
-    public List<GameObject> enemies = new List<GameObject>();
-    public List<GameObject> enemyBullets = new List<GameObject>();
-    public List<GameObject> pathList = new List<GameObject>();
+    public List<GameObject> enemies;
+    public List<GameObject> enemyBullets;
+    public List<GameObject> pathList;
     public GameObject enemyPrefab;
     public GameObject[] pathPrefab;             //list of enemy paths that an enemy chooses from random             
     public float enemyShotChance;
@@ -42,11 +42,11 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        /*if (instance != null && instance != this)
         {
             Destroy(gameObject);    //Only want one instance of enemy manager
             return;
-        }
+        }*/
 
         instance = this;
     }
@@ -54,10 +54,15 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         //enemyPath = new Path();
+        currentTime = Time.time;            //in case game is restarted, time must be reset so post level cooldown begins.
         totalEnemyCount = INIT_ENEMY_COUNT;
         spawnTimer = INIT_SPAWN_TIME;
         postLevelCooldown = 5;          //game starts with cooldown so player can get ready
         spawnMod = 0;
+
+        enemies = new List<GameObject>();
+        enemyBullets = new List<GameObject>();
+        pathList = new List<GameObject>();
     }
 
     // Update is called once per frame

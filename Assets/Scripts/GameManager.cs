@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 //This script is used to set up and manage the game screen. Main loop is here
 
@@ -193,8 +194,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //game is over. Pause game, show game over message, and allow player to restart
-            //StartCoroutine(CallGameOver());
+            //game is over. stop music
+            musicSource.Stop();
             Invoke("CallGameOver", 2f);
             //Time.timeScale = 0;
         }
@@ -261,7 +262,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator ManageStars()
+    /*IEnumerator ManageStars()
     {
         //move all stars down. If they reach bottom of screen, move them back up to top of screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
@@ -276,7 +277,7 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
-    }
+    }*/
 
 
     #endregion
@@ -284,7 +285,21 @@ public class GameManager : MonoBehaviour
     void CallGameOver()
     {
         Debug.Log("Game OVER");
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+
+        //show game over message, and allow player to restart.
+        //should re-load same scene.
+        HUD.instance.gameoverImage.enabled = true;
+
+        //get input to restart game
+        var kb = Keyboard.current;
+        var pad = Gamepad.current;
+
+        if (kb.spaceKey.isPressed || (pad != null && pad.rightTrigger.isPressed))
+        {
+            HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
+            SceneManager.LoadScene("Game");
+        }
     }
 
     void CheckPlayerBoundaries()
