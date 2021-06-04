@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
         //HUD.instance.AdjustRainbowGauge(rainbowGaugeMaxValue);
         HUD.instance.levelText.text = "Level " + level;
         targetCount = DEFAULT_TARGET;
-        enemyCount = 19;
+        //enemyCount = 19;
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
         HUD.instance.livesCountText.text = "x " + playerLives;
 
@@ -157,10 +157,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //update background
+        UpdateBackground();
+
+        //move enemies
+        EnemyManager.instance.MoveAllEnemies();
+
         if (!isGameOver)
         {
-            //update background
-            UpdateBackground();
+            
             //explosionAnim.Play(STATE_EXPLOSION);
             //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
             playerPos = player.transform.position;
@@ -176,9 +181,6 @@ public class GameManager : MonoBehaviour
             //manage stars
             //StartCoroutine(ManageStars());
 
-            //move enemies
-            EnemyManager.instance.MoveAllEnemies();
-
             //Update HUD
             HUD.instance.levelText.text = "Level " + level;
             HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
@@ -192,8 +194,9 @@ public class GameManager : MonoBehaviour
         else
         {
             //game is over. Pause game, show game over message, and allow player to restart
-            Debug.Log("Game OVER");
-            Time.timeScale = 0;
+            //StartCoroutine(CallGameOver());
+            Invoke("CallGameOver", 2f);
+            //Time.timeScale = 0;
         }
     }
 
@@ -275,7 +278,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     #endregion
+
+    void CallGameOver()
+    {
+        Debug.Log("Game OVER");
+        Time.timeScale = 0;
+    }
 
     void CheckPlayerBoundaries()
     {
@@ -344,7 +354,7 @@ public class GameManager : MonoBehaviour
     /*Increases difficulty of next level. Player gains 1 life after every level*/
     void AdvanceLevel()
     {
-        audioSource.PlayOneShot(levelClear);
+        audioSource.PlayOneShot(levelClear, 1f);
         level++;
         playerLives++;
         EnemyManager.instance.AdvanceLevel();     
