@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 
 public class HUD : MonoBehaviour
 {
+    [Header("Screen Fade")]
+    public Animator anim;
+
     [Header("Rainbow Gauge")]
     public Slider fillRainbowMeter;
     public Slider fillDamage;

@@ -78,13 +78,15 @@ public class GameManager : MonoBehaviour
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
     const int DEFAULT_ENEMY_TOTAL = 4;
     const int DEFAULT_TARGET = 20;                              //initial number of enemies to kill to advance level
-    const string STATE_EXPLOSION = "Explosion";
+    //const string STATE_EXPLOSION = "Explosion";
 
+    //coroutine check
+    bool isRestartCoroutineRunning;
     //animatons
-    [Header("Animations")]
-    public Animator explosionAnim;
-    public AnimationController animController;                               //handles all animations
-    string currentState;
+    //[Header("Animations")]
+    //public Animator explosionAnim;
+   // public AnimationController animController;                               //handles all animations
+    //string currentState;
 
     public static GameManager instance;
 
@@ -95,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     public float SoundEffectVolume() { return SFX_VOLUME; }
 
-    public string ExplosionState() { return STATE_EXPLOSION; }
+    //public string ExplosionState() { return STATE_EXPLOSION; }
 
     #endregion
 
@@ -143,6 +145,7 @@ public class GameManager : MonoBehaviour
         HUD.instance.livesCountText.text = "x " + playerLives;
 
         isGameOver = false;
+        isRestartCoroutineRunning = false;
         //set up stars
         //starList = new List<GameObject>();
         //SetupStars(starList);
@@ -201,7 +204,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void ChangeAnimationState(Animator anim, string animState)
+    /*void ChangeAnimationState(Animator anim, string animState)
     {
         if (currentState == animState)
             return;
@@ -209,7 +212,7 @@ public class GameManager : MonoBehaviour
         anim.Play(animState);
 
         currentState = animState;
-    }
+    }*/
 
     void UpdateBackground()
     {
@@ -278,7 +281,17 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }*/
+    IEnumerator RestartGame()
+    {
+        isRestartCoroutineRunning = true;
+        HUD.instance.anim.SetTrigger("Start");
 
+        yield return new WaitForSeconds(1f);
+
+        HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
+        HUD.instance.anim.SetTrigger("End");
+        SceneManager.LoadScene("Game");
+    }
 
     #endregion
 
@@ -297,8 +310,8 @@ public class GameManager : MonoBehaviour
 
         if (kb.spaceKey.isPressed || (pad != null && pad.rightTrigger.isPressed))
         {
-            HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
-            SceneManager.LoadScene("Game");
+            if (!isRestartCoroutineRunning)
+                StartCoroutine(RestartGame());
         }
     }
 
