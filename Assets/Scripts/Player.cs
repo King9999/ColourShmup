@@ -131,8 +131,8 @@ public class Player : MonoBehaviour
                 else if (superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired)
                 {
                     //fire!
-                    StartCoroutine(ActivateSuperBullet());
-                    //superBullet.GetComponent<SuperBullet>().BulletFired = true;
+                    //StartCoroutine(ActivateSuperBullet());
+                    superBullet.GetComponent<SuperBullet>().BulletFired = true;
 
                     //player is invincible while super bullet is engaged.
                     StartCoroutine(BeginInvincibility(true));

@@ -29,8 +29,9 @@ public class GameManager : MonoBehaviour
     public AudioClip playerHit;                         //plays when player hit by something but not destroyed
     public AudioClip rainbowShot;
     public AudioClip levelClear;
+    public AudioClip altMusic;                          //plays when player reaches level 10.
     [HideInInspector]
-    public AudioSource audioSource;
+    public AudioSource audioSource;                     //used to play sound effects
     public AudioSource musicSource;
     
 
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
 
     //consts
     const float SFX_VOLUME = 0.2f;                                   //default sound volume so it doesn't overpower the music.
-    const float MUSIC_VOLUME = 0.5f;
+    const float INIT_MUSIC_VOLUME = 0.5f;
     const int STAR_COUNT = 80;
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
@@ -82,10 +83,13 @@ public class GameManager : MonoBehaviour
 
     //coroutine check
     bool isRestartCoroutineRunning;
+    bool isIntensifyCoroutineRunning;
+    float scrollSpeed;                                          //controls background movement.
+
     //animatons
     //[Header("Animations")]
     //public Animator explosionAnim;
-   // public AnimationController animController;                               //handles all animations
+    // public AnimationController animController;                               //handles all animations
     //string currentState;
 
     public static GameManager instance;
@@ -117,7 +121,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Random.InitState((int)System.DateTime.Now.Ticks);   //set a new seed. Unsure if Unity keeps the same seed until game is closed.
-
         //set up player at bottom of screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);   //converting screen pixels to units
         player = Instantiate(playerPrefab, new Vector3(0, screenPos.y * -SCREEN_BOUNDARY_Y, 0), Quaternion.identity);
@@ -128,6 +131,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("Background num is " + backgroundNum);
         background[0] = Instantiate(backgroundPrefab[backgroundNum], new Vector3(0, 0, 10), Quaternion.identity);
         background[1] = Instantiate(backgroundPrefab[backgroundNum], new Vector3(0, backgroundPrefab[backgroundNum].GetComponent<SpriteRenderer>().bounds.extents.y * 2, 10), Quaternion.identity);
+        scrollSpeed = 1;
 
         audioSource = GetComponent<AudioSource>();
         speedUpLabelList = new List<GameObject>();
@@ -142,12 +146,13 @@ public class GameManager : MonoBehaviour
         //HUD.instance.AdjustRainbowGauge(rainbowGaugeMaxValue);
         HUD.instance.levelText.text = "Level " + level;
         targetCount = DEFAULT_TARGET;
-        //enemyCount = 19;
+        enemyCount = 19;
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
         HUD.instance.livesCountText.text = "x " + playerLives;
 
         isGameOver = false;
         isRestartCoroutineRunning = false;
+        isIntensifyCoroutineRunning = false;
         //set up stars
         //starList = new List<GameObject>();
         //SetupStars(starList);
@@ -218,7 +223,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateBackground()
     {
-        float scrollSpeed = 1;
+        //float scrollSpeed = 1;
         float yOffset = 0.5f;       //used to eliminate gap between backgrounds
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
@@ -293,6 +298,35 @@ public class GameManager : MonoBehaviour
         HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
         HUD.instance.anim.SetTrigger("End");
         SceneManager.LoadScene("Game");
+    }
+
+    IEnumerator IntensifyGame()
+    {
+        isIntensifyCoroutineRunning = true; //stays true since we don't need to run this coroutine again.
+
+        float maxSpeed = 6f;
+        //fade out music
+        while (musicSource.volume > 0)
+        {
+            musicSource.volume -= 0.02f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        musicSource.Stop();
+       
+        //gradually increase background scroll speed
+        while (scrollSpeed < maxSpeed)
+        {
+            scrollSpeed += 0.5f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        scrollSpeed = maxSpeed; //in case it's off by a little.
+
+        //once scroll speed is maxed, play new music.
+        musicSource.clip = altMusic;
+        musicSource.volume = INIT_MUSIC_VOLUME;
+        musicSource.Play();
     }
 
     #endregion
@@ -391,6 +425,10 @@ public class GameManager : MonoBehaviour
         enemyCount = 0;
         targetCount += 2;
         //enemyTotal++;
+
+        //if level 10 is reached, play new music
+        if (level >= 10 && !isIntensifyCoroutineRunning)
+            StartCoroutine(IntensifyGame());
 
         //get ready
         HUD.instance.ShowGetReadyText();
