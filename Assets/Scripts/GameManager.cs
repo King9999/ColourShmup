@@ -133,7 +133,12 @@ public class GameManager : MonoBehaviour
         background[1] = Instantiate(backgroundPrefab[backgroundNum], new Vector3(0, backgroundPrefab[backgroundNum].GetComponent<SpriteRenderer>().bounds.extents.y * 2, 10), Quaternion.identity);
         scrollSpeed = 1;
 
+        //audio check
         audioSource = GetComponent<AudioSource>();
+        HUD.instance.muteIcon.enabled = (HUD_Menu.muted == true) ? true : false;
+        audioSource.enabled = (HUD_Menu.muted == false) ? true : false;
+        musicSource.enabled = (HUD_Menu.muted == false) ? true : false;
+
         speedUpLabelList = new List<GameObject>();
         energyLabelList = new List<GameObject>();
         absorbLabelList = new List<GameObject>();

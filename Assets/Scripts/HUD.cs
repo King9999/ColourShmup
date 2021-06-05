@@ -47,7 +47,7 @@ public class HUD : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this);    //want to be able to use this on multiple scenes, where sound can be disabled/enabled
+        //DontDestroyOnLoad(this);    //want to be able to use this on multiple scenes, where sound can be disabled/enabled
     }
 
     private void Start()
