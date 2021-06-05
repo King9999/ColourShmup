@@ -135,9 +135,9 @@ public class GameManager : MonoBehaviour
 
         //audio check
         audioSource = GetComponent<AudioSource>();
-        HUD.instance.muteIcon.enabled = (HUD_Menu.muted == true) ? true : false;
-        audioSource.enabled = (HUD_Menu.muted == false) ? true : false;
-        musicSource.enabled = (HUD_Menu.muted == false) ? true : false;
+        HUD.instance.muteIcon.enabled = (HUD_Menu.instance.muted == true) ? true : false;
+        audioSource.enabled = (HUD_Menu.instance.muted == false) ? true : false;
+        musicSource.enabled = (HUD_Menu.instance.muted == false) ? true : false;
 
         speedUpLabelList = new List<GameObject>();
         energyLabelList = new List<GameObject>();
@@ -296,12 +296,12 @@ public class GameManager : MonoBehaviour
     IEnumerator RestartGame()
     {
         isRestartCoroutineRunning = true;
-        HUD.instance.anim.SetTrigger("Start");
+        HUD_Menu.instance.anim.SetTrigger("Start");
 
         yield return new WaitForSeconds(1f);
 
         HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
-        HUD.instance.anim.SetTrigger("End");
+        HUD_Menu.instance.anim.SetTrigger("End");
         SceneManager.LoadScene("Game");
     }
 
@@ -425,11 +425,13 @@ public class GameManager : MonoBehaviour
     {
         audioSource.PlayOneShot(levelClear, 1f);
         level++;
-        playerLives++;
         EnemyManager.instance.AdvanceLevel();     
         enemyCount = 0;
-        targetCount += 2;
-        //enemyTotal++;
+        targetCount++;
+        
+        //gain a life every 3 levels.
+        if (level % 3 == 0)
+            playerLives++;
 
         //if level 10 is reached, play new music
         if (level >= 10 && !isIntensifyCoroutineRunning)

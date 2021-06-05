@@ -67,7 +67,7 @@ public class SuperBullet : MonoBehaviour
 
     bool AudioEnabled()
     {
-        return GetComponent<AudioSource>().enabled = (HUD.instance.muted == false) ? true : false;
+        return GetComponent<AudioSource>().enabled = (HUD_Menu.instance.muted == false) ? true : false;
     }
 
     void SuperBulletEnabled(bool toggle)

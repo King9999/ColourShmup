@@ -237,7 +237,7 @@ public class EnemyManager : MonoBehaviour
                 enemyShotChance = 1;
 
             //enemies spawn a little faster
-            spawnMod += 0.1f;
+            spawnMod += 0.2f;
         }
     }
 

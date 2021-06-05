@@ -16,15 +16,31 @@ public class HUD_Menu : MonoBehaviour
     public TextMeshProUGUI soundText;       //allows game to be muted.
     public TextMeshProUGUI soundToggleText;
     public Image cursor;
-    public static bool muted;
+    public bool muted;
 
-    Vector3[] menus;                  //contains positions of menu elements.
+    [Header("Screen Fade")]
+    public Animator anim;
+
+    [Header("Audio")]
+    public AudioSource soundSource;         //used for sound test
+
+    Vector3[] menus;                        //contains positions of menu elements.
     int currentMenu;
     const int START = 0;
     const int HELP = 1;
     const int SOUND = 2;
+
+    public static HUD_Menu instance;
+
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
         //DontDestroyOnLoad(this);
     }
     void Start()
@@ -93,7 +109,24 @@ public class HUD_Menu : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //check what player selected and move to new scene. If sound was selected, toggle on or off
-            
+            if (currentMenu == START)
+            {
+                //load game
+                StartCoroutine(OpenScene("Game"));
+            }
+            else if (currentMenu == HELP)
+            {
+                //load help
+            }
+            else
+            {
+                //toggle sound
+                muted = !muted;
+                soundToggleText.text = (muted == true) ? "Off" : "On";
+                if (muted == false)
+                    //play sound to alert player that sound is on.
+                    soundSource.Play();
+            }
             Debug.Log("Selected Menu Option");
         }
     }
@@ -109,5 +142,13 @@ public class HUD_Menu : MonoBehaviour
         helpMenuText.enabled = true;
         soundText.enabled = true;
         soundToggleText.enabled = true;
+    }
+
+    IEnumerator OpenScene(string sceneName)
+    {
+        anim.SetTrigger("Start");
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.LoadScene(sceneName);
     }
 }

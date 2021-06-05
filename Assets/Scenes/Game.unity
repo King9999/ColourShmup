@@ -844,7 +844,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1655,7 +1655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d892ef6ed2a1130409f60652ba3bef15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 1864492704}
   fillRainbowMeter: {fileID: 2130460392}
   fillDamage: {fileID: 471930140}
   reductionAmount: 0.1
@@ -1664,7 +1663,6 @@ MonoBehaviour:
   livesCountText: {fileID: 1097375426}
   readyText: {fileID: 115284836}
   muteIcon: {fileID: 923672323}
-  muted: 0
   livesImage: {fileID: 146772671}
   livesSpriteRed: {fileID: 21300000, guid: e853d4f4345f46945a6bc762c3852384, type: 3}
   livesSpriteBlue: {fileID: 21300000, guid: 62d3bca28fdae51429b83a5d3a2ae5d2, type: 3}
@@ -1872,11 +1870,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!95 &1864492704 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1608988109080889670, guid: 630953e11aa6b7a44bb2788b3117eb87, type: 3}
-  m_PrefabInstance: {fileID: 3560247848688993616}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1901103865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,7 +2080,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 60.7
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

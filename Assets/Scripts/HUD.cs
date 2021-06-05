@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class HUD : MonoBehaviour
 {
     [Header("Screen Fade")]
-    public Animator anim;
+    //public Animator anim;
 
     [Header("Rainbow Gauge")]
     public Slider fillRainbowMeter;
@@ -23,7 +23,7 @@ public class HUD : MonoBehaviour
 
     [Header("Audio")]
     public Image muteIcon;
-    public bool muted;                       //false by default
+    //public bool muted;                       //false by default
 
     [Header("Player Colours")]
     public Image livesImage;
@@ -47,7 +47,7 @@ public class HUD : MonoBehaviour
         }
 
         instance = this;
-        //DontDestroyOnLoad(this);    //want to be able to use this on multiple scenes, where sound can be disabled/enabled
+       // DontDestroyOnLoad(this);    //want to be able to use this on multiple scenes, where sound can be disabled/enabled
     }
 
     private void Start()

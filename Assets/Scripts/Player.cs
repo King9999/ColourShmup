@@ -677,13 +677,13 @@ public class Player : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            HUD_Menu.muted = !HUD_Menu.muted;
+            HUD_Menu.instance.muted = !HUD_Menu.instance.muted;
             //Debug.Log("Muted is " + HUD.instance.muted);
 
             //change audioSource
-            HUD.instance.muteIcon.enabled = (HUD_Menu.muted == true) ? true : false;
-            GameManager.instance.audioSource.enabled = (HUD_Menu.muted == false) ? true : false;
-            GameManager.instance.musicSource.enabled = (HUD_Menu.muted == false) ? true : false;
+            HUD.instance.muteIcon.enabled = (HUD_Menu.instance.muted == true) ? true : false;
+            GameManager.instance.audioSource.enabled = (HUD_Menu.instance.muted == false) ? true : false;
+            GameManager.instance.musicSource.enabled = (HUD_Menu.instance.muted == false) ? true : false;
         }
 
     }
