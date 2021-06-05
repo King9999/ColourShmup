@@ -29,18 +29,24 @@ public class EnemyManager : MonoBehaviour
     const int INIT_ENEMY_COUNT = 4;
     const float INIT_SPAWN_TIME = 2;
     const float SHOT_INC_AMT = 0.04f;
+    const float INIT_MOVE_SPEED = 0.5f;
 
+    //a new path unlocks after each level. After level 10, enemy speed increases.
     public enum PathType
     {
         LinearVertical,
-        LinearHorizontalR,
-        LinearHorizontalL,
-        ZigzagVertical,
-        LoopR,
+        LinearHorizontalR,          
+        LinearHorizontalL,          
+        ZigzagVertical,            
+        LoopR,                      
         Lasso,
         CurveUp,
-        CurveDown
+        CurveDown,
+        SwirlL,
+        SwirlR
     };
+
+    int pathUnlockLevel;            //index that controls which paths are unlocked.
 
     public static EnemyManager instance;
 
@@ -62,7 +68,9 @@ public class EnemyManager : MonoBehaviour
         totalEnemyCount = INIT_ENEMY_COUNT;
         spawnTimer = INIT_SPAWN_TIME;
         postLevelCooldown = 5;          //game starts with cooldown so player can get ready
+        pathUnlockLevel = 0;
         spawnMod = 0;
+        enemyMoveSpeed = INIT_MOVE_SPEED;
 
         enemies = new List<GameObject>();
         enemyBullets = new List<GameObject>();
@@ -83,7 +91,7 @@ public class EnemyManager : MonoBehaviour
                 currentTime = Time.time;
                 postLevelCooldown = 0;
 
-                int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
+                int randomPath = UnityEngine.Random.Range(0, pathUnlockLevel + 1);
 
                 //randomize the path's starting X or Y position based on the path chosen
                 if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR || randomPath == (int)PathType.LoopR
@@ -213,6 +221,12 @@ public class EnemyManager : MonoBehaviour
         postLevelCooldown = 5;             //giving player a breather before level begins
         currentEnemyCount = 0;
         totalEnemyCount++;
+
+        if (pathUnlockLevel + 1 <= pathPrefab.Length - 1)
+            pathUnlockLevel++;
+        else
+            //raise enemy speed instead.
+            enemyMoveSpeed += 0.1f;
 
         //set shot chance and adjust spawn timer according to current level. shot chance goes up the higher the level.
         if (GameManager.instance.level % 2 == 0)

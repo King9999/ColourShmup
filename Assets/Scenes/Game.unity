@@ -241,11 +241,15 @@ MonoBehaviour:
   - {fileID: 1612728916975706853, guid: 8d8946be59d93474b8189b55f4bdaa06, type: 3}
   - {fileID: 8717586631652521936, guid: e8dbf334f699d0c40a30c4c3e6bddecb, type: 3}
   - {fileID: 670956413497044205, guid: b3a69d22f5497294bbdc642024cb2fa4, type: 3}
+  - {fileID: 75273211152423803, guid: 1a4fb8f1eb52a6d4f9df9d151b324da3, type: 3}
+  - {fileID: 196920641364691155, guid: da6dde16a420c35438e47a726b532612, type: 3}
+  - {fileID: 7061307591343408570, guid: c532764d6ae875c4a93cd946e888d692, type: 3}
+  - {fileID: 1389895538519061803, guid: bb0a7957d05b80d4bab4471579d39304, type: 3}
+  - {fileID: 7892391660403622164, guid: 6c90123bb86aa40499471cfd4d74761e, type: 3}
+  - {fileID: 534453789665128711, guid: 623ac49ebf8ebe64a82629f9a886b465, type: 3}
   enemyShotChance: 0
   enemyMoveSpeed: 0.5
   bulletSpeed: 2
-  enemyPath: {fileID: 0}
-  path: 1
   currentEnemy: 0
   spawnTimer: 0
   postLevelCooldown: 0
