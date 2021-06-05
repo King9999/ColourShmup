@@ -15,8 +15,8 @@ public class EnemyManager : MonoBehaviour
     public float enemyShotChance;
     public float enemyMoveSpeed;
     public float bulletSpeed;
-    public Path enemyPath;
-    public Path.PathType path;
+    //public Path enemyPath;
+   //public Path.PathType path;
     public int currentEnemy;
     float currentTime;
     public float spawnTimer;                       //controls how fast enemies are spawned. can be random. Value is in seconds
@@ -35,7 +35,11 @@ public class EnemyManager : MonoBehaviour
         LinearVertical,
         LinearHorizontalR,
         LinearHorizontalL,
-        ZigzagVertical
+        ZigzagVertical,
+        LoopR,
+        Lasso,
+        CurveUp,
+        CurveDown
     };
 
     public static EnemyManager instance;
@@ -82,7 +86,8 @@ public class EnemyManager : MonoBehaviour
                 int randomPath = UnityEngine.Random.Range(0, pathPrefab.Length);
 
                 //randomize the path's starting X or Y position based on the path chosen
-                if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR)
+                if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR || randomPath == (int)PathType.LoopR
+                    || randomPath == (int)PathType.CurveUp || randomPath == (int)PathType.CurveDown)
                 {
                     pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(0, UnityEngine.Random.Range(-screenPos.y * boundaryY, screenPos.y * boundaryY), 0), Quaternion.identity));
                     enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x,
@@ -165,10 +170,10 @@ public class EnemyManager : MonoBehaviour
     {
         return SHOT_INC_AMT;
     }
-    public List<Vector3>[] EnemyPath()
+    /*public List<Vector3>[] EnemyPath()
     {
         return enemyPath.pathPoints;
-    }
+    }*/
 
     public void MoveAllEnemies()
     {
