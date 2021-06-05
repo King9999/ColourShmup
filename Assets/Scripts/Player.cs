@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     const float INIT_COOLDOWN = 0.4f;    //need to have this since cooldown changes over time.
     const float BULLET_GAIN_AMOUNT = 20;        //default value added to rainbow gauge if bullet of same colour touched
     const float ENEMY_GAIN_AMOUNT = 30;         //default value added to rainbow gauge if enemy of same colour touched
+    const float INIT_BULLET_SPEED = 6f;
 
     [Header("Bullet Data")]
     public List<GameObject> playerBullets;
@@ -71,6 +72,7 @@ public class Player : MonoBehaviour
         playerBullets = new List<GameObject>();
         playerBulletClip = new bool[BULLET_LIMIT];
         superBulletEngaged = false;
+        bulletSpeed = INIT_BULLET_SPEED;
 
         for (int i = 0; i < BULLET_LIMIT; i++)
         {
@@ -131,8 +133,8 @@ public class Player : MonoBehaviour
                 else if (superBulletEngaged && !superBullet.GetComponent<SuperBullet>().BulletFired)
                 {
                     //fire!
-                    //StartCoroutine(ActivateSuperBullet());
-                    superBullet.GetComponent<SuperBullet>().BulletFired = true;
+                    StartCoroutine(ActivateSuperBullet());
+                    //superBullet.GetComponent<SuperBullet>().BulletFired = true;
 
                     //player is invincible while super bullet is engaged.
                     StartCoroutine(BeginInvincibility(true));
@@ -478,10 +480,13 @@ public class Player : MonoBehaviour
 
     //used to pause the game briefly before super bullet is activated.
     /*NOTE: must use Time.unscaledTime to check time because setting 0 to time scale will
-     * result in the game being paused, and Time.time won't tick. */
+     * result in the game being paused, and Time.time won't tick. 
+     I found a bug where player is invincible and the super bullet never fires. It occurs when
+    player fires at the same they're hit while rainbow gauge is full. I think 
+    this pause will help prevent that bug, so I restored it.*/
     IEnumerator ActivateSuperBullet()
     {
-        float duration = 0.5f;
+        float duration = 0.05f;
         float currentTime = Time.unscaledTime;
         //Instantiate(chargeUpPrefab, new Vector3(transform.position.x, transform.position.y + GetComponent<SpriteRenderer>().bounds.extents.y + 1, 0), Quaternion.identity);
         while (Time.unscaledTime < currentTime + duration)
@@ -514,6 +519,16 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<BoxCollider2D>().enabled = true;
             playerDead = false;
+
+            //reset bullet speed
+            bulletSpeed = INIT_BULLET_SPEED;
+            shotCooldown = INIT_COOLDOWN;
+            for (int i = 0; i < BULLET_LIMIT; i++)
+            {
+                playerBulletClip[i] = true;
+                playerBullets[i].GetComponent<Bullet>().BulletSpeed = bulletSpeed;
+            }
+
             StartCoroutine(BeginInvincibility());
         }
       

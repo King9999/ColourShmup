@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
         //HUD.instance.AdjustRainbowGauge(rainbowGaugeMaxValue);
         HUD.instance.levelText.text = "Level " + level;
         targetCount = DEFAULT_TARGET;
-        enemyCount = 19;
+        //enemyCount = 19;
         HUD.instance.enemyCountText.text = "Enemies Destroyed: " + enemyCount + " / " + targetCount;
         HUD.instance.livesCountText.text = "x " + playerLives;
 
