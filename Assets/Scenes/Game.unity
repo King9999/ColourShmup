@@ -884,7 +884,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.20473477, g: 0.28680718, b: 0.6698113, a: 1}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1716,6 +1716,7 @@ MonoBehaviour:
   playerHit: {fileID: 8300000, guid: 9fa36ed20925f9041b11098cff74c96c, type: 3}
   rainbowShot: {fileID: 8300000, guid: 2500b68ab6428c1468c5fc1f4d8def6b, type: 3}
   levelClear: {fileID: 8300000, guid: 86f6144a590969b47b067a6d0eb50304, type: 3}
+  altMusic: {fileID: 8300000, guid: 7c6584ff4a2c0d5458824bc9611140f5, type: 3}
   audioSource: {fileID: 0}
   musicSource: {fileID: 1901103866}
   rainbowGaugeMaxValue: 100
