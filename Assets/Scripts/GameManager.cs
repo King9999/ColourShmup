@@ -296,12 +296,12 @@ public class GameManager : MonoBehaviour
     IEnumerator RestartGame()
     {
         isRestartCoroutineRunning = true;
-        HUD_Menu.instance.anim.SetTrigger("Start");
+        HUD.instance.anim.SetTrigger("Start");
 
         yield return new WaitForSeconds(1f);
 
         HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
-        HUD_Menu.instance.anim.SetTrigger("End");
+        HUD.instance.anim.SetTrigger("End");
         SceneManager.LoadScene("Game");
     }
 

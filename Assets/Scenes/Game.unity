@@ -1212,8 +1212,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.5, y: 0}
-  m_SizeDelta: {x: 46.6019, y: 41.4779}
+  m_AnchoredPosition: {x: 24.672302, y: 0}
+  m_SizeDelta: {x: 58.9465, y: 41.4779}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1108255951
 GameObject:
@@ -1655,6 +1655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d892ef6ed2a1130409f60652ba3bef15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 3560247848688993618}
   fillRainbowMeter: {fileID: 2130460392}
   fillDamage: {fileID: 471930140}
   reductionAmount: 0.1
@@ -2192,5 +2193,10 @@ PrefabInstance:
 --- !u!224 &3560247848688993617 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2241902562933655104, guid: 630953e11aa6b7a44bb2788b3117eb87, type: 3}
+  m_PrefabInstance: {fileID: 3560247848688993616}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3560247848688993618 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1608988109080889670, guid: 630953e11aa6b7a44bb2788b3117eb87, type: 3}
   m_PrefabInstance: {fileID: 3560247848688993616}
   m_PrefabAsset: {fileID: 0}
