@@ -295,8 +295,7 @@ public class GameManager : MonoBehaviour
 
     void CallGameOver()
     {
-        Debug.Log("Game OVER");
-        //Time.timeScale = 0;
+        //Debug.Log("Game OVER");
 
         //show game over message, and allow player to restart.
         //should re-load same scene.

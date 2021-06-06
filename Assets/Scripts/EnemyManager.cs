@@ -97,13 +97,13 @@ public class EnemyManager : MonoBehaviour
                 if (randomPath == (int)PathType.LinearHorizontalL || randomPath == (int)PathType.LinearHorizontalR || randomPath == (int)PathType.LoopR
                     || randomPath == (int)PathType.CurveUp || randomPath == (int)PathType.CurveDown)
                 {
-                    pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(0, UnityEngine.Random.Range(-screenPos.y * boundaryY, screenPos.y * boundaryY), 0), Quaternion.identity));
+                    pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(0, UnityEngine.Random.Range(-screenPos.y * boundaryY + 1, screenPos.y * boundaryY - 1), 0), Quaternion.identity));
                     enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x,
                        pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y + pathList[pathList.Count - 1].GetComponent<Transform>().position.y, 0), Quaternion.identity));
                 }
                 else
                 {
-                    pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundaryX, screenPos.x * boundaryX), 0, 0), Quaternion.identity));
+                    pathList.Add(Instantiate(pathPrefab[randomPath], new Vector3(UnityEngine.Random.Range(-screenPos.x * boundaryX + 1, screenPos.x * boundaryX - 1), 0, 0), Quaternion.identity));
                     enemies.Add(Instantiate(enemyPrefab, new Vector3(pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.x + pathList[pathList.Count - 1].GetComponent<Transform>().position.x,
                         pathPrefab[randomPath].GetComponent<Transform>().GetChild(0).position.y, 0), Quaternion.identity));
                 }

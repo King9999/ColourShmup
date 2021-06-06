@@ -108,12 +108,12 @@ public class Enemy : MonoBehaviour
     {
         //Enemies start shooting at the player at higher levels. I multiply value by 20 to reduce the frequency of shots. If it's still too high
         //I may reduce the shot chance.
-        float shotRoll = Random.value * 20;
+        float shotRoll = Random.value * 100;
         if (shotRoll > 1) 
             shotRoll = 1;
         if (shotRoll <= shotChance && Time.time > currentTime + shotCooldown)
         {
-            Debug.Log("Random value " + shotRoll);
+            Debug.Log("Random value " + shotRoll + " Shot Chance: " + shotChance);
             currentTime = Time.time;
             ShootBullet();
             //randomize the next cooldown to vary timing of shots
