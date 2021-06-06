@@ -117,6 +117,7 @@ public class HUD_Menu : MonoBehaviour
             else if (currentMenu == HELP)
             {
                 //load help
+                StartCoroutine(OpenScene("Help"));
             }
             else
             {
