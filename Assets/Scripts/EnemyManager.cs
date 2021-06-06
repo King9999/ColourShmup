@@ -222,6 +222,7 @@ public class EnemyManager : MonoBehaviour
         currentEnemyCount = 0;
         totalEnemyCount++;
         enemyMoveSpeed += 0.2f;
+        bulletSpeed += 0.1f;
 
         //unlock new path. Ends after level 10
         if (pathUnlockLevel + 1 <= pathPrefab.Length - 1)

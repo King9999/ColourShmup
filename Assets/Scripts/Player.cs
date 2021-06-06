@@ -31,9 +31,10 @@ public class Player : MonoBehaviour
     const byte BULLET_LIMIT = 5;         //max number of bullets that can be generated in the game
     const float MAX_SPEED = 12;          //highest bullet speed
     const float INIT_COOLDOWN = 0.4f;    //need to have this since cooldown changes over time.
-    const float BULLET_GAIN_AMOUNT = 20;        //default value added to rainbow gauge if bullet of same colour touched
-    const float ENEMY_GAIN_AMOUNT = 30;         //default value added to rainbow gauge if enemy of same colour touched
+    const float BULLET_GAIN_AMOUNT = 10;        //default value added to rainbow gauge if bullet of same colour touched
+    const float ENEMY_GAIN_AMOUNT = 15;         //default value added to rainbow gauge if enemy of same colour touched
     const float INIT_BULLET_SPEED = 6f;
+    const float DAMAGE_MOD = 2f;            //used to modify how much damage player takes.
 
     [Header("Bullet Data")]
     public List<GameObject> playerBullets;
@@ -163,40 +164,40 @@ public class Player : MonoBehaviour
                     if (sr.sprite == bulletColor.bulletRed)
                         gaugeAmount = BULLET_GAIN_AMOUNT;
                     else if (sr.sprite == bulletColor.bulletBlue)   //did we touch an opposing colour?
-                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 case BLUE:
                     if (sr.sprite == bulletColor.bulletBlue)
                         gaugeAmount = BULLET_GAIN_AMOUNT;
                     else if (sr.sprite == bulletColor.bulletRed)   //did we touch an opposing colour?
-                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 case WHITE:
                     if (sr.sprite == bulletColor.bulletWhite)
                         gaugeAmount = BULLET_GAIN_AMOUNT;
                     else if (sr.sprite == bulletColor.bulletBlack)   //did we touch an opposing colour?
-                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 case BLACK:
                     if (sr.sprite == bulletColor.bulletBlack)
                         gaugeAmount = BULLET_GAIN_AMOUNT;
                     else if (sr.sprite == bulletColor.bulletWhite)   //did we touch an opposing colour?
-                        gaugeAmount = -BULLET_GAIN_AMOUNT * 2;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -BULLET_GAIN_AMOUNT;
+                        gaugeAmount = -BULLET_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 default:
@@ -255,40 +256,40 @@ public class Player : MonoBehaviour
                     if (enemy.currentColor == RED)
                         gaugeAmount = ENEMY_GAIN_AMOUNT;
                     else if (enemy.currentColor == BLUE)   //did we touch an opposing colour?
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 case BLUE:
                     if (enemy.currentColor == BLUE)
                         gaugeAmount = ENEMY_GAIN_AMOUNT;
                     else if (enemy.currentColor == RED)   //did we touch an opposing colour?
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 case WHITE:
                     if (enemy.currentColor == WHITE)
                         gaugeAmount = ENEMY_GAIN_AMOUNT;
                     else if (enemy.currentColor == BLACK)   //did we touch an opposing colour?
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 case BLACK:
                     if (enemy.currentColor == BLACK)
                         gaugeAmount = ENEMY_GAIN_AMOUNT;
                     else if (enemy.currentColor == WHITE)   //did we touch an opposing colour?
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT * 2;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD * 2;
                     else
                         //take normal damage
-                        gaugeAmount = -ENEMY_GAIN_AMOUNT;
+                        gaugeAmount = -ENEMY_GAIN_AMOUNT * DAMAGE_MOD;
                     break;
 
                 default:

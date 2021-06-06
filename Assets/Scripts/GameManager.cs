@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     const float SCREEN_BOUNDARY_X = 10;                           //used with WorldToViewPort to get the screen boundary. calculated by dividing screen width with PPU (100)
     const float SCREEN_BOUNDARY_Y = 7;                            //Screen height divided by PPU
     const int DEFAULT_ENEMY_TOTAL = 4;
-    const int DEFAULT_TARGET = 20;                              //initial number of enemies to kill to advance level
+    const int DEFAULT_TARGET = 10;                              //initial number of enemies to kill to advance level
     //const string STATE_EXPLOSION = "Explosion";
 
     //coroutine checks
@@ -384,7 +384,7 @@ public class GameManager : MonoBehaviour
         level++;
         EnemyManager.instance.AdvanceLevel();     
         enemyCount = 0;
-        targetCount++;
+        targetCount += 2;
         
         //gain a life every 3 levels.
         if (level % 3 == 0)
