@@ -28,7 +28,7 @@ public class EnemyManager : MonoBehaviour
     //consts
     const int INIT_ENEMY_COUNT = 4;
     const float INIT_SPAWN_TIME = 2;
-    const float SHOT_INC_AMT = 0.04f;
+    const float SHOT_INC_AMT = 0.08f;
     const float INIT_MOVE_SPEED = 2f;
 
     //a new path unlocks after each level. After level 10, enemy speed increases.
@@ -232,7 +232,7 @@ public class EnemyManager : MonoBehaviour
         //set shot chance and adjust spawn timer according to current level. shot chance goes up the higher the level.
         if (GameManager.instance.level % 2 == 0)
         {
-            enemyShotChance += SHOT_INC_AMT;  //increase shot chance by 4% every 2 levels
+            enemyShotChance += SHOT_INC_AMT;  //increase shot chance by 8% every 2 levels
 
             if (enemyShotChance > 1)
                 enemyShotChance = 1;

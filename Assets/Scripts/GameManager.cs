@@ -257,9 +257,9 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
-        HUD.instance.anim.SetTrigger("End");
-        SceneManager.LoadScene("Game");
+        //HUD.instance.gameoverImage.enabled = false; //this is done since HUD object is not destroyed.
+        //HUD.instance.anim.SetTrigger("End");
+        SceneManager.LoadScene("Menu");
     }
 
     IEnumerator IntensifyGame()
