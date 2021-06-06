@@ -204,12 +204,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        //enemies move in different ways. Their default is to move in a straight line, but as the game progresses
-        //their movement becomes more complex. 
-    }
-
     #region Collision Check
     private void OnTriggerEnter2D(Collider2D collision)
     {

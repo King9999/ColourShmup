@@ -248,7 +248,7 @@ MonoBehaviour:
   - {fileID: 7892391660403622164, guid: 6c90123bb86aa40499471cfd4d74761e, type: 3}
   - {fileID: 534453789665128711, guid: 623ac49ebf8ebe64a82629f9a886b465, type: 3}
   enemyShotChance: 0
-  enemyMoveSpeed: 0.5
+  enemyMoveSpeed: 2
   bulletSpeed: 2
   currentEnemy: 0
   spawnTimer: 0

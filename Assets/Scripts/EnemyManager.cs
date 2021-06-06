@@ -29,7 +29,7 @@ public class EnemyManager : MonoBehaviour
     const int INIT_ENEMY_COUNT = 4;
     const float INIT_SPAWN_TIME = 2;
     const float SHOT_INC_AMT = 0.04f;
-    const float INIT_MOVE_SPEED = 0.5f;
+    const float INIT_MOVE_SPEED = 2f;
 
     //a new path unlocks after each level. After level 10, enemy speed increases.
     public enum PathType
@@ -221,12 +221,12 @@ public class EnemyManager : MonoBehaviour
         postLevelCooldown = 5;             //giving player a breather before level begins
         currentEnemyCount = 0;
         totalEnemyCount++;
+        enemyMoveSpeed += 0.2f;
 
+        //unlock new path. Ends after level 10
         if (pathUnlockLevel + 1 <= pathPrefab.Length - 1)
             pathUnlockLevel++;
-        else
-            //raise enemy speed instead.
-            enemyMoveSpeed += 0.1f;
+            
 
         //set shot chance and adjust spawn timer according to current level. shot chance goes up the higher the level.
         if (GameManager.instance.level % 2 == 0)
@@ -243,7 +243,7 @@ public class EnemyManager : MonoBehaviour
 
     IEnumerator MoveEnemies()
     {
-        yield return new WaitForFixedUpdate();  //update every 0.02 seconds
+        yield return new WaitForEndOfFrame();
 
         foreach (GameObject enemy in enemies)
         {
