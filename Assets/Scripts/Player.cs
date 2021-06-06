@@ -687,4 +687,13 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        //important that player can't pause game when game is over.
+        if (!GameManager.instance.isGameOver && context.phase == InputActionPhase.Performed)
+        {
+            GameManager.instance.gamePaused = !GameManager.instance.gamePaused;
+        }
+    }
 }

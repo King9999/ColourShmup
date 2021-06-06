@@ -20,6 +20,7 @@ public class HUD : MonoBehaviour
     public TextMeshProUGUI enemyCountText;      //contains both the current count and the target amount
     public TextMeshProUGUI livesCountText;
     public TextMeshProUGUI readyText;
+    public GameObject pauseState;           //contains a screen and text that appears when game paused
 
     [Header("Audio")]
     public Image muteIcon;
@@ -55,6 +56,7 @@ public class HUD : MonoBehaviour
         //mute and game over icon disabled by default
         muteIcon.enabled = false;
         gameoverImage.enabled = false;
+        pauseState.SetActive(false);
     }
 
     // Update is called once per frame
@@ -62,7 +64,9 @@ public class HUD : MonoBehaviour
     {
         //adjust damage gauge
         StartCoroutine(ReduceDamageBar());
-      
+
+        //check for pause
+        pauseState.SetActive(GameManager.instance.gamePaused);
     }
 
     IEnumerator ReduceDamageBar()

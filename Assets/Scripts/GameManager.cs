@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour
     public int level;                                       //game difficulty rises after certain levels.
     public int playerLives;
     public bool isGameOver;
-    //public int enemyTotal;                              //total # of enemies to spawn at once.
+    public bool gamePaused;
+    public float scrollSpeed;                                      //controls background movement.
 
 
     [Header("Prefabs")]
@@ -54,7 +55,7 @@ public class GameManager : MonoBehaviour
     public GameObject starPrefab;
     public GameObject enemyPrefab;
     public GameObject[] backgroundPrefab;                     //this should be an array. 2 of them must be instantiated for scrolling purposes
-    public GameObject[] background;
+    GameObject[] background;
 
     //lists
     [HideInInspector]
@@ -69,8 +70,6 @@ public class GameManager : MonoBehaviour
     public List<GameObject> speedPowerupList;
    
 
-    List<GameObject> starList;                             //used to manage the random stars on screen
-
     //consts
     const float SFX_VOLUME = 0.2f;                                   //default sound volume so it doesn't overpower the music.
     const float INIT_MUSIC_VOLUME = 0.5f;
@@ -81,16 +80,9 @@ public class GameManager : MonoBehaviour
     const int DEFAULT_TARGET = 20;                              //initial number of enemies to kill to advance level
     //const string STATE_EXPLOSION = "Explosion";
 
-    //coroutine check
+    //coroutine checks
     bool isRestartCoroutineRunning;
     bool isIntensifyCoroutineRunning;
-    float scrollSpeed;                                          //controls background movement.
-
-    //animatons
-    //[Header("Animations")]
-    //public Animator explosionAnim;
-    // public AnimationController animController;                               //handles all animations
-    //string currentState;
 
     public static GameManager instance;
 
@@ -101,7 +93,6 @@ public class GameManager : MonoBehaviour
 
     public float SoundEffectVolume() { return SFX_VOLUME; }
 
-    //public string ExplosionState() { return STATE_EXPLOSION; }
 
     #endregion
 
@@ -121,6 +112,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Random.InitState((int)System.DateTime.Now.Ticks);   //set a new seed. Unsure if Unity keeps the same seed until game is closed.
+
         //set up player at bottom of screen
         Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);   //converting screen pixels to units
         player = Instantiate(playerPrefab, new Vector3(0, screenPos.y * -SCREEN_BOUNDARY_Y, 0), Quaternion.identity);
@@ -156,15 +148,9 @@ public class GameManager : MonoBehaviour
         HUD.instance.livesCountText.text = "x " + playerLives;
 
         isGameOver = false;
+        gamePaused = false;
         isRestartCoroutineRunning = false;
         isIntensifyCoroutineRunning = false;
-        //set up stars
-        //starList = new List<GameObject>();
-        //SetupStars(starList);
-
-        //animation set up
-        //animController = new AnimationController();
-        //explosionAnim = GetComponent<Animator>();
 
         //get ready!
         HUD.instance.ShowGetReadyText();
@@ -173,6 +159,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gamePaused)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
         //update background
         UpdateBackground();
 
@@ -181,9 +171,6 @@ public class GameManager : MonoBehaviour
 
         if (!isGameOver)
         {
-            
-            //explosionAnim.Play(STATE_EXPLOSION);
-            //ChangeAnimationState(explosionAnim, STATE_EXPLOSION);
             playerPos = player.transform.position;
 
             //check player boundaries
@@ -193,9 +180,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(ManagePickupLabels(speedUpLabelList));
             StartCoroutine(ManagePickupLabels(energyLabelList));
             StartCoroutine(ManagePickupLabels(absorbLabelList));
-
-            //manage stars
-            //StartCoroutine(ManageStars());
 
             //Update HUD
             HUD.instance.levelText.text = "Level " + level;
@@ -209,23 +193,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //game is over. stop music
+            //game is over
             musicSource.Stop();
             Invoke("CallGameOver", 2f);
-            //Time.timeScale = 0;
         }
     }
 
-    /*void ChangeAnimationState(Animator anim, string animState)
-    {
-        if (currentState == animState)
-            return;
-
-        anim.Play(animState);
-
-        currentState = animState;
-    }*/
-
+  
     void UpdateBackground()
     {
         //float scrollSpeed = 1;
@@ -254,7 +228,6 @@ public class GameManager : MonoBehaviour
             //destroy label when alpha reaches 0.
             while (sr != null && sr.color.a > 0)
             {
-                //Debug.Log("Reducing alpha");
                 //reduce alpha and move label upwards
                 sr.color = new Color(1, 1, 1, sr.color.a - (0.02f * Time.deltaTime));
                 labelList[i].GetComponent<SpriteRenderer>().color = sr.color;
@@ -277,22 +250,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*IEnumerator ManageStars()
-    {
-        //move all stars down. If they reach bottom of screen, move them back up to top of screen
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
-        foreach (GameObject star in starList)
-        {
-            star.transform.position = new Vector3(star.transform.position.x, star.transform.position.y - Time.deltaTime, 1);
-
-            if (star.transform.position.y < -(screenPos.y * SCREEN_BOUNDARY_Y) - 1)
-            {
-                //move star to top of screen outside of view
-                star.transform.position = new Vector3(star.transform.position.x, (screenPos.y * SCREEN_BOUNDARY_Y) + 1, 1);
-            }
-            yield return null;
-        }
-    }*/
     IEnumerator RestartGame()
     {
         isRestartCoroutineRunning = true;
