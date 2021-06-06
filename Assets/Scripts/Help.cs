@@ -11,7 +11,6 @@ public class Help : MonoBehaviour
     public TextMeshProUGUI returnText;
     public Image superBulletImg;
     public Animator anim;
-    float mod = 1;
     bool alphaOn = true;
 
     // Update is called once per frame
