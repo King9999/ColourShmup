@@ -11,9 +11,7 @@ public class SuperBullet : MonoBehaviour
     float defaultScale = 0.5f;              //used to reset x scale
     public Color a;
     public Color b;
-
-    //coroutine check
-    bool isShrinkBulletRunning;
+    AudioSource audio;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +23,8 @@ public class SuperBullet : MonoBehaviour
 
         //super bullet is hidden by default since it's always active in hierarchy
         SuperBulletEnabled(false);
-        isShrinkBulletRunning = false;
+
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -37,41 +36,55 @@ public class SuperBullet : MonoBehaviour
          * -Continuously remains on screen until rainbow meter runs out
          * -when gauge runs out, line shrinks and then disappears */
 
-        if (BulletFired)
-        {
-            if (AudioEnabled() && !GetComponent<AudioSource>().isPlaying)
-                GetComponent<AudioSource>().Play();
+        //if (!GameManager.instance.gamePaused)
+       // {
+            if (BulletFired)
+            {
+                if (AudioEnabled() && !audio.isPlaying)
+                    audio.Play();
 
-            SuperBulletEnabled(true);
-           // GetComponent<SpriteRenderer>().enabled = true;
+                SuperBulletEnabled(true);
+
+               // Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
             
-            Vector3 screenPos = Camera.main.WorldToViewportPoint(GameManager.instance.transform.position);
+                StartCoroutine(ExpandBullet());
 
-            StartCoroutine(ExpandBullet());
+                //use couroutine to lerp through two random colours
+                StartCoroutine(LerpColors());
 
-            //use couroutine to lerp through two random colours
-            StartCoroutine(LerpColors());
-            transform.position = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
-                GetComponent<SpriteRenderer>().bounds.extents.y + 0.45f, -1);
+                transform.position = new Vector3(GameManager.instance.playerPos.x, GameManager.instance.playerPos.y +
+                    GetComponent<SpriteRenderer>().bounds.extents.y + 0.45f, -1);
 
-            //reduce rainbow meter
-            HUD.instance.fillRainbowMeter.value -= drainValue * Time.deltaTime;
-            HUD.instance.fillDamage.value -= drainValue * Time.deltaTime;
+                //reduce rainbow meter
+                HUD.instance.fillRainbowMeter.value -= drainValue * Time.deltaTime;
+                HUD.instance.fillDamage.value -= drainValue * Time.deltaTime;
 
-            //when rainbow gauge runs out, shrink bullet and then destroy it. The bool is there to prevent the
-            //player from gaining more meter and prolonging the bullet when it should be gone.
-            if (HUD.instance.fillRainbowMeter.value <= 0 && !isShrinkBulletRunning)
-                StartCoroutine(ShrinkBullet());
+                //when rainbow gauge runs out, shrink bullet and then destroy it.
+                if (HUD.instance.fillRainbowMeter.value <= 0)
+                    StartCoroutine(ShrinkBullet());
+            }
+            else
+            {
+                transform.localScale = new Vector3(defaultScale, transform.localScale.y, 1);
+            }
+        //}
+    }
+
+    public bool AudioEnabled()
+    {
+        if (HUD_Menu.instance.muted == false)
+        {
+            if (GameManager.instance.gamePaused)
+                audio.enabled = false;
+            else
+                audio.enabled = true;
         }
         else
         {
-            transform.localScale = new Vector3(defaultScale, transform.localScale.y, 1);
+            audio.enabled = false;
         }
-    }
 
-    bool AudioEnabled()
-    {
-        return GetComponent<AudioSource>().enabled = (HUD_Menu.instance.muted == false) ? true : false;
+        return audio.enabled;
     }
 
     void SuperBulletEnabled(bool toggle)
@@ -83,32 +96,32 @@ public class SuperBullet : MonoBehaviour
     #region Coroutines
     IEnumerator ExpandBullet()
     {
+
         //the bullet's x scale expands to a certain point. The bullet's colour also changes colour.
         float xScale = 10;
         
         while (transform.localScale.x < xScale)
         {
             transform.localScale = new Vector3(transform.localScale.x + 0.4f * Time.deltaTime, transform.localScale.y, 1);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
         }
+
     }
 
     IEnumerator ShrinkBullet()
     {
-        isShrinkBulletRunning = true;
         float xScale = defaultScale;
 
         while (transform.localScale.x > xScale)
         {
+            HUD.instance.fillRainbowMeter.value = 0;    //prevent any more meter from being gained while coroutine running
             transform.localScale = new Vector3(transform.localScale.x - 2.4f * Time.deltaTime, transform.localScale.y, 1);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
         }
 
         BulletFired = false;
         SuperBulletEnabled(false);
-        isShrinkBulletRunning = false;
-        //GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<AudioSource>().Stop();
+        audio.Stop();
         //Destroy(gameObject);
     }
 
