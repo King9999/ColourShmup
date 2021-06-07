@@ -18,6 +18,7 @@ public class HUD_Menu : MonoBehaviour
     //public GameObject menu;                 //container with all the menu options
     public bool muted;
     float xOffset;                          //adjusts cursor
+    float divisor;
 
     [Header("Screen Fade")]
     public Animator anim;
@@ -53,6 +54,7 @@ public class HUD_Menu : MonoBehaviour
         currentTime = 0;
         delayTime = 0.16f;
         xOffset = 50;
+        divisor = 2.6f;
         menus = new Vector3[3];
         muted = false;
         menuAppearanceTimer = 1;
@@ -63,9 +65,9 @@ public class HUD_Menu : MonoBehaviour
         soundToggleText.enabled = false;
 
         //set up cursor position
-        menus[START] = new Vector3(startGameText.transform.position.x - startGameText.rectTransform.rect.width / 2 - xOffset, startGameText.transform.position.y, 0);
-        menus[HELP] = new Vector3(helpMenuText.transform.position.x - helpMenuText.rectTransform.rect.width / 2 - xOffset, helpMenuText.transform.position.y, 0);
-        menus[SOUND] = new Vector3(soundText.transform.position.x - soundText.rectTransform.rect.width / 2 - xOffset, soundText.transform.position.y, 0);
+        menus[START] = new Vector3(startGameText.transform.position.x - startGameText.rectTransform.rect.width / divisor - xOffset, startGameText.transform.position.y, 0);
+        menus[HELP] = new Vector3(helpMenuText.transform.position.x - helpMenuText.rectTransform.rect.width / divisor - xOffset, helpMenuText.transform.position.y, 0);
+        menus[SOUND] = new Vector3(soundText.transform.position.x - soundText.rectTransform.rect.width / divisor - xOffset, soundText.transform.position.y, 0);
         cursor.transform.position = menus[START];
         //cursor.transform.position = new Vector3(menu.transform.position.x - menu.GetComponent<RectTransform>().rect.width / 2, menu.transform.position.y, 0);
         currentMenu = START;
@@ -81,10 +83,12 @@ public class HUD_Menu : MonoBehaviour
     private void Update()
     {
         //menu positions can update when the screen size is changed. Must get updated positions so the cursor position doesn't get messed up
-        menus[START] = new Vector3(startGameText.transform.position.x - startGameText.rectTransform.rect.width / 2 - xOffset, startGameText.transform.position.y, 0);
-        menus[HELP] = new Vector3(helpMenuText.transform.position.x - helpMenuText.rectTransform.rect.width / 2 - xOffset, helpMenuText.transform.position.y, 0);
-        menus[SOUND] = new Vector3(soundText.transform.position.x - soundText.rectTransform.rect.width / 2 - xOffset, soundText.transform.position.y, 0);
+        menus[START] = new Vector3(startGameText.transform.position.x - startGameText.rectTransform.rect.width / divisor - xOffset, startGameText.transform.position.y, 0);
+        menus[HELP] = new Vector3(helpMenuText.transform.position.x - helpMenuText.rectTransform.rect.width / divisor - xOffset, helpMenuText.transform.position.y, 0);
+        menus[SOUND] = new Vector3(soundText.transform.position.x - soundText.rectTransform.rect.width / divisor - xOffset, soundText.transform.position.y, 0);
         cursor.transform.position = menus[currentMenu];
+
+      
     }
 
     public void OnPressDown(InputAction.CallbackContext context)
