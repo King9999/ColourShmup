@@ -57,7 +57,7 @@ public class HUD : MonoBehaviour
         muteIcon.enabled = false;
         gameoverImage.enabled = false;
         pauseState.SetActive(false);
-        reductionAmount = 0.2f;
+        reductionAmount = 0.4f;
     }
 
     // Update is called once per frame
