@@ -114,7 +114,7 @@ public class SuperBullet : MonoBehaviour
 
         while (transform.localScale.x > xScale)
         {
-            HUD.instance.fillRainbowMeter.value = 0;    //prevent any more meter from being gained while coroutine running
+            //HUD.instance.fillRainbowMeter.value = 0;    //prevent any more meter from being gained while coroutine running
             transform.localScale = new Vector3(transform.localScale.x - 2.4f * Time.deltaTime, transform.localScale.y, 1);
             yield return new WaitForEndOfFrame();
         }
