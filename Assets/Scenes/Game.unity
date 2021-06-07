@@ -1771,7 +1771,7 @@ MonoBehaviour:
   anim: {fileID: 3560247848688993618}
   fillRainbowMeter: {fileID: 2130460392}
   fillDamage: {fileID: 471930140}
-  reductionAmount: 0.1
+  reductionAmount: 0.2
   levelText: {fileID: 285268612}
   enemyCountText: {fileID: 1108255953}
   livesCountText: {fileID: 1097375426}

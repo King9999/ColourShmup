@@ -54,6 +54,7 @@ public class SuperBullet : MonoBehaviour
 
             //reduce rainbow meter
             HUD.instance.fillRainbowMeter.value -= drainValue * Time.deltaTime;
+            HUD.instance.fillDamage.value -= drainValue * Time.deltaTime;
 
             //when rainbow gauge runs out, shrink bullet and then destroy it.
             if (HUD.instance.fillRainbowMeter.value <= 0)
