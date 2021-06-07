@@ -12,6 +12,9 @@ public class SuperBullet : MonoBehaviour
     public Color a;
     public Color b;
 
+    //coroutine check
+    bool isShrinkBulletRunning;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +25,7 @@ public class SuperBullet : MonoBehaviour
 
         //super bullet is hidden by default since it's always active in hierarchy
         SuperBulletEnabled(false);
-        //GetComponent<SpriteRenderer>().enabled = false;
-        //GetComponent<BoxCollider2D>().enabled = false;
+        isShrinkBulletRunning = false;
     }
 
     // Update is called once per frame
@@ -56,8 +58,9 @@ public class SuperBullet : MonoBehaviour
             HUD.instance.fillRainbowMeter.value -= drainValue * Time.deltaTime;
             HUD.instance.fillDamage.value -= drainValue * Time.deltaTime;
 
-            //when rainbow gauge runs out, shrink bullet and then destroy it.
-            if (HUD.instance.fillRainbowMeter.value <= 0)
+            //when rainbow gauge runs out, shrink bullet and then destroy it. The bool is there to prevent the
+            //player from gaining more meter and prolonging the bullet when it should be gone.
+            if (HUD.instance.fillRainbowMeter.value <= 0 && !isShrinkBulletRunning)
                 StartCoroutine(ShrinkBullet());
         }
         else
@@ -85,23 +88,25 @@ public class SuperBullet : MonoBehaviour
         
         while (transform.localScale.x < xScale)
         {
-            transform.localScale = new Vector3(transform.localScale.x + 0.2f * Time.deltaTime, transform.localScale.y, 1);
+            transform.localScale = new Vector3(transform.localScale.x + 0.4f * Time.deltaTime, transform.localScale.y, 1);
             yield return new WaitForFixedUpdate();
         }
     }
 
     IEnumerator ShrinkBullet()
     {
+        isShrinkBulletRunning = true;
         float xScale = defaultScale;
 
         while (transform.localScale.x > xScale)
         {
-            transform.localScale = new Vector3(transform.localScale.x - 1.2f * Time.deltaTime, transform.localScale.y, 1);
+            transform.localScale = new Vector3(transform.localScale.x - 2.4f * Time.deltaTime, transform.localScale.y, 1);
             yield return new WaitForFixedUpdate();
         }
 
         BulletFired = false;
         SuperBulletEnabled(false);
+        isShrinkBulletRunning = false;
         //GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<AudioSource>().Stop();
         //Destroy(gameObject);
