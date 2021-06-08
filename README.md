@@ -12,13 +12,13 @@ This is a significantly improved version of my old Flash game of the same name. 
 
 Here's a list of changes from the original:
 
--Improved graphics thanks to the Pixel Spaceships asset pack (https://medimongames.itch.io/pixel-spaceships-hd)
--100% more sound effects
--Enemies will now shoot at you. The frequency increases as you advance
--Enemy movement patterns added. More patterns unlock as you advance
--Gamepad support (CURRENTLY DOES NOT WORK CORRECTLY UNTIL UNITY RELEASES A PATCH FOR THE 2020 VERSION)
--Added graphical effects
--All enemies on screen are destroyed after completing a level, to give the player a breather
+* Improved graphics thanks to the Pixel Spaceships asset pack (https://medimongames.itch.io/pixel-spaceships-hd)
+* 100% more sound effects
+* Enemies will now shoot at you. The frequency increases as you advance
+* Enemy movement patterns added. More patterns unlock as you advance
+* Gamepad support (CURRENTLY DOES NOT WORK CORRECTLY UNTIL UNITY RELEASES A PATCH FOR THE 2020 VERSION)
+* Added graphical effects
+* All enemies on screen are destroyed after completing a level, to give the player a breather
 
 Overall, I'm very happy with how the game turned out, but the game also reminded me again how much work goes into creating even super small games. I wasn't even starting from scratch and the game still ended up being a lot of work!
 
