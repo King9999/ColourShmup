@@ -3,8 +3,8 @@ Github: https://github.com/King9999/ColourShmup
 
 CONTROLS
 
-Keyboard: WASD to move, directional keys to change ship colour, SPACE to shoot, ENTER to toggle audio, ESC to pause
-Gamepad: Left stick to move, face buttons to change colour, right trigger to shoot, Select to toggle audio, Start to pause
+* Keyboard: WASD to move, directional keys to change ship colour, SPACE to shoot, ENTER to toggle audio, ESC to pause
+* Gamepad: Left stick to move, face buttons to change colour, right trigger to shoot, Select to toggle audio, Start to pause
 
 WHAT IS THIS GAME?
 
@@ -25,7 +25,11 @@ Overall, I'm very happy with how the game turned out, but the game also reminded
 CREDITS
 
 Programming and game design by me
+
 Graphics by Medimon Games https://medimongames.itch.io/ (particle effects were by me)
+
 Music from the game Space Megaforce, a.k.a. Super Aleste (go play it!)
+
 Sound effects from Freesound.org. One sound effect from Chrono Trigger
+
 Jason Kaplan for Game Prototype Challenge, where the original game was born
