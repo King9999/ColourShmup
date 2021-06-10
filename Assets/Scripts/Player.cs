@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
         //NOTE: This is currently the only way to enable "hold to shoot" with Unity's new input system.
         var kb = Keyboard.current;
         var pad = Gamepad.current;
-        if (!playerDead)
+        if (!GameManager.instance.gamePaused && !playerDead)
         {
             if (kb.spaceKey.isPressed || (pad != null && pad.rightTrigger.isPressed))
             {
@@ -546,12 +546,14 @@ public class Player : MonoBehaviour
     }
 
     #region Movement
+
+    //TODO: Change the vy values back to original values once Unity patches the vertical axis issues.
     public void MoveUp(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
             //move player up
-            vy = moveSpeed;
+            vy = -moveSpeed;
         }
         else
         {
@@ -564,7 +566,7 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             //move player down
-            vy = -moveSpeed;
+            vy = moveSpeed;
         }
         else
         {
@@ -625,53 +627,65 @@ public class Player : MonoBehaviour
     /***Colour Change*****/
     public void TurnRed(InputAction.CallbackContext context)
     {
-        if (!playerDead && currentColor != RED && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
-        {           
-            StartCoroutine(Pulse(Color.clear));
-            GetComponent<SpriteRenderer>().sprite = playerRed;
-            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteRed;
-            currentColor = RED;
-            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);          
-           // Debug.Log("Changing to red");
+        if (!GameManager.instance.gamePaused && !playerDead)
+        {
+            if (currentColor != RED && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+            {
+                StartCoroutine(Pulse(Color.clear));
+                GetComponent<SpriteRenderer>().sprite = playerRed;
+                HUD.instance.livesImage.sprite = HUD.instance.livesSpriteRed;
+                currentColor = RED;
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
+                // Debug.Log("Changing to red");
+            }
         }
     }
 
     public void TurnBlue(InputAction.CallbackContext context)
     {
-        if (!playerDead && currentColor != BLUE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
-        {        
-            StartCoroutine(Pulse(Color.clear));
-            GetComponent<SpriteRenderer>().sprite = playerBlue;
-            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteBlue;
-            currentColor = BLUE;
-            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
-            //Debug.Log("Changing to blue");
+        if (!GameManager.instance.gamePaused && !playerDead)
+        {
+            if (currentColor != BLUE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+            {
+                StartCoroutine(Pulse(Color.clear));
+                GetComponent<SpriteRenderer>().sprite = playerBlue;
+                HUD.instance.livesImage.sprite = HUD.instance.livesSpriteBlue;
+                currentColor = BLUE;
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
+                //Debug.Log("Changing to blue");
+            }
         }
     }
 
     public void TurnBlack(InputAction.CallbackContext context)
     {
-        if (!playerDead && currentColor != BLACK && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+        if (!GameManager.instance.gamePaused && !playerDead)
         {
-            StartCoroutine(Pulse(Color.clear));
-            GetComponent<SpriteRenderer>().sprite = playerBlack;
-            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteBlack;
-            currentColor = BLACK;
-            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
-            //Debug.Log("Changing to black");
+            if (currentColor != BLACK && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+            {
+                StartCoroutine(Pulse(Color.clear));
+                GetComponent<SpriteRenderer>().sprite = playerBlack;
+                HUD.instance.livesImage.sprite = HUD.instance.livesSpriteBlack;
+                currentColor = BLACK;
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
+                //Debug.Log("Changing to black");
+            }
         }
     }
 
     public void TurnWhite(InputAction.CallbackContext context)
     {
-        if (!playerDead && currentColor != WHITE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
-        {          
-            StartCoroutine(Pulse(Color.clear));
-            GetComponent<SpriteRenderer>().sprite = playerWhite;
-            HUD.instance.livesImage.sprite = HUD.instance.livesSpriteWhite;
-            currentColor = WHITE;
-            GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
-            //Debug.Log("Changing to white");
+        if (!GameManager.instance.gamePaused && !playerDead)
+        {
+            if (currentColor != WHITE && !isPulseCoroutineRunning && context.phase == InputActionPhase.Performed)
+            {
+                StartCoroutine(Pulse(Color.clear));
+                GetComponent<SpriteRenderer>().sprite = playerWhite;
+                HUD.instance.livesImage.sprite = HUD.instance.livesSpriteWhite;
+                currentColor = WHITE;
+                GameManager.instance.audioSource.PlayOneShot(GameManager.instance.colourChange, GameManager.instance.SoundEffectVolume() + 0.2f);
+                //Debug.Log("Changing to white");
+            }
         }
     }
     public void ToggleMute(InputAction.CallbackContext context)
